@@ -1,24 +1,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormLabel, FormInput, Button } from 'react-native-elements';
-import { Actions } from 'react-native-router-flux';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import * as actions from './actions';
+import * as userActions from '../../actions/user';
 
 class LoginScene extends Component {
   static propTypes = {
     state: PropTypes.object.isRequired,
-    changeCredential: PropTypes.func.isRequired
+    changeCredential: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props);
     this.handleUpdateCredential = this.handleUpdateCredential.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleUpdateCredential(credentialName) {
     return (value) => this.props.changeCredential(credentialName, value);
+  }
+
+  handleLogin() {
+    const { state: { credentials } } = this.props;
+    this.props.login(credentials);
   }
 
   render() {
@@ -26,12 +33,15 @@ class LoginScene extends Component {
     return (
       <View>
         <FormLabel>Телефон</FormLabel>
-        <FormInput value={credentials.phone} onChangeText={this.handleUpdateCredential('phone')} />
+        <FormInput value={credentials.username} onChangeText={this.handleUpdateCredential('username')} />
 
         <FormLabel>Пароль</FormLabel>
         <FormInput value={credentials.password} onChangeText={this.handleUpdateCredential('password')} />
 
-        <Button title="Отправить" />
+        <Button
+          title="Отправить"
+          onPress={this.handleLogin}
+        />
         <Button
           title="Авторизация через"
           backgroundColor="teal"
@@ -42,7 +52,6 @@ class LoginScene extends Component {
           title="Авторизация через"
           backgroundColor="blue"
           rightIcon={{ name: 'facebook', type: 'font-awesome' }}
-          onPress={() => Actions.replace('Dashboard')}
         />
       </View>
     );
@@ -55,7 +64,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
-  changeCredential: (name, value) => dispatch(actions.changeCredential(name, value))
+  changeCredential: (name, value) => dispatch(actions.changeCredential(name, value)),
+  login: (credentials) => dispatch(userActions.login(credentials))
 });
 
 

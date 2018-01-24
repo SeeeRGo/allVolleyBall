@@ -1,11 +1,16 @@
 import {
-  CHANGE_CREDENTIAL
+  CHANGE_CREDENTIAL,
+  RESET_CREDENTIALS
 } from './actions';
+
+const initalCredentials = {
+  username: '',
+  password: ''
+};
 
 const initalState = {
   credentials: {
-    phone: '',
-    password: ''
+    ...initalCredentials
   }
 };
 
@@ -17,6 +22,13 @@ export default (state = initalState, action) => {
       credentials: {
         ...state.credentials,
         [action.payload.name]: action.payload.value
+      }
+    };
+  case RESET_CREDENTIALS:
+    return {
+      ...state,
+      credentials: {
+        ...initalCredentials
       }
     };
   default:

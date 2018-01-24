@@ -10,7 +10,7 @@ export default class Model {
   plural = '';
 
   /** @prop {String} apiUrl - url сервера */
-  apiUrl = 'http://89.223.27.74:3000/api';
+  apiUrl = 'http://192.168.1.108:3000/api';
 
   /**
    * @method find - получение всех записей модели
@@ -97,6 +97,7 @@ export default class Model {
         Authorization: token
       }
     };
+    console.log('async postRequest(url, data)', url, data);
     return axios.post(`${this.apiUrl}/${url}`, data, config).then((response) => response.data);
   }
 

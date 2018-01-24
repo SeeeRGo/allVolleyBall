@@ -3,20 +3,24 @@ import Model from './Model';
 
 
 export default class Profile extends Model {
-  plural = 'profiles';
+  plural = 'Profiles';
 
   /**
    * @method login - метод для авторизации пользователя
    * @param {Object} credentials
-   * @param {String} credentials.phone
+   * @param {String} credentials.username
+   * @param {String} credentials.email
    * @param {String} credentials.password
    * @returns {Promise<Profile>}
    */
   async login(credentials) {
+    console.log('login', credentials);
     const result = await this.postRequest(`${this.plural}/login`, credentials);
+    console.log('result', result);
     await AsyncStorage.setItem('tokenId', result.id);
     const account = await this.getById(result.userId);
-    await AsyncStorage.setItem('userId', account.id);
+    console.log(account, 'account');
+    await AsyncStorage.setItem('userId', account.id.toString());
     return account;
   }
 

@@ -64,9 +64,8 @@ export const loginError = (message) => ({
  * @param {Object} profile - аккаунт пользователя
  * @return {Action}
 */
-export const getMyProfile = (profile) => ({
-  type: GET_MY_PROFILE,
-  payload: profile
+export const getMyProfile = () => ({
+  type: GET_MY_PROFILE
 });
 
 /**

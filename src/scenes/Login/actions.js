@@ -1,4 +1,5 @@
 export const CHANGE_CREDENTIAL = 'scenes/Login/CHANGE_CREDENTIAL';
+export const RESET_CREDENTIALS = 'scenes/Login/RESET_CREDENTIALS';
 
 /**
  * @function
@@ -12,4 +13,12 @@ export const changeCredential = (credentialName, credentialValue) => ({
     name: credentialName,
     value: credentialValue
   }
+});
+
+/**
+ * @function
+ * @return {Action}
+*/
+export const resetCredentials = () => ({
+  type: RESET_CREDENTIALS
 });
