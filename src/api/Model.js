@@ -9,8 +9,11 @@ export default class Model {
   /** @prop {String} plural - значение plural на loopback */
   plural = '';
 
-  /** @prop {String} apiUrl - url сервера */
-  apiUrl = 'http://192.168.1.108:3000/api';
+  /** @prop {String} apiUrl - api url сервера */
+  url = 'http://192.168.1.108:3000';
+
+  /** @prop {String} apiUrl - api url сервера */
+  apiUrl = `${this.url}/api`;
 
   /**
    * @method find - получение всех записей модели

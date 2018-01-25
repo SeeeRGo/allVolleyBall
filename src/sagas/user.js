@@ -16,7 +16,6 @@ export function* login(action) {
     yield put(userActions.loginSuccess());
     Actions.replace('Dashboard');
   } catch (error) {
-    console.warn(error);
     yield put(userActions.loginError(error));
   } finally {
     yield put(loadingsActions.stopLoading('isLogin'));
@@ -50,7 +49,6 @@ export function* gettingMyProfile() {
     yield put(loadingsActions.startLoading('gettingMyProfile'));
     const Profile = new ProfileApi();
     const user = yield call([Profile, Profile.getMyProfile]);
-    console.log(user);
     yield put(userActions.setUser(user));
     yield put(userActions.getMyProfileSuccess());
   } catch (error) {
@@ -64,10 +62,31 @@ export function* gettingMyProfileFlow() {
   yield takeEvery(userActions.GET_MY_PROFILE, gettingMyProfile);
 }
 
+export function* loginBySocialNetwork(action) {
+  try {
+    const { payload: token } = action;
+    yield put(loadingsActions.startLoading('loginBySocialNetwork'));
+    const Profile = new ProfileApi();
+    yield Profile.setToken(token);
+    const user = yield call([Profile, Profile.getMyProfile]);
+    yield put(userActions.setUser(user));
+    yield put(userActions.loginBySocialNetworkSuccess());
+    Actions.replace('Dashboard');
+  } catch (error) {
+    yield put(userActions.loginBySocialNetworkError(error));
+  } finally {
+    yield put(loadingsActions.stopLoading('loginBySocialNetwork'));
+  }
+}
+
+export function* loginBySocialNetworkFlow() {
+  yield takeEvery(userActions.LOGIN_BY_SOCIAL_NETWORK, loginBySocialNetwork);
+}
+
 export default function* () {
   yield all([
     fork(loginFlow),
     fork(logoutFlow),
-    fork(gettingMyProfileFlow)
+    fork(loginBySocialNetworkFlow)
   ]);
 }

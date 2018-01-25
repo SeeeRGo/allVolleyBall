@@ -1,9 +1,32 @@
 import { AsyncStorage } from 'react-native';
 import Model from './Model';
 
+/**
+ * @typedef {Object} Token
+ * @prop {String} id
+ * @prop {String} userId
+ * @prop {String} ttl
+ * @prop {String} created
+ */
 
 export default class Profile extends Model {
+  /**
+   * @prop {Object} socialNetworks
+   */
+  static socialNetworks = {
+    facebook: 'fb',
+    vkontakte: 'vk'
+  }
+
   plural = 'Profiles';
+
+  /**
+   * @param {String} socialNetwork - одно из значений Profile.socialNetworks
+   * @returns {String} - url авторизации
+   */
+  getLoginUrlBySocialNetwork(socialNetwork) {
+    return `${this.url}/auth/${socialNetwork}?shema=mobile`;
+  }
 
   /**
    * @method login - метод для авторизации пользователя
@@ -22,6 +45,15 @@ export default class Profile extends Model {
     console.log(account, 'account');
     await AsyncStorage.setItem('userId', account.id.toString());
     return account;
+  }
+
+  /**
+   * @method
+   * @param {Token} Token
+   * @returns {Promise}
+   */
+  setToken(token) {
+    return AsyncStorage.setItem('tokenId', token.id.toString());
   }
 
   /**

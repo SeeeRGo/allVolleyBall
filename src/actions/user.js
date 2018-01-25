@@ -5,6 +5,10 @@ export const LOGIN = 'scenes/Login/LOGIN';
 export const LOGIN_SUCCESS = 'scenes/Login/LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'scenes/Login/LOGIN_ERROR';
 
+export const LOGIN_BY_SOCIAL_NETWORK = 'scenes/Login/LOGIN_BY_SOCIAL_NETWORK';
+export const LOGIN_BY_SOCIAL_NETWORK_SUCCESS = 'scenes/Login/LOGIN_BY_SOCIAL_NETWORK_SUCCESS';
+export const LOGIN_BY_SOCIAL_NETWORK_ERROR = 'scenes/Login/LOGIN_BY_SOCIAL_NETWORK_ERROR';
+
 export const LOGOUT = 'scenes/Login/LOGOUT';
 export const LOGOUT_SUCCESS = 'scenes/Login/LOGOUT_SUCCESS';
 export const LOGOUT_ERROR = 'scenes/Login/LOGOUT_ERROR';
@@ -56,6 +60,34 @@ export const loginSuccess = () => ({
 */
 export const loginError = (message) => ({
   type: LOGIN_ERROR,
+  message
+});
+
+/**
+ * @function
+ * @param {Object} tokenObject
+ * @return {Action}
+*/
+export const loginBySocialNetwork = (tokenObject) => ({
+  type: LOGIN_BY_SOCIAL_NETWORK,
+  payload: tokenObject
+});
+
+/**
+ * @function
+ * @return {Action}
+*/
+export const loginBySocialNetworkSuccess = () => ({
+  type: LOGIN_BY_SOCIAL_NETWORK_SUCCESS
+});
+
+/**
+ * @function
+ * @param {Message} message - текст ошибки
+ * @return {Action}
+*/
+export const loginBySocialNetworkError = (message) => ({
+  type: LOGIN_BY_SOCIAL_NETWORK_ERROR,
   message
 });
 

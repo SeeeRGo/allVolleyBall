@@ -17,8 +17,8 @@ export function* startApp() {
     if (!user) {
       return;
     }
-    yield put(userActions.setUser(user));
-    Actions.replace('Dashboard');
+    // yield put(userActions.setUser(user));
+    // Actions.replace('Dashboard');
   } catch (e) {
     // tslint:disable-next-line:no-console
     console.error(e, 'startApp error');
