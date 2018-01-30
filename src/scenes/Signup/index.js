@@ -8,42 +8,13 @@ import { FormLabel, FormInput, Button, Icon } from 'react-native-elements';
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
 import Logo from '../../components/common/Logo';
+import { signupStyles } from '../../styles';
 
 const cities = [
   'Тольятти',
   'Москва',
   'Санкт-Петербург'
 ];
-
-const styles = {
-  mainContainerStyle: {
-    maxWidth: '80%',
-    height: '70%',
-    backgroundColor: 'white',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    alignSelf: 'center'
-  },
-  formInputStyle: {
-    fontSize: 20,
-    maxWidth: '100%',
-    minHeight: 20,
-    paddingTop: 0,
-    paddingBottom: 5,
-    marginTop: 0
-  },
-  formLabelStyle: {
-    marginTop: 0,
-    fontSize: 14,
-    maxWidth: '100%',
-    alignSelf: 'flex-start'
-  },
-  agreeTextStyle: {
-    width: '80%',
-    textAlign: 'center',
-    fontSize: 10
-  }
-};
 
 class SignupForm extends Component {
   onButtonPress() {
@@ -56,11 +27,11 @@ class SignupForm extends Component {
   render() {
     return (
       <Background>
-        <View style={styles.mainContainerStyle}>
+        <View style={signupStyles.mainContainerStyle}>
           <ScrollView >
             <Row extraStyles={{ justifyContent: 'space-around', alignItems: 'flex-start', marginTop: 15 }}>
               <View>
-                <FormLabel labelStyle={[styles.formLabelStyle, { marginLeft: 0, marginBottom: 10 }]}>РЕГИСТРИРУЙТЕСЬ ЧЕРЕЗ</FormLabel>
+                <FormLabel labelStyle={[signupStyles.formLabelStyle, { marginLeft: 0, marginBottom: 10 }]}>РЕГИСТРИРУЙТЕСЬ ЧЕРЕЗ</FormLabel>
                 <Row>
                   <Icon
                     name="facebook"
@@ -83,16 +54,16 @@ class SignupForm extends Component {
               <Logo />
             </Row>
             <FormLabel labelStyle={{ marginTop: 10, marginBottom: 10 }}>ИЛИ ЗАПОЛНИТЕ ФОРМУ</FormLabel>
-            <FormLabel labelStyle={[styles.formLabelStyle]}>ФАМИЛИЯ*</FormLabel>
-            <FormInput inputStyle={[styles.formInputStyle]} onChangeText={() => {}} />
-            <FormLabel labelStyle={[styles.formLabelStyle]}>ИМЯ*</FormLabel>
-            <FormInput inputStyle={[styles.formInputStyle]} onChangeText={() => {}} />
-            <FormLabel labelStyle={[styles.formLabelStyle]}>ОТЧЕСТВО</FormLabel>
-            <FormInput inputStyle={[styles.formInputStyle]} onChangeText={() => {}} />
-            <FormLabel labelStyle={[styles.formLabelStyle]}>ТЕЛЕФОН*</FormLabel>
-            <FormInput inputStyle={[styles.formInputStyle]} onChangeText={() => {}} />
+            <FormLabel labelStyle={[signupStyles.formLabelStyle]}>ФАМИЛИЯ*</FormLabel>
+            <FormInput inputStyle={[signupStyles.formInputStyle]} onChangeText={() => {}} />
+            <FormLabel labelStyle={[signupStyles.formLabelStyle]}>ИМЯ*</FormLabel>
+            <FormInput inputStyle={[signupStyles.formInputStyle]} onChangeText={() => {}} />
+            <FormLabel labelStyle={[signupStyles.formLabelStyle]}>ОТЧЕСТВО</FormLabel>
+            <FormInput inputStyle={[signupStyles.formInputStyle]} onChangeText={() => {}} />
+            <FormLabel labelStyle={[signupStyles.formLabelStyle]}>ТЕЛЕФОН*</FormLabel>
+            <FormInput inputStyle={[signupStyles.formInputStyle]} onChangeText={() => {}} />
             <Row extraStyles={{ marginTop: 7, marginBottom: 7 }}>
-              <FormLabel labelStyle={[styles.formLabelStyle, { color: 'blue' }]}>ГОРОД ПРОЖИВАНИЯ*</FormLabel>
+              <FormLabel labelStyle={[signupStyles.formLabelStyle, { color: 'blue' }]}>ГОРОД ПРОЖИВАНИЯ*</FormLabel>
               <Picker
                 style={{ flex: 1, height: 20 }}
                 selectedValue={cities[0]}
@@ -101,16 +72,16 @@ class SignupForm extends Component {
                 {this.renderCities(cities)}
               </Picker>
             </Row>
-            <FormLabel labelStyle={[styles.formLabelStyle]}>ПАРОЛЬ*</FormLabel>
-            <FormInput secureTextEntry inputStyle={[styles.formInputStyle]} onChangeText={() => {}} />
+            <FormLabel labelStyle={[signupStyles.formLabelStyle]}>ПАРОЛЬ*</FormLabel>
+            <FormInput secureTextEntry inputStyle={[signupStyles.formInputStyle]} onChangeText={() => {}} />
             <Row extraStyles={{ justifyContent: 'space-between' }}>
-              <FormLabel labelStyle={[styles.formLabelStyle, { maxWidth: '100%', marginRight: 0, flex: 1 }]}>ПОВТОРИТЕ ПАРОЛЬ*</FormLabel>
-              <FormLabel labelStyle={[styles.formLabelStyle, { maxWidth: '100%', marginLeft: 0, flex: 1 }]}>СОВПАДАЕТ</FormLabel>
+              <FormLabel labelStyle={[signupStyles.formLabelStyle, { maxWidth: '100%', marginRight: 0, flex: 1 }]}>ПОВТОРИТЕ ПАРОЛЬ*</FormLabel>
+              <FormLabel labelStyle={[signupStyles.formLabelStyle, { maxWidth: '100%', marginLeft: 0, flex: 1 }]}>СОВПАДАЕТ</FormLabel>
             </Row>
-            <FormInput secureTextEntry inputStyle={[styles.formInputStyle]} onChangeText={() => {}} />
+            <FormInput secureTextEntry inputStyle={[signupStyles.formInputStyle]} onChangeText={() => {}} />
           </ScrollView>
         </View>
-        <Text style={styles.agreeTextStyle}>
+        <Text style={signupStyles.agreeTextStyle}>
           Регистрируясь, вы подтверждаете, что принимаете
           <Text style={{ fontWeight: 'bold' }}>{'\n'}Условия использования{' '}</Text>
           и соглашаетесь с

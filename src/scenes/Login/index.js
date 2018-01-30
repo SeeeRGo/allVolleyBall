@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormLabel, FormInput, Icon } from 'react-native-elements';
 import { View, Linking, Text } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import ProfileApi from '../../api/Profile';
 import * as userActions from '../../actions/user';
 import * as actions from './actions';
@@ -10,26 +11,7 @@ import * as actions from './actions';
 import Row from '../../components/common/Row';
 import Background from '../../components/common/Background';
 import Logo from '../../components/common/Logo';
-import { Actions } from 'react-native-router-flux';
-
-
-const styles = {
-  logoStyle: {
-    width: 50,
-    height: 50
-  },
-  containerStyle: {
-    flex: 0.75,
-    justifyContent: 'space-around',
-    alignItems: 'center'
-  },
-  formLabelStyle: {
-    color: 'blue'
-  },
-  formInputStyle: {
-    fontSize: 14
-  }
-};
+import { loginStyles } from '../../styles';
 
 class LoginScene extends Component {
   static propTypes = {
@@ -99,7 +81,7 @@ class LoginScene extends Component {
     const { state: { credentials } } = this.props;
     return (
       <Background>
-        <View style={styles.containerStyle}>
+        <View style={loginStyles.containerStyle}>
           <Logo />
           <Text>ВНИМАНИЕ!</Text>
           <View style={{ maxWidth: '80%' }}>
@@ -123,18 +105,18 @@ class LoginScene extends Component {
               />
             </Row>
             <View style={{ backgroundColor: 'white' }}>
-              <FormLabel labelStyle={[styles.formLabelStyle]}>ТЕЛЕФОН</FormLabel>
+              <FormLabel labelStyle={[loginStyles.formLabelStyle]}>ТЕЛЕФОН</FormLabel>
               <FormInput
-                inputStyle={[styles.formInputStyle]}
+                inputStyle={[loginStyles.formInputStyle]}
                 placeholder="+7 000 000 00 00"
                 value={credentials.username}
                 onChangeText={this.handleUpdateCredential('username')}
               />
               <Row extraStyles={{ justifyContent: 'space-between' }}>
-                <FormLabel labelStyle={[styles.formLabelStyle]}>ПАРОЛЬ</FormLabel>
+                <FormLabel labelStyle={[loginStyles.formLabelStyle]}>ПАРОЛЬ</FormLabel>
                 <FormLabel>ЗАБЫЛИ ПАРОЛЬ?</FormLabel>
               </Row>
-              <FormInput inputStyle={[styles.formInputStyle]} value={credentials.password} onChangeText={this.handleUpdateCredential('password')} />
+              <FormInput inputStyle={[loginStyles.formInputStyle]} value={credentials.password} onChangeText={this.handleUpdateCredential('password')} />
             </View>
           </View>
           <Row extraStyles={{ maxHeight: 40, justifyContent: 'space-around', alignItems: 'center' }}>
