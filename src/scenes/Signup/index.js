@@ -1,0 +1,140 @@
+import React, { Component } from 'react';
+import { Text, View, Picker, ScrollView } from 'react-native';
+import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
+// import { emailChanged, passwordChanged, loginUser } from '../actions';
+import { FormLabel, FormInput, Button, Icon } from 'react-native-elements';
+
+import Background from '../../components/common/Background';
+import Row from '../../components/common/Row';
+import Logo from '../../components/common/Logo';
+
+const cities = [
+  'Тольятти',
+  'Москва',
+  'Санкт-Петербург'
+];
+
+const styles = {
+  mainContainerStyle: {
+    maxWidth: '80%',
+    height: '70%',
+    backgroundColor: 'white',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    alignSelf: 'center'
+  },
+  formInputStyle: {
+    fontSize: 20,
+    maxWidth: '100%',
+    minHeight: 20,
+    paddingTop: 0,
+    paddingBottom: 5,
+    marginTop: 0
+  },
+  formLabelStyle: {
+    marginTop: 0,
+    fontSize: 14,
+    maxWidth: '100%',
+    alignSelf: 'flex-start'
+  },
+  agreeTextStyle: {
+    width: '80%',
+    textAlign: 'center',
+    fontSize: 10
+  }
+};
+
+class SignupForm extends Component {
+  onButtonPress() {
+
+  }
+  renderCities(cityList) {
+    return cityList.map((city) => <Picker.Item key={city} label={city} value={city} />);
+  }
+
+  render() {
+    return (
+      <Background>
+        <View style={styles.mainContainerStyle}>
+          <ScrollView >
+            <Row extraStyles={{ justifyContent: 'space-around', alignItems: 'flex-start', marginTop: 15 }}>
+              <View>
+                <FormLabel labelStyle={[styles.formLabelStyle, { marginLeft: 0, marginBottom: 10 }]}>РЕГИСТРИРУЙТЕСЬ ЧЕРЕЗ</FormLabel>
+                <Row>
+                  <Icon
+                    name="facebook"
+                    type="font-awesome"
+                    reverse
+                    color="midnightblue"
+                    size={18}
+                    containerStyle={{ margin: 0, marginRight: 10 }}
+                  />
+                  <Icon
+                    name="vk"
+                    type="font-awesome"
+                    reverse
+                    color="deepskyblue"
+                    size={18}
+                    containerStyle={{ margin: 0 }}
+                  />
+                </Row>
+              </View>
+              <Logo />
+            </Row>
+            <FormLabel labelStyle={{ marginTop: 10, marginBottom: 10 }}>ИЛИ ЗАПОЛНИТЕ ФОРМУ</FormLabel>
+            <FormLabel labelStyle={[styles.formLabelStyle]}>ФАМИЛИЯ*</FormLabel>
+            <FormInput inputStyle={[styles.formInputStyle]} onChangeText={() => {}} />
+            <FormLabel labelStyle={[styles.formLabelStyle]}>ИМЯ*</FormLabel>
+            <FormInput inputStyle={[styles.formInputStyle]} onChangeText={() => {}} />
+            <FormLabel labelStyle={[styles.formLabelStyle]}>ОТЧЕСТВО</FormLabel>
+            <FormInput inputStyle={[styles.formInputStyle]} onChangeText={() => {}} />
+            <FormLabel labelStyle={[styles.formLabelStyle]}>ТЕЛЕФОН*</FormLabel>
+            <FormInput inputStyle={[styles.formInputStyle]} onChangeText={() => {}} />
+            <Row extraStyles={{ marginTop: 7, marginBottom: 7 }}>
+              <FormLabel labelStyle={[styles.formLabelStyle, { color: 'blue' }]}>ГОРОД ПРОЖИВАНИЯ*</FormLabel>
+              <Picker
+                style={{ flex: 1, height: 20 }}
+                selectedValue={cities[0]}
+                onValueChange={() => {}}
+              >
+                {this.renderCities(cities)}
+              </Picker>
+            </Row>
+            <FormLabel labelStyle={[styles.formLabelStyle]}>ПАРОЛЬ*</FormLabel>
+            <FormInput secureTextEntry inputStyle={[styles.formInputStyle]} onChangeText={() => {}} />
+            <Row extraStyles={{ justifyContent: 'space-between' }}>
+              <FormLabel labelStyle={[styles.formLabelStyle, { maxWidth: '100%', marginRight: 0, flex: 1 }]}>ПОВТОРИТЕ ПАРОЛЬ*</FormLabel>
+              <FormLabel labelStyle={[styles.formLabelStyle, { maxWidth: '100%', marginLeft: 0, flex: 1 }]}>СОВПАДАЕТ</FormLabel>
+            </Row>
+            <FormInput secureTextEntry inputStyle={[styles.formInputStyle]} onChangeText={() => {}} />
+          </ScrollView>
+        </View>
+        <Text style={styles.agreeTextStyle}>
+          Регистрируясь, вы подтверждаете, что принимаете
+          <Text style={{ fontWeight: 'bold' }}>{'\n'}Условия использования{' '}</Text>
+          и соглашаетесь с
+          <Text style={{ fontWeight: 'bold' }}>{'\n'}Политикой конфиденциальности</Text>
+        </Text>
+        <Row extraStyles={{ maxHeight: 40, justifyContent: 'space-around', alignItems: 'center' }}>
+          <Text style={{ flex: 1, textAlign: 'center' }} onPress={() => Actions.Auth()}>УЖЕ ЕСТЬ АККАУНТ</Text>
+          <Row extraStyles={{
+            maxHeight: 40, flex: 1, justifyContent: 'center', alignItems: 'center'
+          }}
+          >
+            <Text style={{ textAlign: 'center' }}>ОТПРАВИТЬ</Text>
+            <Icon
+              name="arrow-right"
+              type="font-awesome"
+              reverse
+              color="rgba(1,1,1,0.5)"
+              size={18}
+            />
+          </Row>
+        </Row>
+      </Background>
+    );
+  }
+}
+
+export default SignupForm;

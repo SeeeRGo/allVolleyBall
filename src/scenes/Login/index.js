@@ -10,6 +10,7 @@ import * as actions from './actions';
 import Row from '../../components/common/Row';
 import Background from '../../components/common/Background';
 import Logo from '../../components/common/Logo';
+import { Actions } from 'react-native-router-flux';
 
 
 const styles = {
@@ -137,7 +138,7 @@ class LoginScene extends Component {
             </View>
           </View>
           <Row extraStyles={{ maxHeight: 40, justifyContent: 'space-around', alignItems: 'center' }}>
-            <Text style={{ flex: 1, textAlign: 'center' }}>РЕГИСТРАЦИЯ</Text>
+            <Text style={{ flex: 1, textAlign: 'center' }} onPress={() => Actions.Signup()}>РЕГИСТРАЦИЯ</Text>
             <Row extraStyles={{
               maxHeight: 40, flex: 1, justifyContent: 'center', alignItems: 'center'
             }}

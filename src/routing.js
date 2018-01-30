@@ -3,6 +3,7 @@ import { Router, Scene, Lightbox } from 'react-native-router-flux';
 
 import { View, Text } from 'react-native';
 import Login from './scenes/Login';
+import Signup from './scenes/Signup';
 
 export default class App extends Component {
   render() {
@@ -25,6 +26,12 @@ export default class App extends Component {
               hideNavBar
               key="Dashboard12"
               component={() => (<View><Text>qwe</Text></View>)}
+            />
+            <Scene
+              title="Я - новенький"
+              hideNavBar
+              key="Signup"
+              component={Signup}
             />
           </Scene>
         </Lightbox>
