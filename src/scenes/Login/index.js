@@ -1,11 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormLabel, FormInput, Button } from 'react-native-elements';
-import { View, Linking } from 'react-native';
+import { FormLabel, FormInput, Icon } from 'react-native-elements';
+import { View, Linking, Text } from 'react-native';
 import { connect } from 'react-redux';
 import ProfileApi from '../../api/Profile';
 import * as userActions from '../../actions/user';
 import * as actions from './actions';
+
+import Row from '../../components/common/Row';
+import Background from '../../components/common/Background';
+import Logo from '../../components/common/Logo';
+
+
+const styles = {
+  logoStyle: {
+    width: 50,
+    height: 50
+  },
+  containerStyle: {
+    flex: 0.75,
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  formLabelStyle: {
+    color: 'blue'
+  },
+  formInputStyle: {
+    fontSize: 14
+  }
+};
 
 class LoginScene extends Component {
   static propTypes = {
@@ -74,30 +97,64 @@ class LoginScene extends Component {
   render() {
     const { state: { credentials } } = this.props;
     return (
-      <View>
-        <FormLabel>Телефон</FormLabel>
-        <FormInput value={credentials.username} onChangeText={this.handleUpdateCredential('username')} />
-
-        <FormLabel>Пароль</FormLabel>
-        <FormInput value={credentials.password} onChangeText={this.handleUpdateCredential('password')} />
-
-        <Button
-          title="Отправить"
-          onPress={this.handleLogin}
-        />
-        <Button
-          title="Авторизация через"
-          backgroundColor="teal"
-          rightIcon={{ name: 'vk', type: 'font-awesome' }}
-          onPress={this.loginWithVkontakte}
-        />
-        <Button
-          title="Авторизация через"
-          backgroundColor="blue"
-          rightIcon={{ name: 'facebook', type: 'font-awesome' }}
-          onPress={this.loginWithFacebook}
-        />
-      </View>
+      <Background>
+        <View style={styles.containerStyle}>
+          <Logo />
+          <Text>ВНИМАНИЕ!</Text>
+          <View style={{ maxWidth: '80%' }}>
+            <Row extraStyles={{ backgroundColor: 'mediumblue', alignItems: 'center' }}>
+              <Text style={{ paddingLeft: 10, paddingRight: 10, color: 'white' }}>АВТОРИЗАЦИЯ С ПОМОЩЬЮ</Text>
+              <Icon
+                name="vk"
+                type="font-awesome"
+                reverse
+                color="deepskyblue"
+                size={18}
+                onPress={this.loginWithVkontakte}
+              />
+              <Icon
+                name="facebook"
+                type="font-awesome"
+                reverse
+                color="midnightblue"
+                size={18}
+                onPress={this.loginWithFacebook}
+              />
+            </Row>
+            <View style={{ backgroundColor: 'white' }}>
+              <FormLabel labelStyle={[styles.formLabelStyle]}>ТЕЛЕФОН</FormLabel>
+              <FormInput
+                inputStyle={[styles.formInputStyle]}
+                placeholder="+7 000 000 00 00"
+                value={credentials.username}
+                onChangeText={this.handleUpdateCredential('username')}
+              />
+              <Row extraStyles={{ justifyContent: 'space-between' }}>
+                <FormLabel labelStyle={[styles.formLabelStyle]}>ПАРОЛЬ</FormLabel>
+                <FormLabel>ЗАБЫЛИ ПАРОЛЬ?</FormLabel>
+              </Row>
+              <FormInput inputStyle={[styles.formInputStyle]} value={credentials.password} onChangeText={this.handleUpdateCredential('password')} />
+            </View>
+          </View>
+          <Row extraStyles={{ maxHeight: 40, justifyContent: 'space-around', alignItems: 'center' }}>
+            <Text style={{ flex: 1, textAlign: 'center' }}>РЕГИСТРАЦИЯ</Text>
+            <Row extraStyles={{
+              maxHeight: 40, flex: 1, justifyContent: 'center', alignItems: 'center'
+            }}
+            >
+              <Text style={{ textAlign: 'center' }}>ОТПРАВИТЬ</Text>
+              <Icon
+                name="arrow-right"
+                type="font-awesome"
+                reverse
+                color="rgba(1,1,1,0.5)"
+                size={18}
+                onPress={this.handleLogin}
+              />
+            </Row>
+          </Row>
+        </View>
+      </Background>
     );
   }
 }
