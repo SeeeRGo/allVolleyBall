@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Router, Scene, Lightbox } from 'react-native-router-flux';
+import { Router, Scene, Lightbox, Actions } from 'react-native-router-flux';
 
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { Icon } from 'react-native-elements';
 import Login from './scenes/Login';
 import Signup from './scenes/Signup';
+import Profile from './scenes/Profile';
 
 export default class App extends Component {
   render() {
@@ -14,7 +16,6 @@ export default class App extends Component {
             <Scene
               hideNavBar
               key="Auth"
-              initial
               component={Login}
             />
             <Scene
@@ -32,6 +33,16 @@ export default class App extends Component {
               hideNavBar
               key="Signup"
               component={Signup}
+            />
+            <Scene
+              title="Вячеслав Мельников"
+              navTransparent
+              initial
+              key="Profile"
+              path="/profile/:id"
+              onRight={() => Actions.ProfileForm()}
+              rightTitle="Cog"
+              component={Profile}
             />
           </Scene>
         </Lightbox>

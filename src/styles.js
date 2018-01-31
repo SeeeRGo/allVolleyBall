@@ -1,3 +1,8 @@
+import { Dimensions } from 'react-native';
+
+export const SCREEN_WIDTH = Dimensions.get('window').width;
+export const SCREEN_HEIGHT = Dimensions.get('window').height;
+
 export const loginStyles = {
   logoStyle: {
     width: 50,
@@ -45,3 +50,4 @@ export const signupStyles = {
     fontSize: 10
   }
 };
+
