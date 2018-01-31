@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { leftColumnStyle } from './styles';
+import styles from './styles';
 import Row from '../../components/common/Row';
 
 class LeftColumn extends Component {
   render() {
     const {
       imageStyle, containerStyle, iconContainerStyle, textStyle
-    } = leftColumnStyle;
+    } = styles.leftColumnStyle;
     return (
       <View>
         <Image

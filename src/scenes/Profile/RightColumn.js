@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
-import { rightColumnStyle } from './styles';
+import styles from './styles';
 import Row from '../../components/common/Row';
 
 
 class RightColumn extends Component {
   render() {
-    const { containerStyle, iconContainerStyle } = rightColumnStyle;
+    const { containerStyle, iconContainerStyle } = styles.rightColumnStyle;
     return (
       <View>
         <Text style={containerStyle}>МЕЛЬНИКОВ</Text>

@@ -4,11 +4,11 @@ import LeftColumn from './LeftColumn';
 import RightColumn from './RightColumn';
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
-import { profileStylesScene } from './styles';
+import styles from './styles';
 
-class GameScreen extends Component {
+class Profile extends Component {
   render() {
-    const { textBlockStyle } = profileStylesScene;
+    const { textBlockStyle } = styles.profileSceneStyle;
     const linesOfText = Math.floor(textBlockStyle.maxHeight / 20);
     return (
       <Background>
@@ -39,4 +39,4 @@ class GameScreen extends Component {
   }
 }
 
-export default GameScreen;
+export default Profile;

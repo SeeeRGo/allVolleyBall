@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Router, Scene, Lightbox, Actions } from 'react-native-router-flux';
 
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { View, Text } from 'react-native';
 import Login from './scenes/Login';
 import Signup from './scenes/Signup';
 import Profile from './scenes/Profile';
+import ProfileForm from './scenes/ProfileForm';
 
 export default class App extends Component {
   render() {
@@ -40,9 +40,19 @@ export default class App extends Component {
               initial
               key="Profile"
               path="/profile/:id"
-              onRight={() => Actions.ProfileForm()}
+              onRight={() => Actions.replace('ProfileForm')}
               rightTitle="Cog"
               component={Profile}
+            />
+            <Scene
+              title="Настройки профиля"
+              navTransparent
+              init
+              key="ProfileForm"
+              path="/profile/:id/edit"
+              component={ProfileForm}
+              onRight={() => Actions.replace('Profile')}
+              rightTitle="X"
             />
           </Scene>
         </Lightbox>
