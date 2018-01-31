@@ -6,6 +6,7 @@ import moment from 'moment';
 import { FormInput, FormLabel, Icon } from 'react-native-elements';
 
 import Row from '../../components/common/Row';
+import { playerFormUpdate } from './actions';
 import styles from './styles';
 
 const cities = [
@@ -23,7 +24,8 @@ class FormFields extends Component {
       formInputStyle, formLabelStyle, containerStyle, datePickerStyle
     } = styles;
     const {
-      lastName, firstName, fatherName, birthDate
+      lastName, firstName, fatherName, birthDate, fbLink,
+      vkLink, phone, password, passwordRe, playerFormUpdate
     } = this.props;
     return (
       <ScrollView>
@@ -32,19 +34,19 @@ class FormFields extends Component {
           <FormLabel labelStyle={[formLabelStyle]}>ФАМИЛИЯ*</FormLabel>
           <FormInput
             inputStyle={[formInputStyle]}
-            onChangeText={() => {}}
+            onChangeText={(value) => playerFormUpdate('lastName', value)}
             value={lastName}
           />
           <FormLabel labelStyle={[formLabelStyle]}>ИМЯ*</FormLabel>
           <FormInput
             inputStyle={[formInputStyle]}
-            onChangeText={() => {}}
+            onChangeText={(value) => playerFormUpdate('firstName', value)}
             value={firstName}
           />
           <FormLabel labelStyle={[formLabelStyle]}>ОТЧЕСТВО</FormLabel>
           <FormInput
             inputStyle={[formInputStyle]}
-            onChangeText={() => {}}
+            onChangeText={(value) => playerFormUpdate('fatherName', value)}
             value={fatherName}
           />
           <FormLabel labelStyle={formLabelStyle}>Дата Рождения</FormLabel>
@@ -72,10 +74,14 @@ class FormFields extends Component {
                     borderWidth: 0
                   }
                 }}
-                onDateChange={() => {}}
+                onDateChange={(value) => playerFormUpdate('birthDate', value)}
               />
               <FormLabel labelStyle={[formLabelStyle]}>ТЕЛЕФОН*</FormLabel>
-              <FormInput inputStyle={[formInputStyle, { maxWidth: 150 }]} onChangeText={() => {}} />
+              <FormInput
+                inputStyle={[formInputStyle, { maxWidth: 150 }]}
+                value={phone}
+                onChangeText={(value) => playerFormUpdate('phone', value)}
+              />
             </View>
             <View style={{ justifyContent: 'space-around', alignItems: 'center' }}>
               <FormLabel>ПОЛ</FormLabel>
@@ -104,16 +110,34 @@ class FormFields extends Component {
             </Picker>
           </Row>
           <FormLabel labelStyle={[formLabelStyle]}>СТРАНИЦА FACEBOOK</FormLabel>
-          <FormInput inputStyle={[formInputStyle]} onChangeText={() => {}} />
+          <FormInput
+            inputStyle={[formInputStyle]}
+            value={fbLink}
+            onChangeText={(value) => playerFormUpdate('fbLink', value)}
+          />
           <FormLabel labelStyle={[formLabelStyle]}>СТРАНИЦА ВКОНТАКТЕ</FormLabel>
-          <FormInput inputStyle={[formInputStyle]} onChangeText={() => {}} />
+          <FormInput
+            inputStyle={[formInputStyle]}
+            value={vkLink}
+            onChangeText={(value) => playerFormUpdate('vkLink', value)}
+          />
           <Row extraStyles={{ justifyContent: 'space-between' }}>
             <FormLabel labelStyle={formLabelStyle} containerStyle={{ maxWidth: 150 }}>ПАРОЛЬ</FormLabel>
             <FormLabel labelStyle={formLabelStyle}>ИЗМЕНИТЬ</FormLabel>
           </Row>
-          <FormInput inputStyle={formInputStyle} onChangeText={() => {}} />
+          <FormInput
+            secureTextEntry
+            value={password}
+            inputStyle={formInputStyle}
+            onChangeText={(value) => playerFormUpdate('password', value)}
+          />
           <FormLabel labelStyle={[formLabelStyle]}>ПОДТВЕРДИТЕ ПАРОЛЬ</FormLabel>
-          <FormInput inputStyle={[formInputStyle]} onChangeText={() => {}} />
+          <FormInput
+            secureTextEntry
+            value={passwordRe}
+            inputStyle={[formInputStyle]}
+            onChangeText={(value) => playerFormUpdate('passwordRe', value)}
+          />
         </View>
       </ScrollView>
     );
@@ -124,12 +148,14 @@ const mapStateToProps = (state) => ({
   lastName: state.profileForm.lastName,
   firstName: state.profileForm.firstName,
   fatherName: state.profileForm.fatherName,
-  birthDate: state.profileForm.birthdate,
+  birthDate: state.profileForm.birthDate,
   phone: state.profileForm.phone,
   address: state.profileForm.address,
   avatar: state.profileForm.avatar,
   vkLink: state.profileForm.vkLink,
-  fbLink: state.profileForm.fbLink
+  fbLink: state.profileForm.fbLink,
+  password: state.profileForm.password,
+  passwordRe: state.profileForm.passwordRe
 });
 
-export default connect(mapStateToProps)(FormFields);
+export default connect(mapStateToProps, { playerFormUpdate })(FormFields);

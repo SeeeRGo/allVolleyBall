@@ -11,7 +11,9 @@ const INITIAL_STATE = {
     uri: 'https://upload.wikimedia.org/wikipedia/commons/2/25/Volleyball_dig_02.jpg'
   },
   vkLink: 'www.vk.com/melnik.mellow',
-  fbLink: 'www.facebook.com/melnik.mellow'
+  fbLink: 'www.facebook.com/melnik.mellow',
+  password: '',
+  passwordRe: ''
 };
 
 export default (state = INITIAL_STATE, action) => {

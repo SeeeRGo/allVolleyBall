@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
 import LeftColumn from './LeftColumn';
 import RightColumn from './RightColumn';
@@ -47,16 +48,8 @@ class Profile extends Component {
   }
 }
 
-// const mapStateToProps = (state) => ({
-//   lastName: state.profile.lastName,
-//   firstName: state.profile.firstName,
-//   fatherName: state.profile.fatherName,
-//   birthDate: state.profile.birthdate,
-//   phone: state.profile.phone,
-//   address: state.profile.address,
-//   avatar: state.profile.avatar,
-//   vkLink: state.profile.vkLink,
-//   fbLink: state.profile.fbLink
-// });
+const mapStateToProps = (state) => ({
+  info: state.profile.info
+});
 
-export default Profile;
+export default connect(mapStateToProps)(Profile);

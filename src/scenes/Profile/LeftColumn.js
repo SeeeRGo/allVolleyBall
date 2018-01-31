@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { View, Text, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
 import styles from './styles';
@@ -52,4 +53,10 @@ class LeftColumn extends Component {
   }
 }
 
-export default LeftColumn;
+const mapStateToProps = (state) => ({
+  avatar: state.profile.avatar,
+  vkLink: state.profile.vkLink,
+  fbLink: state.profile.fbLink
+});
+
+export default connect(mapStateToProps)(LeftColumn);

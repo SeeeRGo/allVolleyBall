@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 import moment from 'moment';
@@ -73,4 +74,13 @@ class RightColumn extends Component {
   }
 }
 
-export default RightColumn;
+const mapStateToProps = (state) => ({
+  lastName: state.profile.lastName,
+  firstName: state.profile.firstName,
+  fatherName: state.profile.fatherName,
+  birthDate: state.profile.birthdate,
+  phone: state.profile.phone,
+  address: state.profile.address
+});
+
+export default connect(mapStateToProps)(RightColumn);
