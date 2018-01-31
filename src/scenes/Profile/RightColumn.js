@@ -1,18 +1,40 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
+import moment from 'moment';
+
 import styles from './styles';
 import Row from '../../components/common/Row';
 
 
 class RightColumn extends Component {
+  static defaultProps = {
+    lastName: 'МЕЛЬНИКОВ',
+    firstName: 'ВЯЧЕСЛАВ',
+    fatherName: 'ВЛАДИМИРОВИЧ',
+    birthDate: moment().format('YYYY-MM-DD'),
+    phone: '+ 7 000 123 45 67',
+    address: 'Тольятти, Самарская область'
+  }
+  static propTypes = {
+    lastName: PropTypes.string,
+    firstName: PropTypes.string,
+    fatherName: PropTypes.string,
+    birthDate: PropTypes.string,
+    phone: PropTypes.string,
+    address: PropTypes.string
+  }
   render() {
+    const {
+      firstName, lastName, fatherName, birthDate, phone, address
+    } = this.props;
     const { containerStyle, iconContainerStyle } = styles.rightColumnStyle;
     return (
       <View>
-        <Text style={containerStyle}>МЕЛЬНИКОВ</Text>
-        <Text style={containerStyle}>ВЯЧЕСЛАВ</Text>
-        <Text style={containerStyle}>ВЛАДИМИРОВИЧ</Text>
+        <Text style={containerStyle}>{lastName}</Text>
+        <Text style={containerStyle}>{firstName}</Text>
+        <Text style={containerStyle}>{fatherName}</Text>
         <Avatar
           small
           rounded
@@ -26,7 +48,7 @@ class RightColumn extends Component {
             size={14}
             containerStyle={iconContainerStyle}
           />
-          <Text>19/07/2018 в 11:00</Text>
+          <Text>{birthDate}</Text>
         </Row>
         <Row>
           <Icon
@@ -35,7 +57,7 @@ class RightColumn extends Component {
             size={14}
             containerStyle={iconContainerStyle}
           />
-          <Text style={{ lineHeight: 20, maxWidth: '65%' }} numberOfLines={1}>Тольятти, Самарская область</Text>
+          <Text style={{ lineHeight: 20, maxWidth: '65%' }} numberOfLines={1}>{address}</Text>
         </Row>
         <Row>
           <Icon
@@ -44,7 +66,7 @@ class RightColumn extends Component {
             size={14}
             containerStyle={iconContainerStyle}
           />
-          <Text>+ 7 000 123 45 67</Text>
+          <Text>{phone}</Text>
         </Row>
       </View>
     );

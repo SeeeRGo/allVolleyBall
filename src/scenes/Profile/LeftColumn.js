@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
 import styles from './styles';
 import Row from '../../components/common/Row';
 
 class LeftColumn extends Component {
+  static defaultProps = {
+    avatar: {
+      uri: 'https://upload.wikimedia.org/wikipedia/commons/2/25/Volleyball_dig_02.jpg'
+    },
+    vkLink: 'www.vk.com/melnik.mellow',
+    fbLink: 'www.facebook.com/melnik.mellow'
+  }
+  static propTypes = {
+    avatar: PropTypes.object,
+    vkLink: PropTypes.string,
+    fbLink: PropTypes.string
+  }
   render() {
+    const { avatar, vkLink, fbLink } = this.props;
     const {
       imageStyle, containerStyle, iconContainerStyle, textStyle
     } = styles.leftColumnStyle;
@@ -13,7 +27,7 @@ class LeftColumn extends Component {
       <View>
         <Image
           style={[imageStyle, containerStyle]}
-          source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/2/25/Volleyball_dig_02.jpg' }}
+          source={{ uri: avatar.uri }}
         />
         <Row>
           <Icon
@@ -22,7 +36,7 @@ class LeftColumn extends Component {
             size={24}
             containerStyle={iconContainerStyle}
           />
-          <Text style={textStyle}>www.vk.com/melnik.mellow</Text>
+          <Text style={textStyle}>{vkLink}</Text>
         </Row>
         <Row>
           <Icon
@@ -31,7 +45,7 @@ class LeftColumn extends Component {
             size={24}
             containerStyle={iconContainerStyle}
           />
-          <Text style={textStyle}>www.facebook.com/melnik.mellow</Text>
+          <Text style={textStyle}>{fbLink}</Text>
         </Row>
       </View>
     );
