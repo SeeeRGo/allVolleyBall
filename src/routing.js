@@ -6,6 +6,8 @@ import Login from './scenes/Login';
 import Signup from './scenes/Signup';
 import Profile from './scenes/Profile';
 import ProfileForm from './scenes/ProfileForm';
+import GameScreen from './scenes/Game/GameScreen';
+import GameForm from './scenes/Game/GameForm';
 
 export default class App extends Component {
   render() {
@@ -37,7 +39,6 @@ export default class App extends Component {
             <Scene
               title="Вячеслав Мельников"
               navTransparent
-              initial
               key="Profile"
               path="/profile/:id"
               onRight={() => Actions.replace('ProfileForm')}
@@ -52,6 +53,25 @@ export default class App extends Component {
               path="/profile/:id/edit"
               component={ProfileForm}
               onRight={() => Actions.replace('Profile')}
+              rightTitle="X"
+            />
+            <Scene
+              title="Создание игры"
+              navTransparent
+              initial
+              key="GameForm"
+              path="/game/:id/edit"
+              component={GameForm}
+              onRight={() => Actions.replace('GameScreen')}
+              rightTitle="X"
+            />
+            <Scene
+              title="Игра от "
+              navTransparent
+              key="GameScreen"
+              path="/game/:id/edit"
+              component={GameScreen}
+              onRight={() => Actions.replace('GameForm')}
               rightTitle="X"
             />
           </Scene>
