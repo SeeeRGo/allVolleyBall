@@ -13,7 +13,7 @@ import styles from './styles';
 class PlayerForm extends Component {
   handleProfileUpdate() {
     const {
-      lastName, firstName, fatherName, birthDate, fbLink, 
+      lastName, firstName, fatherName, birthDate, fbLink, city,
       vkLink, phone, password, passwordRe, updateProfile
     } = this.props;
     const updates = {
@@ -23,7 +23,8 @@ class PlayerForm extends Component {
       birthDate,
       fbLink,
       vkLink,
-      phone
+      phone,
+      city
     };
     if (password === passwordRe) {
       updateProfile(updates);
@@ -58,6 +59,7 @@ const mapStateToProps = (state) => ({
   avatar: state.profileForm.avatar,
   vkLink: state.profileForm.vkLink,
   fbLink: state.profileForm.fbLink,
+  city: state.profileForm.city,
   password: state.profileForm.password,
   passwordRe: state.profileForm.passwordRe
 });

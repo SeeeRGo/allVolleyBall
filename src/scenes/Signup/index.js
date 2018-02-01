@@ -21,7 +21,7 @@ class SignupForm extends Component {
 
   }
   renderCities(cityList) {
-    return cityList.map((city) => <Picker.Item key={city} label={city} value={city} />);
+    return cityList.map((city, index) => <Picker.Item key={city} label={city} value={index} />);
   }
 
   render() {
@@ -66,7 +66,7 @@ class SignupForm extends Component {
               <FormLabel labelStyle={[signupStyles.formLabelStyle, { color: 'blue' }]}>ГОРОД ПРОЖИВАНИЯ*</FormLabel>
               <Picker
                 style={{ flex: 1, height: 20 }}
-                selectedValue={cities[0]}
+                selectedValue={0}
                 onValueChange={() => {}}
               >
                 {this.renderCities(cities)}

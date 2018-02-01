@@ -24,7 +24,7 @@ class FormFields extends Component {
       formInputStyle, formLabelStyle, containerStyle, datePickerStyle
     } = styles;
     const {
-      lastName, firstName, fatherName, birthDate, fbLink,
+      lastName, firstName, fatherName, birthDate, fbLink, city,
       vkLink, phone, password, passwordRe, playerFormUpdate
     } = this.props;
     return (
@@ -103,8 +103,8 @@ class FormFields extends Component {
             <FormLabel>ГОРОД ПРОЖИВАНИЯ</FormLabel>
             <Picker
               style={{ flex: 1 }}
-              selectedValue={cities[0]}
-              onValueChange={() => {}}
+              selectedValue={city}
+              onValueChange={(value) => playerFormUpdate('city', value)}
             >
               {this.renderCities(cities)}
             </Picker>
@@ -154,6 +154,7 @@ const mapStateToProps = (state) => ({
   avatar: state.profileForm.avatar,
   vkLink: state.profileForm.vkLink,
   fbLink: state.profileForm.fbLink,
+  city: state.profileForm.city,
   password: state.profileForm.password,
   passwordRe: state.profileForm.passwordRe
 });

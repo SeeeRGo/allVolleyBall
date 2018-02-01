@@ -12,6 +12,7 @@ const INITIAL_STATE = {
   },
   vkLink: 'www.vk.com/melnik.mellow',
   fbLink: 'www.facebook.com/melnik.mellow',
+  city: 'Тольятти',
   password: '',
   passwordRe: ''
 };
@@ -19,6 +20,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case PLAYER_FORM_UPDATE:
+    console.log(action.payload);
     return {
       ...state,
       ...action.payload

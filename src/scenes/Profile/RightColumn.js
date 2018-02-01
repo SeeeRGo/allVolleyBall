@@ -16,7 +16,7 @@ class RightColumn extends Component {
     fatherName: 'ВЛАДИМИРОВИЧ',
     birthDate: moment().format('YYYY-MM-DD'),
     phone: '+ 7 000 123 45 67',
-    address: 'Тольятти, Самарская область'
+    city: 'Тольятти'
   }
   static propTypes = {
     lastName: PropTypes.string,
@@ -24,11 +24,11 @@ class RightColumn extends Component {
     fatherName: PropTypes.string,
     birthDate: PropTypes.string,
     phone: PropTypes.string,
-    address: PropTypes.string
+    city: PropTypes.string
   }
   render() {
     const {
-      firstName, lastName, fatherName, birthDate, phone, address
+      firstName, lastName, fatherName, birthDate, phone, city
     } = this.props;
     const { containerStyle, iconContainerStyle } = styles.rightColumnStyle;
     return (
@@ -58,7 +58,7 @@ class RightColumn extends Component {
             size={14}
             containerStyle={iconContainerStyle}
           />
-          <Text style={{ lineHeight: 20, maxWidth: '65%' }} numberOfLines={1}>{address}</Text>
+          <Text style={{ lineHeight: 20, maxWidth: '65%' }} numberOfLines={1}>{city}</Text>
         </Row>
         <Row>
           <Icon
@@ -78,9 +78,9 @@ const mapStateToProps = (state) => ({
   lastName: state.profile.lastName,
   firstName: state.profile.firstName,
   fatherName: state.profile.fatherName,
-  birthDate: state.profile.birthdate,
+  birthDate: state.profile.birthDate,
   phone: state.profile.phone,
-  address: state.profile.address
+  city: state.profile.city
 });
 
 export default connect(mapStateToProps)(RightColumn);

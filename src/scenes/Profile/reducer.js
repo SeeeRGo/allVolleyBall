@@ -19,8 +19,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case PROFILE_UPDATE:
-    console.log(action.payload);
-    return {...state, ...action.payload};
+    return { ...state, ...action.payload };
   default:
     return state;
   }
