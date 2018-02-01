@@ -1,6 +1,6 @@
 export const GAME_FORM_UPDATE = 'GAME_FORM_UPDATE';
 
-export const gameFormUpdate = (update) => ({
+export const gameFormUpdate = (fieldName, value) => ({
   type: GAME_FORM_UPDATE,
-  ...update
+  payload: { [fieldName]: value }
 });

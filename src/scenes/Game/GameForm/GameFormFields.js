@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 import { View, Picker, ScrollView, Slider } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import { FormInput, FormLabel, Rating } from 'react-native-elements';
 
 import Row from '../../../components/common/Row';
+import { gameFormUpdate } from './actions';
 import styles from './styles';
 
 const cities = [
@@ -20,10 +21,10 @@ const volleyballTypes = [
   'Пионербол'
 ];
 
-const minPlayers = [
+const minPlayersArray = [
   ...Array(20).fill().map((e, i) => i.toString())
 ];
-const maxPlayers = [
+const maxPlayersArray = [
   ...Array(20).fill().map((e, i) => i.toString())
 ];
 
@@ -33,21 +34,22 @@ class FormFields extends Component {
     return (
       <Picker
         style={{ flex: 1 }}
-        selectedValue={itemList[0]}
-        onValueChange={(value) => playerFormUpdate(fieldName, value)}
+        selectedValue={this.props[fieldName]}
+        onValueChange={(value) => gameFormUpdate(fieldName, value)}
       >
         {itemList.map((item) => <Picker.Item key={item} label={item} value={item} />)}
       </Picker>
     );
-  }
-  renderPickerItems(itemList) {
-    return itemList.map((item) => <Picker.Item key={item} label={item} value={item} />);
   }
   render() {
     const {
       formInputStyle, formLabelStyle, containerStyle,
       datePickerStyle, ratingStyle, datepickerCustomStyle
     } = styles;
+    const {
+      gameType, minPlayers, maxPlayers, price, gameFormUpdate,
+      gameTime, startTime, finishTime, gameAddress, gameInfo
+    } = this.props;
     return (
       <ScrollView>
         <View style={containerStyle}>
@@ -56,14 +58,14 @@ class FormFields extends Component {
             <FormLabel labelStyle={[formLabelStyle]}>ТИП ИГРЫ*</FormLabel>
             <FormLabel labelStyle={[formLabelStyle]}>ВОЛЕЙБОЛ</FormLabel>
           </Row>
-          {this.renderPicker('volleyballTypes', volleyballTypes)}
+          {this.renderPicker('gameType', volleyballTypes)}
           <Row>
             <FormLabel labelStyle={[formLabelStyle]}>МИНИМУМ ИГРОКОВ</FormLabel>
-            {this.renderPicker('minPlayers', minPlayers)}
+            {this.renderPicker('minPlayers', minPlayersArray)}
           </Row>
           <Row>
             <FormLabel labelStyle={[formLabelStyle]}>МАКСИМУМ ИГРОКОВ</FormLabel>
-            {this.renderPicker('maxPlayers', maxPlayers)}
+            {this.renderPicker('maxPlayers', maxPlayersArray)}
           </Row>
           <Row>
             <FormLabel labelStyle={[formLabelStyle]}>УРОВЕНЬ</FormLabel>
@@ -81,9 +83,10 @@ class FormFields extends Component {
             <Slider
               minimumValue={0}
               maximumValue={2000}
+              value={price}
               step={100}
               style={{ width: 200 }}
-              onSlidingComplete={(value) => console.log(value)}
+              onSlidingComplete={(value) => gameFormUpdate('price', value)}
             />
             <FormLabel labelStyle={formLabelStyle}>2000 Р</FormLabel>
           </Row>
@@ -91,7 +94,7 @@ class FormFields extends Component {
             <FormLabel labelStyle={formLabelStyle}>ДАТА И ВРЕМЯ ИГРЫ</FormLabel>
             <DatePicker
               style={datePickerStyle}
-              date={moment().format('DD/MM/YY HH:mm')}
+              date={gameTime}
               mode="datetime"
               placeholder="select date"
               format="DD/MM/YY HH:mm"
@@ -100,14 +103,14 @@ class FormFields extends Component {
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={datepickerCustomStyle}
-              onDateChange={(value) => playerFormUpdate('birthDate', value)}
+              onDateChange={(value) => gameFormUpdate('gameTime', value)}
             />
           </Row>
           <Row>
             <FormLabel labelStyle={formLabelStyle}>ВРЕМЯ НАЧАЛА</FormLabel>
             <DatePicker
               style={datePickerStyle}
-              date={moment().format('HH:mm')}
+              date={startTime}
               mode="time"
               placeholder="select date"
               format="HH:mm"
@@ -116,14 +119,14 @@ class FormFields extends Component {
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={datepickerCustomStyle}
-              onDateChange={(value) => playerFormUpdate('birthDate', value)}
+              onDateChange={(value) => gameFormUpdate('start', value)}
             />
           </Row>
           <Row>
             <FormLabel labelStyle={formLabelStyle}>ВРЕМЯ ОКОНЧАНИЯ</FormLabel>
             <DatePicker
               style={datePickerStyle}
-              date={moment().format('HH:mm')}
+              date={finishTime}
               mode="time"
               placeholder="select date"
               format="HH:mm"
@@ -132,19 +135,21 @@ class FormFields extends Component {
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={datepickerCustomStyle}
-              onDateChange={(value) => playerFormUpdate('birthDate', value)}
+              onDateChange={(value) => gameFormUpdate('finishTime', value)}
             />
           </Row>
           <FormLabel labelStyle={[formLabelStyle]}>АДРЕС</FormLabel>
           <FormInput
             inputStyle={[formInputStyle]}
-            onChangeText={(value) => playerFormUpdate('fbLink', value)}
+            value={gameAddress}
+            onChangeText={(value) => gameFormUpdate('gameAddress', value)}
           />
           <FormLabel labelStyle={[formLabelStyle]}>ОПИСАНИЕ</FormLabel>
           <FormInput
-            inputStyle={[formInputStyle]}
+            inputStyle={[formInputStyle, { maxWidth: '100%' }]}
             multiline
-            onChangeText={() => {}}
+            value={gameInfo}
+            onChangeText={(value) => gameFormUpdate('gameInfo', value)}
           />
         </View>
       </ScrollView>
@@ -152,5 +157,16 @@ class FormFields extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  gameType: state.gameForm.gameType,
+  minPlayers: state.gameForm.minPlayers,
+  maxPlayers: state.gameForm.maxPlayers,
+  price: state.gameForm.price,
+  gameTime: state.gameForm.gameTime,
+  startTime: state.gameForm.startTime,
+  finishTime: state.gameForm.finishTime,
+  gameAddress: state.gameForm.gameAddress,
+  gameInfo: state.gameForm.gameInfo
+});
 
-export default FormFields;
+export default connect(mapStateToProps, { gameFormUpdate })(FormFields);

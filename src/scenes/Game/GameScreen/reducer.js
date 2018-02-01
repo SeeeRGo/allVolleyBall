@@ -1,4 +1,4 @@
-import { GAME_FORM_UPDATE } from './actions';
+import { GAME_UPDATE, GAME_CREATE } from './actions';
 
 const INITIAL_STATE = {
   gameType: '',
@@ -14,12 +14,8 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case GAME_FORM_UPDATE:
-    console.log(action.payload);
-    return {
-      ...state,
-      ...action.payload
-    };
+  case GAME_UPDATE:
+    return { ...state, ...action.payload };
   default:
     return state;
   }

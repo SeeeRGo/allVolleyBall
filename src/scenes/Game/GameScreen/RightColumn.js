@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions } from 'react-native';
+import { connect } from 'react-redux';
+import { View, Text, Dimensions } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
 class RightColumn extends Component {
+  static defaultProps = {
+    totalPlayers: '0'
+  }
   render() {
+    const {
+      gameType, minPlayers, maxPlayers, price, totalPlayers,
+      gameTime, startTime, finishTime, gameAddress, gameInfo
+    } = this.props;
     return (
       <View>
         <Text style={styles.containerStyle}>ВОЛЕЙБОЛ</Text>
-        <Text style={styles.containerStyle}>Тип: Классический</Text>
-        <Text style={styles.containerStyle}>Состав: 6-12 игроков</Text>
+        <Text style={styles.containerStyle}>Тип: {gameType}</Text>
+        <Text style={styles.containerStyle}>Состав: {minPlayers}-{maxPlayers} игроков</Text>
         <View style={styles.rowContainerStyle}>
-          <Text>1000</Text>
+          <Text>{price}</Text>
           <Icon
             name="rub"
             type="font-awesome"
@@ -26,7 +34,7 @@ class RightColumn extends Component {
             size={12}
             containerStyle={styles.iconContainerStyle}
           />
-          <Text>19/07/2018 в 11:00</Text>
+          <Text>{gameTime} в {gameTime}</Text>
         </View>
         <View style={styles.rowContainerStyle}>
           <Icon
@@ -35,7 +43,7 @@ class RightColumn extends Component {
             size={12}
             containerStyle={styles.iconContainerStyle}
           />
-          <Text>11:00 - 15:00</Text>
+          <Text>{startTime} - {finishTime}</Text>
         </View>
         <View style={styles.rowContainerStyle}>
           <Icon
@@ -44,7 +52,7 @@ class RightColumn extends Component {
             size={12}
             containerStyle={styles.iconContainerStyle}
           />
-          <Text style={{ lineHeight: 20 }}>Степана Разина, 89 Школа №67</Text>
+          <Text style={{ lineHeight: 20 }}>{gameAddress}</Text>
         </View>
         <View style={styles.rowContainerStyle}>
           <Icon
@@ -53,7 +61,7 @@ class RightColumn extends Component {
             size={12}
             containerStyle={styles.iconContainerStyle}
           />
-          <Text>Подали заявку 4 игрока</Text>
+          <Text>Подали заявку {parseInt(totalPlayers, 10)} игрока</Text>
         </View>
         <View style={styles.rowContainerStyle}>
           <Icon
@@ -62,7 +70,7 @@ class RightColumn extends Component {
             size={12}
             containerStyle={styles.iconContainerStyle}
           />
-          <Text>Свободно 8 мест</Text>
+          <Text>Свободно {parseInt(maxPlayers, 10) - parseInt(totalPlayers, 10)} мест</Text>
         </View>
       </View>
     );
@@ -85,4 +93,16 @@ const styles = {
   }
 };
 
-export default RightColumn;
+const mapStateToProps = (state) => ({
+  gameType: state.game.gameType,
+  minPlayers: state.game.minPlayers,
+  maxPlayers: state.game.maxPlayers,
+  price: state.game.price,
+  gameTime: state.game.gameTime,
+  startTime: state.game.startTime,
+  finishTime: state.game.finishTime,
+  gameAddress: state.game.gameAddress,
+  totalPlayers: state.game.totalPlayers
+});
+
+export default connect(mapStateToProps)(RightColumn);
