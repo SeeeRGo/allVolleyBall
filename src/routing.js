@@ -8,6 +8,7 @@ import Profile from './scenes/Profile';
 import ProfileForm from './scenes/ProfileForm';
 import GameScreen from './scenes/Game/GameScreen';
 import GameForm from './scenes/Game/GameForm';
+import GameList from './scenes/Game/GameList';
 
 export default class App extends Component {
   render() {
@@ -58,7 +59,6 @@ export default class App extends Component {
             <Scene
               title="Создание игры"
               navTransparent
-              initial
               key="GameForm"
               path="/game/:id/edit"
               component={GameForm}
@@ -71,6 +71,16 @@ export default class App extends Component {
               key="GameScreen"
               path="/game/:id/edit"
               component={GameScreen}
+              onRight={() => Actions.replace('GameForm')}
+              rightTitle="X"
+            />
+            <Scene
+              title="Игра от "
+              navTransparent
+              key="GameScreen"
+              initial
+              path="/game/:id/edit"
+              component={GameList}
               onRight={() => Actions.replace('GameForm')}
               rightTitle="X"
             />
