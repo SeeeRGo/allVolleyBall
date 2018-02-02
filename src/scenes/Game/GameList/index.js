@@ -5,31 +5,30 @@ import { List, ListItem } from 'react-native-elements';
 
 import GameListItem from '../GameListItem';
 import GameSearchHeader from './GameSearchHeader';
+import Background from '../../../components/common/Background';
 
 class GameList extends Component {
-  render() {    
+  render() {
     return (
-      <View>
-        <GameSearchHeader />
-        <List containerStyle={{marginBottom: 20}}>
+      <Background>
+        <GameSearchHeader numGamesFound={this.props.games.length} />
+        <List containerStyle={{ marginBottom: 20 }}>
           {
             this.props.games.map((game) => (
               <GameListItem
-                key={game.id}
+                key={game.gameId}
                 {...game}
               />
             ))
           }
         </List>
-      </View>
+      </Background>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    games: state.game
-  }
-}
+const mapStateToProps = (state) => ({
+  games: state.game
+});
 
 export default connect(mapStateToProps)(GameList);

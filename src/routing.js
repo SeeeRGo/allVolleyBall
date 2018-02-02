@@ -58,9 +58,10 @@ export default class App extends Component {
             />
             <Scene
               title="Создание игры"
+              initial
               navTransparent
               key="GameForm"
-              path="/game/:id/edit"
+              path="/game/:id"
               component={GameForm}
               onRight={() => Actions.replace('GameScreen')}
               rightTitle="X"
@@ -72,16 +73,15 @@ export default class App extends Component {
               path="/game/:id/edit"
               component={GameScreen}
               onRight={() => Actions.replace('GameForm')}
-              rightTitle="X"
+              rightTitle="Cog"
             />
             <Scene
               title="Игра от "
               navTransparent
-              key="GameScreen"
-              initial
-              path="/game/:id/edit"
+              key="GameList"
+              path="/game"
               component={GameList}
-              onRight={() => Actions.replace('GameForm')}
+              onRight={() => Actions.replace('GameScreen')}
               rightTitle="X"
             />
           </Scene>

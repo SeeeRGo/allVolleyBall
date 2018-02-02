@@ -1,9 +1,6 @@
 import { GAME_FORM_UPDATE } from './actions';
 
 const INITIAL_STATE = {
-  gameType: '',
-  minPlayers: '',
-  maxPlayers: '',
   price: 0,
   gameTime: null,
   startTime: null,

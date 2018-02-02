@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
+import moment from 'moment';
 import { Rating, Icon } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 
 import Row from '../../../components/common/Row';
 import styles from './styles';
@@ -12,9 +14,17 @@ class GameListItem extends Component {
       redBgTextStyle, borderedBlueTextStyle, borderedRedTextStyle, ratingStyle, borderedTealStyle,
       textStyle, mainTextStyle, iconStyle, blueText, rowHeight, spaceAroundRow
     } = styles;
+    const {
+      gameId, gameAddress, gameCreator, gameTime, gameType, price,
+      startTime, finishTime, minPlayers, maxPlayers, totalPlayers
+    } = this.props;
     return (
-      <Row extraStyles={gameContainerStyle}>
-        <View style={leftColumnStyle}>
+      <Row
+        extraStyles={gameContainerStyle}
+      >
+        <View
+          style={leftColumnStyle}
+        >
           <Image
             style={imageContainerStyle}
             source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjs7X0GOmJmaQhq0f6HQcuogHiRq-YuNOFKhy24GxmA30uUPGS' }}
@@ -29,11 +39,11 @@ class GameListItem extends Component {
         </View>
         <View style={rightColumnStyle}>
           <Row extraStyles={rowHeight}>
-            <Text style={blueBgTextStyle}>19/07/18</Text>
-            <Text style={redBgTextStyle}>11:00</Text>
-            <Text style={borderedBlueTextStyle}>10:00-15:00</Text>
-            <Text style={borderedRedTextStyle}>6-12 чел</Text>
-            <Text style={borderedTealStyle}>0 р</Text>
+            <Text style={blueBgTextStyle}>{gameTime}</Text>
+            <Text style={redBgTextStyle}>{moment(gameTime).format('HH:mm')}</Text>
+            <Text style={borderedBlueTextStyle}>{startTime}-{finishTime}</Text>
+            <Text style={borderedRedTextStyle}>{minPlayers}-{maxPlayers} чел</Text>
+            <Text style={borderedTealStyle}>{price} р</Text>
           </Row>
           <Row extraStyles={rowHeight}>
             <Icon
@@ -43,9 +53,18 @@ class GameListItem extends Component {
               color="grey"
               iconStyle={iconStyle}
             />
-            <Text style={mainTextStyle}>В. Андрейчук{' '}
+            <Text style={mainTextStyle}>{gameCreator}{' '}
             </Text>
-            <Text style={textStyle}>волейбол, классический</Text>
+            <Text style={textStyle}>волейбол, {gameType}{' '}</Text>
+            <Text
+              style={textStyle}
+              onPress={() => {
+                console.log(gameId);
+                Actions.GameScreen({ gameId });
+              }}
+            >
+              ПОДРОБНЕЕ
+            </Text>
           </Row>
           <Row extraStyles={rowHeight}>
             <Icon
@@ -55,16 +74,16 @@ class GameListItem extends Component {
               color="grey"
               iconStyle={iconStyle}
             />
-            <Text style={textStyle}>Степана Разина 89{' '}
-              <Text>Школа №67</Text>
+            <Text style={textStyle}>{gameAddress}{' '}
+              <Text>{gameAddress}</Text>
             </Text>
           </Row>
           <Row extraStyles={spaceAroundRow}>
             <Text style={textStyle}>ЗАЯВКИ{' '}
-              <Text style={blueText}>4</Text>
+              <Text style={blueText}>{totalPlayers}</Text>
             </Text>
             <Text style={textStyle}>СВОБОДНЫХ МЕСТ{' '}
-              <Text style={blueText}>8</Text>
+              <Text style={blueText}>{(maxPlayers - totalPlayers)}</Text>
             </Text>
             <Row>
               <Icon

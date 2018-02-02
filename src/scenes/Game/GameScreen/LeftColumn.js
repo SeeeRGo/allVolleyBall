@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { View, Text, Image, Dimensions } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -22,7 +23,12 @@ class LeftColumn extends Component {
           style={[styles.imageStyle, styles.containerStyle]}
           source={gameImage}
         />
-        <Text style={styles.containerStyle}>{gameCreator}</Text>
+        <Text
+          style={styles.containerStyle}
+          onPress={() => Actions.Profile()}
+        >
+          {gameCreator}
+        </Text>
         <Text style={styles.containerStyle}>Создано {createdAt} в {createdAt}</Text>
         <View style={styles.rowContainerStyle}>
           <Icon
@@ -67,10 +73,14 @@ const styles = {
   }
 };
 
-const mapStateToProps = (state) => ({
-  gameImage: state.game.gameImage,
-  gameCreator: state.game.gameCreator,
-  createdAt: state.game.createdAt
-});
+const mapStateToProps = (state, ownProps) => {
+  const gameScreen = state.game.find((item) => item.gameId === ownProps.gameId);
+  return {
+    gameImage: gameScreen.gameImage,
+    gameCreator: gameScreen.gameCreator,
+    createdAt: gameScreen.createdAt
+  };
+};
+
 
 export default connect(mapStateToProps)(LeftColumn);

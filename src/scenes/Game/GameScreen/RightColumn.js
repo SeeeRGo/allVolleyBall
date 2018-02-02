@@ -93,16 +93,20 @@ const styles = {
   }
 };
 
-const mapStateToProps = (state) => ({
-  gameType: state.game.gameType,
-  minPlayers: state.game.minPlayers,
-  maxPlayers: state.game.maxPlayers,
-  price: state.game.price,
-  gameTime: state.game.gameTime,
-  startTime: state.game.startTime,
-  finishTime: state.game.finishTime,
-  gameAddress: state.game.gameAddress,
-  totalPlayers: state.game.totalPlayers
-});
+const mapStateToProps = (state, ownProps) => {
+  const gameScreen = state.game.find((item) => item.gameId === ownProps.gameId);
+  return {
+    gameType: gameScreen.gameType,
+    minPlayers: gameScreen.minPlayers,
+    maxPlayers: gameScreen.maxPlayers,
+    price: gameScreen.price,
+    gameTime: gameScreen.gameTime,
+    startTime: gameScreen.startTime,
+    finishTime: gameScreen.finishTime,
+    gameAddress: gameScreen.gameAddress,
+    totalPlayers: gameScreen.totalPlayers
+  };
+};
+
 
 export default connect(mapStateToProps)(RightColumn);

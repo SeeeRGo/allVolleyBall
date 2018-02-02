@@ -30,12 +30,17 @@ const maxPlayersArray = [
 
 
 class FormFields extends Component {
+  static defaultProps = {
+    gameType: 'Классический',
+    minPlayers: '0',
+    maxPlayers: '0'
+  }
   renderPicker(fieldName, itemList) {
     return (
       <Picker
         style={{ flex: 1 }}
         selectedValue={this.props[fieldName]}
-        onValueChange={(value) => gameFormUpdate(fieldName, value)}
+        onValueChange={(value) => this.props.gameFormUpdate(fieldName, value)}
       >
         {itemList.map((item) => <Picker.Item key={item} label={item} value={item} />)}
       </Picker>
@@ -98,8 +103,8 @@ class FormFields extends Component {
               mode="datetime"
               placeholder="select date"
               format="DD/MM/YY HH:mm"
-              minDate="1920-01-01"
-              maxDate="2012-01-01"
+              minDate={moment().add(1, 'days').format('DD/MM/YY HH:mm')}
+              maxDate={moment().endOf('year').format('DD/MM/YY HH:mm')}
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={datepickerCustomStyle}
@@ -119,7 +124,7 @@ class FormFields extends Component {
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={datepickerCustomStyle}
-              onDateChange={(value) => gameFormUpdate('start', value)}
+              onDateChange={(value) => gameFormUpdate('startTime', value)}
             />
           </Row>
           <Row>

@@ -9,7 +9,7 @@ class GameSearchHeader extends Component {
     return (
       <Row>
         <Text style={{ flex: 1, marginLeft: 10 }}>НАЙДЕНО{' '}
-          <Text style={{ color: 'yellow' }}>25</Text>
+          <Text style={{ color: 'yellow' }}>{this.props.numGamesFound}</Text>
         </Text>
         <Row extraStyles={{ flex: 2, marginRight: 10, justifyContent: 'space-around' }}>
           <Row>

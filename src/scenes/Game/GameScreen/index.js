@@ -15,13 +15,14 @@ class GameScreen extends Component {
     gameInfo: 'Game Info here'
   }
   render() {
-    const { gameInfo } = this.props;
+    console.log(this.props);
+    const { gameInfo, gameId } = this.props;
     return (
       <Background>
         <View style={{ width: '100%' }}>
           <Row>
-            <LeftColumn />
-            <RightColumn />
+            <LeftColumn gameId={gameId} />
+            <RightColumn gameId={gameId} />
           </Row>
           <Text style={styles.textBlockStyle}>
             {gameInfo}
@@ -57,8 +58,11 @@ const styles = {
   }
 };
 
-const mapStateToProps = (state) => ({
-  gameInfo: state.game.gameInfo
-});
+const mapStateToProps = (state, ownProps) => {
+  const gameScreen = state.game.find((item) => item.gameId === ownProps.gameId);
+  return {
+    gameInfo: gameScreen.gameInfo
+  };
+};
 
 export default connect(mapStateToProps)(GameScreen);
