@@ -9,6 +9,12 @@ import GameFormFields from './GameFormFields';
 import { updateGame, createGame } from '../GameScreen/actions';
 
 class GameForm extends Component {
+  static onEnter = (params) => {
+    console.log('params', params);
+  }
+  static onExit = (params) => {
+    console.log('exit params', params);
+  }
   handleUpdateGame() {
     const {
       gameType, minPlayers, maxPlayers, price, gameTime, gameId,
@@ -48,7 +54,7 @@ class GameForm extends Component {
     Actions.GameList();
   }
   render() {
-    console.log(this.props);
+    console.log(this.props.gameId);
     return (
       <Background>
         <GameFormFields />

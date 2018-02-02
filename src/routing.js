@@ -20,6 +20,7 @@ export default class App extends Component {
               hideNavBar
               key="Auth"
               component={Login}
+              initial
             />
             <Scene
               hideNavBar
@@ -58,7 +59,6 @@ export default class App extends Component {
             />
             <Scene
               title="Создание игры"
-              initial
               navTransparent
               key="GameForm"
               path="/game/:id"

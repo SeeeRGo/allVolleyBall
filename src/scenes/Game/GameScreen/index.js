@@ -7,6 +7,7 @@ import LeftColumn from './LeftColumn';
 import RightColumn from './RightColumn';
 import Background from '../../../components/common/Background';
 import Row from '../../../components/common/Row';
+import { Actions } from 'react-native-router-flux';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -24,7 +25,10 @@ class GameScreen extends Component {
             <LeftColumn gameId={gameId} />
             <RightColumn gameId={gameId} />
           </Row>
-          <Text style={styles.textBlockStyle}>
+          <Text
+            style={styles.textBlockStyle}
+            onPress={() => Actions.GameForm({ gameId })}
+          >
             {gameInfo}
           </Text>
         </View>
