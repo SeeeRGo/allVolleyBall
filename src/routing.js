@@ -9,6 +9,7 @@ import ProfileForm from './scenes/ProfileForm';
 import GameScreen from './scenes/Game/GameScreen';
 import GameForm from './scenes/Game/GameForm';
 import GameList from './scenes/Game/GameList';
+import SearchScreen from './scenes/Search';
 
 export default class App extends Component {
   render() {
@@ -20,7 +21,6 @@ export default class App extends Component {
               hideNavBar
               key="Auth"
               component={Login}
-              initial
             />
             <Scene
               hideNavBar
@@ -81,6 +81,16 @@ export default class App extends Component {
               key="GameList"
               path="/game"
               component={GameList}
+              onRight={() => Actions.replace('GameScreen')}
+              rightTitle="X"
+            />
+            <Scene
+              title="Игра от "
+              navTransparent
+              key="GameList"
+              path="/search"
+              initial
+              component={SearchScreen}
               onRight={() => Actions.replace('GameScreen')}
               rightTitle="X"
             />
