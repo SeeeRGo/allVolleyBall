@@ -4,10 +4,11 @@ import { Button } from 'react-native-elements';
 
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
-import LocationOptionsBlock from './LocationOptionsBlock'
-import SportOptionsBlock from './SportOptionsBlock'
-import DateOptionsBlock from './DateOptionsBlock'
-import PriceOptionsBlock from './PriceOptionsBlock'
+import LocationOptionsBlock from './LocationOptionsBlock';
+import SportOptionsBlock from './SportOptionsBlock';
+import SportTypeOptionsBlock from './SportTypeOptionsBlock';
+import DateOptionsBlock from './DateOptionsBlock';
+import PriceOptionsBlock from './PriceOptionsBlock';
 
 class SearchScene extends Component {
   render() {
@@ -15,6 +16,7 @@ class SearchScene extends Component {
       <Background>
         <LocationOptionsBlock />
         <SportOptionsBlock />
+        <SportTypeOptionsBlock />
         <DateOptionsBlock />
         <PriceOptionsBlock />
         <Button containerViewStyle={{ width: '100%', position: 'absolute', bottom: 0, marginBottom: 0}} title="НАЙТИ"/>

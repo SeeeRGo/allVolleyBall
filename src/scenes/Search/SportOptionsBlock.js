@@ -28,13 +28,13 @@ class SportOptionsBlock extends Component {
           horizontal
           style={{ maxHeight: 20 }}
           data={['А', 'Б']}
-          renderItem={({ item }) => <Text key={item}>{item}</Text>}
+          renderItem={({ item }) => <Text key={item+' '}>{item}</Text>}
         />
         <FlatList
           horizontal
           style={{ maxHeight: 70 }}
           data={['А', 'Б']}
-          renderItem={({ item }) => <Text key={item}>{item}</Text>}
+          renderItem={({ item }) => <Text key={item +'   '}>{item}</Text>}
         />
       </View>
     )
