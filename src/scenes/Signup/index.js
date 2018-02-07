@@ -98,7 +98,7 @@ class SignupForm extends Component {
               name="arrow-right"
               type="font-awesome"
               reverse
-              color="rgba(1,1,1,0.5)"
+              color="rgba(255,255,255,0.3)"
               size={18}
             />
           </Row>

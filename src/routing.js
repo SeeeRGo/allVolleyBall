@@ -20,6 +20,7 @@ export default class App extends Component {
             <Scene
               hideNavBar
               key="Auth"
+              initial
               component={Login}
             />
             <Scene
@@ -89,7 +90,6 @@ export default class App extends Component {
               navTransparent
               key="GameList"
               path="/search"
-              initial
               component={SearchScreen}
               onRight={() => Actions.replace('GameScreen')}
               rightTitle="X"
