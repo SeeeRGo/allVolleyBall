@@ -11,6 +11,7 @@ import GameList from './scenes/Game/GameList';
 import SearchScreen from './scenes/Search';
 import FeedScreen from './scenes/Feed';
 import WelcomeScreen from './scenes/Welcome';
+import PhoneConfirmationScreen from './scenes/PhoneConfirmation';
 
 export default class App extends Component {
   render() {
@@ -31,8 +32,13 @@ export default class App extends Component {
               component={Login}
             />
             <Scene
+              hideNavBar
               key="Signup"
               component={Signup}
+            />
+            <Scene
+              key="PhoneConfirmation"
+              component={PhoneConfirmationScreen}
             />
             <Scene
               key="Profile"
@@ -60,13 +66,9 @@ export default class App extends Component {
               component={GameList}
             />
             <Scene
-              title="Игра от "
-              navTransparent
               key="Search"
               path="/search"
               component={SearchScreen}
-              onRight={() => Actions.replace('GameScreen')}
-              rightTitle="X"
             />
             <Scene
               hideNavBar

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormLabel, FormInput, Icon, Divider } from 'react-native-elements';
-import { View, Linking, Text, Keyboard } from 'react-native';
+import { View, Linking, Text, Keyboard, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { dismissKeyboard } from 'react-native/Libraries/Utilities/dismissKeyboard';
 import ProfileApi from '../../api/Profile';
 import * as userActions from '../../actions/user';
 import * as actions from './actions';
@@ -12,7 +11,12 @@ import * as actions from './actions';
 import Row from '../../components/common/Row';
 import Background from '../../components/common/Background';
 import Logo from '../../components/common/Logo';
+import CustomHeader from '../../components/common/CustomHeader';
 import styles from './styles';
+import navBarStyles from '../../components/common/CustomHeader/navBarStyles';
+
+export const SCREEN_WIDTH = Dimensions.get('window').width;
+export const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 // TODO Смена стилей заголовков полей
 // TODO Рефакторинг
@@ -125,6 +129,17 @@ class LoginScene extends Component {
     } = this.state;
     return (
       <Background type="one">
+        <CustomHeader
+          title="Я - новенький"
+          rightIcon={
+            <Icon
+              name="search"
+              type="font-awesome"
+              color="white"
+              containerStyle={navBarStyles.rightIconStyles}
+            />
+          }
+        />
         <View style={[containerStyle, { height: showLogo ? '80%' : '90%' }]}>
           {!!showLogo && <Logo />}
           {!!showLogo &&

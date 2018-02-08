@@ -18,7 +18,6 @@ const LeftComponent = () => (
   false
 );
 
-const title = 'Вячеслав Мельников';
 
 const IconRight = () => (
   <Icon
@@ -32,7 +31,16 @@ const IconRight = () => (
 );
 
 class CustomHeader extends Component {
+  static defaultProps = {
+    rightIcon: null,
+    leftIcon: null,
+    showBackButton: false,
+    leftText: ''
+  }
   render() {
+    const {
+      title, rightIcon, leftIcon, leftText
+    } = this.props;
     return (
       <View style={{
         height: 30, position: 'absolute', top: 0, left: 0, justifyContent: 'space-between', alignItems: 'center'
@@ -50,14 +58,11 @@ class CustomHeader extends Component {
             <LeftComponent />
           </Row>
           <Text style={{
-            position: 'absolute', width: '50%', top: 0, left: SCREEN_WIDTH * 0.25, textAlign: 'center', color: 'white', paddingTop: 5
+            position: 'absolute', width: '50%', top: 0, left: SCREEN_WIDTH * 0.25, textAlign: 'center', color: 'white', paddingTop: 5, fontSize: 16
           }}
-          >{title}
+          >{this.props.title}
           </Text>
-          <IconRight style={{
-            position: 'absolute', width: '25%', top: 0, left: SCREEN_WIDTH * 0.75
-          }}
-          />
+          {!!rightIcon && rightIcon}
         </Row>
       </View>
     );
