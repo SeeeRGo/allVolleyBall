@@ -10,6 +10,7 @@ import GameScreen from './scenes/Game/GameScreen';
 import GameForm from './scenes/Game/GameForm';
 import GameList from './scenes/Game/GameList';
 import SearchScreen from './scenes/Search';
+import FeedScreen from './scenes/Feed';
 
 export default class App extends Component {
   render() {
@@ -20,7 +21,6 @@ export default class App extends Component {
             <Scene
               hideNavBar
               key="Auth"
-              initial
               component={Login}
             />
             <Scene
@@ -93,6 +93,13 @@ export default class App extends Component {
               component={SearchScreen}
               onRight={() => Actions.replace('GameScreen')}
               rightTitle="X"
+            />
+            <Scene
+              hideNavBar
+              initial
+              key="Feed"
+              path="/feed"
+              component={FeedScreen}
             />
           </Scene>
         </Lightbox>
