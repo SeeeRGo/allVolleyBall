@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Picker, ScrollView } from 'react-native';
+import { Text, View, Picker, ScrollView, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 // import { emailChanged, passwordChanged, loginUser } from '../actions';
@@ -8,7 +8,9 @@ import { FormLabel, FormInput, Button, Icon, Divider } from 'react-native-elemen
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
 import Logo from '../../components/common/Logo';
+import CustomHeader from '../../components/common/CustomHeader';
 import styles from './styles';
+import navBarStyles from '../../components/common/CustomHeader/navBarStyles';
 
 const cities = [
   'Тольятти',
@@ -17,6 +19,11 @@ const cities = [
 ];
 
 class SignupForm extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleSignup = this.handleSignup.bind(this);
+  }
   state = {
     firstName: {
       active: false,
@@ -44,8 +51,8 @@ class SignupForm extends Component {
     }
   }
 
-  onButtonPress() {
-
+  handleSignup() {
+    Actions.PhoneConfirmation({ phoneConfirmed: false });
   }
   renderCities(cityList) {
     return cityList.map((city, index) => <Picker.Item key={city} label={city} value={index} />);
@@ -58,6 +65,7 @@ class SignupForm extends Component {
     } = styles;
     return (
       <Background type="one">
+        <CustomHeader title="Я - новенький" />
         <View style={mainContainerStyle}>
           <ScrollView >
             <Row extraStyles={{ justifyContent: 'space-around', alignItems: 'flex-start', marginTop: 15 }}>
@@ -164,13 +172,15 @@ class SignupForm extends Component {
           }}
           >
             <Text style={outsideTextStyle}>ОТПРАВИТЬ</Text>
-            <Icon
-              name="arrow-right"
-              type="font-awesome"
-              reverse
-              color="rgba(255,255,255,0.3)"
-              size={18}
-            />
+            <TouchableOpacity onPress={this.handleSignup}>
+              <Icon
+                name="arrow-right"
+                type="font-awesome"
+                reverse
+                color="rgba(255,255,255,0.3)"
+                size={18}
+              />
+            </TouchableOpacity>
           </Row>
         </Row>
       </Background>

@@ -39,7 +39,7 @@ class CustomHeader extends Component {
   }
   render() {
     const {
-      title, rightIcon, leftIcon, leftText
+      title, rightIcon, leftIcon, leftText, showBackButton
     } = this.props;
     return (
       <View style={{
@@ -54,8 +54,9 @@ class CustomHeader extends Component {
             width: '25%', position: 'absolute', top: 0, left: 0
           }}
           >
-            <BackButton />
-            <LeftComponent />
+            {showBackButton && <BackButton />}
+            {!!leftIcon && leftIcon}
+            {!!leftText && leftText}
           </Row>
           <Text style={{
             position: 'absolute', width: '50%', top: 0, left: SCREEN_WIDTH * 0.25, textAlign: 'center', color: 'white', paddingTop: 5, fontSize: 16

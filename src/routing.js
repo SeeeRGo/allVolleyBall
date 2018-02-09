@@ -37,6 +37,7 @@ export default class App extends Component {
               component={Signup}
             />
             <Scene
+              hideNavBar
               key="PhoneConfirmation"
               component={PhoneConfirmationScreen}
             />

@@ -26,8 +26,8 @@ class Welcome extends Component {
               style={buttonImageStyle}
               source={require('../../assets/icons_arr_next_active.png')}
             />
-            <Text style={textStyle}>НА СТАРТ!</Text>
           </TouchableOpacity>
+          <Text style={textStyle}>НА СТАРТ!</Text>
         </View>
       </Background>
     );

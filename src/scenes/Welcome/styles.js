@@ -20,7 +20,7 @@ export default {
   textStyle: {
     color: 'white',
     fontSize: 12,
-    marginTop: 10,
+    marginTop: 15,
     textAlign: 'center'
   }
 };

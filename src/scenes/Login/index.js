@@ -11,9 +11,7 @@ import * as actions from './actions';
 import Row from '../../components/common/Row';
 import Background from '../../components/common/Background';
 import Logo from '../../components/common/Logo';
-import CustomHeader from '../../components/common/CustomHeader';
 import styles from './styles';
-import navBarStyles from '../../components/common/CustomHeader/navBarStyles';
 
 export const SCREEN_WIDTH = Dimensions.get('window').width;
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -129,17 +127,6 @@ class LoginScene extends Component {
     } = this.state;
     return (
       <Background type="one">
-        <CustomHeader
-          title="Я - новенький"
-          rightIcon={
-            <Icon
-              name="search"
-              type="font-awesome"
-              color="white"
-              containerStyle={navBarStyles.rightIconStyles}
-            />
-          }
-        />
         <View style={[containerStyle, { height: showLogo ? '80%' : '90%' }]}>
           {!!showLogo && <Logo />}
           {!!showLogo &&
