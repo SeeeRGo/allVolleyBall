@@ -17,19 +17,15 @@ const initalState = {
 export default (state = initalState, action) => {
   switch (action.type) {
   case CHANGE_CREDENTIAL:
+    console.log(action.payload);
     return {
       ...state,
-      credentials: {
-        ...state.credentials,
-        [action.payload.name]: action.payload.value
-      }
+      ...action.payload
     };
   case RESET_CREDENTIALS:
     return {
       ...state,
-      credentials: {
-        ...initalCredentials
-      }
+      ...initalCredentials
     };
   default:
     return state;

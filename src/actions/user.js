@@ -1,5 +1,10 @@
+import axios from 'axios';
+import { AsyncStorage } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+
 export const SET_USER = 'actions/loading/SET_USER';
 export const RESET_USER = 'actions/loading/RESET_USER';
+export const SET_USER_ID = 'SET_USER_ID';
 
 export const LOGIN = 'scenes/Login/LOGIN';
 export const LOGIN_SUCCESS = 'scenes/Login/LOGIN_SUCCESS';
@@ -27,6 +32,11 @@ export const setUser = (user) => ({
   payload: user
 });
 
+export const setUserId = (userId) => ({
+  type: SET_USER_ID,
+  payload: userId
+});
+
 /**
  * @function
  * @returns {Action}
@@ -40,10 +50,19 @@ export const resetUser = () => ({
  * @param {Object} credentials - объект для авторизации
  * @return {Action}
 */
-export const login = (credentials) => ({
-  type: LOGIN,
-  payload: credentials
-});
+export const login = (credentials) => async (dispatch) => {
+  try {
+    console.log(credentials);
+    let response = await axios.post('http://10.0.3.2:3010/api/Profiles/login', credentials);
+    console.log(response);
+    await AsyncStorage.setItem('allVolleyballToken', response.data.id);
+    dispatch({ type: SET_USER_ID, payload: response.data.userId });
+    Actions.Profile({ userId: response.data.userId });
+  } catch (e) {
+    console.log(e.request);
+    console.log(e.response);
+  }
+};
 
 /**
  * @function

@@ -8,7 +8,7 @@ import { SCREEN_WIDTH } from '../../../styles';
 
 const BackButton = () => (
   <Icon
-    name="navicon"
+    name="angle-left"
     type="font-awesome"
     color="white"
     containerStyle={{ paddingLeft: 5, paddingRight: 5 }}
@@ -43,7 +43,7 @@ class CustomHeader extends Component {
     } = this.props;
     return (
       <View style={{
-        height: 30, position: 'absolute', top: 0, left: 0, justifyContent: 'space-between', alignItems: 'center'
+        height: 30, position: 'absolute', top: 0, left: 0, justifyContent: 'space-between', alignItems: 'flex-end'
       }}
       >
         <Row extraStyles={{
@@ -56,7 +56,7 @@ class CustomHeader extends Component {
           >
             {showBackButton && <BackButton />}
             {!!leftIcon && leftIcon}
-            {!!leftText && leftText}
+            {!!leftText && <Text style={{ color: 'white', textAlign: 'center', paddingTop: 5, fontSize: 12 }}>{leftText}</Text>}
           </Row>
           <Text style={{
             position: 'absolute', width: '50%', top: 0, left: SCREEN_WIDTH * 0.25, textAlign: 'center', color: 'white', paddingTop: 5, fontSize: 16

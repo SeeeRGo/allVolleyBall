@@ -21,8 +21,8 @@ export default class App extends Component {
           <Scene key="root">
             <Scene
               hideNavBar
-              initial
               key="Welcome"
+              initial
               path="/"
               component={WelcomeScreen}
             />
@@ -42,28 +42,30 @@ export default class App extends Component {
               component={PhoneConfirmationScreen}
             />
             <Scene
+              hideNavBar
               key="Profile"
               path="/profile/:id"
               component={Profile}
             />
             <Scene
+              hideNavBar
               key="ProfileForm"
               path="/profile/:id/edit"
               component={ProfileForm}
             />
             <Scene
               key="GameForm"
-              path="/game/:id"
+              path="/game/:id/edit"
               component={GameForm}
             />
             <Scene
               key="GameScreen"
-              path="/game/:id/edit"
+              path="/game/:id"
               component={GameScreen}
             />
             <Scene
               key="GameList"
-              path="/game"
+              path="/games"
               component={GameList}
             />
             <Scene

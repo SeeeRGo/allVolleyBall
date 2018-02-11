@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
+// axios.defaults.adapter = httpAdapter;
 
 export default class Model {
   static init() {

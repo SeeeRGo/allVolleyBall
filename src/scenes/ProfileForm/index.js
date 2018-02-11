@@ -13,21 +13,21 @@ import styles from './styles';
 class PlayerForm extends Component {
   handleProfileUpdate() {
     const {
-      lastName, firstName, fatherName, birthDate, fbLink, city,
-      vkLink, phone, password, passwordRe, updateProfile
+      lastName, firstName, fatherName, birthdate, fbLink, city,
+      vkLink, phone, password, passwordRe, userId, updateProfile
     } = this.props;
     const updates = {
       lastName,
       firstName,
       fatherName,
-      birthDate,
+      birthdate,
       fbLink,
       vkLink,
       phone,
       city
     };
     if (password === passwordRe) {
-      updateProfile(updates);
+      updateProfile(updates, userId);
     }
     Actions.replace('Profile');
   }
@@ -53,7 +53,7 @@ const mapStateToProps = (state) => ({
   lastName: state.profileForm.lastName,
   firstName: state.profileForm.firstName,
   fatherName: state.profileForm.fatherName,
-  birthDate: state.profileForm.birthDate,
+  birthdate: state.profileForm.birthDate,
   phone: state.profileForm.phone,
   address: state.profileForm.address,
   avatar: state.profileForm.avatar,
@@ -61,7 +61,8 @@ const mapStateToProps = (state) => ({
   fbLink: state.profileForm.fbLink,
   city: state.profileForm.city,
   password: state.profileForm.password,
-  passwordRe: state.profileForm.passwordRe
+  passwordRe: state.profileForm.passwordRe,
+  userId: state.user.userId
 });
 
 export default connect(mapStateToProps, { updateProfile })(PlayerForm);

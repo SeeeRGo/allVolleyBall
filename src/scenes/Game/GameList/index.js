@@ -3,11 +3,15 @@ import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 
+import { fetchGames } from '../GameScreen/actions';
 import GameListItem from '../GameListItem';
 import GameSearchHeader from './GameSearchHeader';
 import Background from '../../../components/common/Background';
 
 class GameList extends Component {
+  componentWillMount() {
+    this.props.fetchGames();
+  }
   render() {
     return (
       <Background>
@@ -16,8 +20,9 @@ class GameList extends Component {
           {
             this.props.games.map((game) => (
               <GameListItem
-                key={game.gameId}
+                key={game.id}
                 {...game}
+                gameId={game.id}
               />
             ))
           }
@@ -31,4 +36,4 @@ const mapStateToProps = (state) => ({
   games: state.game
 });
 
-export default connect(mapStateToProps)(GameList);
+export default connect(mapStateToProps, { fetchGames })(GameList);

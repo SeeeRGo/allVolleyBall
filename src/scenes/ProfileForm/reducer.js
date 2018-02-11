@@ -1,4 +1,5 @@
 import { PLAYER_FORM_UPDATE } from './actions';
+import { SET_PROFILE } from '../Profile/actions';
 
 const INITIAL_STATE = {
   lastName: 'МЕЛЬНИКОВ',
@@ -25,6 +26,9 @@ export default (state = INITIAL_STATE, action) => {
       ...state,
       ...action.payload
     };
+  case SET_PROFILE:
+    console.log(action.payload);
+    return action.payload;
   default:
     return state;
   }

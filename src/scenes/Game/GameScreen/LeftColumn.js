@@ -74,7 +74,7 @@ const styles = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const gameScreen = state.game.find((item) => item.gameId === ownProps.gameId);
+  const gameScreen = state.game.find((item) => item.id === ownProps.gameId);
   return {
     gameImage: gameScreen.gameImage,
     gameCreator: gameScreen.gameCreator,
