@@ -53,7 +53,7 @@ class Profile extends Component {
             />
           }
         />
-        <View style={{ width: '100%' }}>
+        <View style={{ width: '100%', position: 'absolute', top: 30 }}>
           <Row>
             <LeftColumn />
             <RightColumn />
