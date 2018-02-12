@@ -7,7 +7,7 @@ import Row from '../../components/common/Row';
 import CustomHeader from '../../components/common/CustomHeader';
 import LocationOptionsBlock from './LocationOptionsBlock';
 import SportOptionsBlock from './SportOptionsBlock';
-import SportTypeOptionsBlock from './SportTypeOptionsBlock';
+import GameTypeOptionsBlock from './GameTypeOptionsBlock';
 import DateOptionsBlock from './DateOptionsBlock';
 import PriceOptionsBlock from './PriceOptionsBlock';
 import styles from './styles';
@@ -32,7 +32,7 @@ class SearchScene extends Component {
         />
         <LocationOptionsBlock />
         <SportOptionsBlock />
-        <SportTypeOptionsBlock />
+        <GameTypeOptionsBlock />
         <DateOptionsBlock />
         <PriceOptionsBlock />
         <Button

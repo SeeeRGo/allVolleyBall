@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Text } from 'react-native';
+import { View, Text, Keyboard } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
@@ -20,6 +20,9 @@ class Profile extends Component {
   }
   static propTypes = {
     info: PropTypes.string
+  }
+  static onEnter = () => {
+    Keyboard.dismiss();
   }
   componentWillMount() {
     this.props.getProfile(this.props.userId);
@@ -49,7 +52,7 @@ class Profile extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.rightIconStyles}
-              onPress={() => Actions.replace('ProfileForm', { userId: this.props.userId})}
+              onPress={() => Actions.replace('ProfileForm', { userId: this.props.userId })}
             />
           }
         />

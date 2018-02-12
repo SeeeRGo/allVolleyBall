@@ -14,13 +14,15 @@ class PriceOptionsBlock extends Component {
     return (
       <View style={{ width: SCREEN_WIDTH }}>
         <Row extraStyles={{ justifyContent: 'center', alignItems: 'center' }}>
-          <Text>СТОИМОСТЬ ИГРЫ</Text>
+          <Text style={formLabelStyle}>СТОИМОСТЬ ИГРЫ</Text>
           <Slider
             value={0}
             minimumValue={0}
             maximumValue={1}
             step={1}
-            style={{ minWidth: 25, maxHeight: 50 }}
+            style={{
+              minWidth: 35, maxHeight: 50, marginLeft: 20, marginRight: 20
+            }}
             thumbTouchSize={{ width: 20, height: 20 }}
             minimumTrackTintColor="rgba(255, 255, 255, 0.5)"
             maximumTrackTintColor="rgba(255, 255, 255, 0.5)"
@@ -31,7 +33,7 @@ class PriceOptionsBlock extends Component {
             }}
             onValueChange={(value) => {}}
           />
-          <Text>БЕСПЛАТНО</Text>
+          <Text style={formLabelStyle}>БЕСПЛАТНО</Text>
         </Row>
         <Slider
           minimumValue={0}
@@ -46,8 +48,8 @@ class PriceOptionsBlock extends Component {
           onSlidingComplete={() => {}}
         />
         <Row extraStyles={{ justifyContent: 'space-between' }}>
-          <FormLabel labelStyle={formLabelStyle}>0 Р</FormLabel>
-          <FormLabel labelStyle={formLabelStyle}>2000 Р</FormLabel>
+          <FormLabel labelStyle={[formLabelStyle, { fontSize: 16 }]}>0 Р</FormLabel>
+          <FormLabel labelStyle={[formLabelStyle, { fontSize: 16, color: '#d4ff32' }]}>до 2000 Р</FormLabel>
         </Row>
       </View>
     );
