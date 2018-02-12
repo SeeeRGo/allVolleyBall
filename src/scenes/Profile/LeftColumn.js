@@ -21,33 +21,35 @@ class LeftColumn extends Component {
   }
   render() {
     const { avatar, vkLink, fbLink } = this.props;
-    const {
-      imageStyle, containerStyle, iconContainerStyle, textStyle
-    } = styles.leftColumnStyle;
+    const { imageStyle, textStyle, linksContainerStyle } = styles.leftColumnStyle;
     return (
       <View>
         <Image
-          style={[imageStyle, containerStyle]}
+          style={imageStyle}
           source={{ uri: avatar.uri }}
         />
-        <Row>
-          <Icon
-            name="vk"
-            type="font-awesome"
-            size={24}
-            containerStyle={iconContainerStyle}
-          />
-          <Text style={textStyle}>{vkLink}</Text>
-        </Row>
-        <Row>
-          <Icon
-            name="facebook"
-            type="font-awesome"
-            size={24}
-            containerStyle={iconContainerStyle}
-          />
-          <Text style={textStyle}>{fbLink}</Text>
-        </Row>
+        <View style={linksContainerStyle}>
+          <Row extraStyles={{ alignItems: 'center' }}>
+            <Icon
+              name="facebook"
+              type="font-awesome"
+              reverse
+              color="#415fa8"
+              size={16}
+            />
+            <Text style={textStyle}>{fbLink}</Text>
+          </Row>
+          <Row extraStyles={{ alignItems: 'center' }}>
+            <Icon
+              name="vk"
+              type="font-awesome"
+              reverse
+              color="#0077d9"
+              size={16}
+            />
+            <Text style={textStyle}>{vkLink}</Text>
+          </Row>
+        </View>
       </View>
     );
   }

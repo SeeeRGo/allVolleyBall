@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, Text, Keyboard } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon, Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
 import { getProfile } from './actions';
@@ -56,7 +56,7 @@ class Profile extends Component {
             />
           }
         />
-        <View style={{ width: '100%', position: 'absolute', top: 30 }}>
+        <View style={{ width: '100%', position: 'absolute', top: 50 }}>
           <Row>
             <LeftColumn />
             <RightColumn />
@@ -78,6 +78,13 @@ class Profile extends Component {
             {info}{'\n'}
           </Text>
         </View>
+        <Button
+          containerViewStyle={{
+            width: '100%', position: 'absolute', bottom: 0, marginBottom: 0
+          }}
+          title="ПРЕДЛОЖИТЬ ИГРУ"
+          buttonStyle={{ backgroundColor: '#00bfb1' }}
+        />
       </Background>
     );
   }

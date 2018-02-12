@@ -7,12 +7,15 @@ const styles = {
   profileSceneStyle: {
     textBlockStyle: {
       width: SCREEN_WIDTH * 0.85,
-      maxHeight: SCREEN_HEIGHT * 0.4,
+      maxHeight: (SCREEN_HEIGHT * 0.6) - 30,
       backgroundColor: 'white',
       alignSelf: 'flex-end',
-      paddingLeft: 10,
-      paddingTop: 15,
-      paddingRight: 15
+      paddingLeft: 20,
+      paddingTop: 25,
+      paddingRight: 20,
+      paddingBottom: 30,
+      position: 'absolute',
+      top: (SCREEN_HEIGHT * 0.4) - 25
     }
   },
   leftColumnStyle: {
@@ -20,16 +23,15 @@ const styles = {
       width: SCREEN_WIDTH * 0.5,
       height: SCREEN_HEIGHT * 0.2
     },
-    containerStyle: {
-      paddingTop: 10,
-      paddingBottom: 10,
-      paddingLeft: 10
-    },
-    iconContainerStyle: {
-      paddingRight: 10
+    linksContainerStyle: {
+      width: SCREEN_WIDTH * 0.5,
+      height: SCREEN_HEIGHT * 0.2,
+      backgroundColor: '#091b75'
     },
     textStyle: {
-      maxWidth: SCREEN_WIDTH * 0.4
+      maxWidth: SCREEN_WIDTH * 0.4,
+      color: 'white',
+      fontSize: 14
     }
   },
   rightColumnStyle: {
@@ -39,12 +41,12 @@ const styles = {
       paddingLeft: 10
     },
     iconContainerStyle: {
-      paddingRight: 10
+      paddingRight: 15
     },
-    rowContainerStyle: {
-      flexDirection: 'row',
-      padding: 10,
-      maxWidth: SCREEN_WIDTH * 0.42
+    textStyle: {
+      maxWidth: SCREEN_WIDTH * 0.4,
+      color: 'white',
+      fontSize: 14
     }
   }
 };
