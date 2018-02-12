@@ -54,16 +54,19 @@ export default class App extends Component {
               component={ProfileForm}
             />
             <Scene
+              hideNavBar
               key="GameForm"
               path="/game/:id/edit"
               component={GameForm}
             />
             <Scene
+              hideNavBar
               key="GameScreen"
               path="/game/:id"
               component={GameScreen}
             />
             <Scene
+              hideNavBar
               key="GameList"
               path="/games"
               component={GameList}
