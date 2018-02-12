@@ -1,7 +1,8 @@
 import * as actions from '../actions/user';
 
 const initialState = {
-  userProfile: null
+  userProfile: null,
+  userId: null
 };
 
 export default (state = initialState, action) => {
@@ -16,7 +17,11 @@ export default (state = initialState, action) => {
       ...state,
       userProfile: null
     };
-
+  case actions.SET_USER_ID:
+    return {
+      ...state,
+      userId: action.payload
+    };
   default:
     return state;
   }

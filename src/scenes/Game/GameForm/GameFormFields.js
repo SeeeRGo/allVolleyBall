@@ -99,7 +99,7 @@ class FormFields extends Component {
             <FormLabel labelStyle={formLabelStyle}>ДАТА И ВРЕМЯ ИГРЫ</FormLabel>
             <DatePicker
               style={datePickerStyle}
-              date={gameTime}
+              date={moment(gameTime).format('DD/MM/YY HH:mm')}
               mode="datetime"
               placeholder="select date"
               format="DD/MM/YY HH:mm"
@@ -108,14 +108,14 @@ class FormFields extends Component {
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={datepickerCustomStyle}
-              onDateChange={(value) => gameFormUpdate('gameTime', value)}
+              onDateChange={(value) => gameFormUpdate('gameTime', moment(value, 'DD/MM/YY HH:mm').toISOString())}
             />
           </Row>
           <Row>
             <FormLabel labelStyle={formLabelStyle}>ВРЕМЯ НАЧАЛА</FormLabel>
             <DatePicker
               style={datePickerStyle}
-              date={startTime}
+              date={moment(startTime).format('HH:mm')}
               mode="time"
               placeholder="select date"
               format="HH:mm"
@@ -124,14 +124,14 @@ class FormFields extends Component {
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={datepickerCustomStyle}
-              onDateChange={(value) => gameFormUpdate('startTime', value)}
+              onDateChange={(value) => gameFormUpdate('startTime', moment(value, 'HH:mm').toISOString())}
             />
           </Row>
           <Row>
             <FormLabel labelStyle={formLabelStyle}>ВРЕМЯ ОКОНЧАНИЯ</FormLabel>
             <DatePicker
               style={datePickerStyle}
-              date={finishTime}
+              date={moment(finishTime).format('HH:mm')}
               mode="time"
               placeholder="select date"
               format="HH:mm"
@@ -140,7 +140,7 @@ class FormFields extends Component {
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={datepickerCustomStyle}
-              onDateChange={(value) => gameFormUpdate('finishTime', value)}
+              onDateChange={(value) => gameFormUpdate('finishTime', moment(value, 'HH:mm').toISOString())}
             />
           </Row>
           <FormLabel labelStyle={[formLabelStyle]}>АДРЕС</FormLabel>

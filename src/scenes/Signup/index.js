@@ -5,6 +5,7 @@ import { Actions } from 'react-native-router-flux';
 // import { emailChanged, passwordChanged, loginUser } from '../actions';
 import { FormLabel, FormInput, Button, Icon, Divider } from 'react-native-elements';
 
+import { changeCredential, resetCredentials, submitSignupForm } from './actions';
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
 import Logo from '../../components/common/Logo';
@@ -52,6 +53,20 @@ class SignupForm extends Component {
   }
 
   handleSignup() {
+    const { 
+      lastName, firstName, fatherName, phone, password, 
+      passwordRe, city
+    } = this.props;
+    console.log(phone);
+    const formData = {
+      firstName,
+      lastName,
+      fatherName,
+      phone,
+      password,
+      city
+    };
+    this.props.submitSignupForm(formData);
     Actions.PhoneConfirmation({ phoneConfirmed: false });
   }
   renderCities(cityList) {
@@ -63,6 +78,10 @@ class SignupForm extends Component {
       mainContainerStyle, formLabelStyle, formInputStyle, agreeTextStyle, dividerStyle, boldText,
       outsideTextStyle
     } = styles;
+    const { 
+      lastName, firstName, fatherName, phone, password,
+      passwordRe, city, changeCredential, resetCredentials
+    } = this.props;
     return (
       <Background type="one">
         <CustomHeader title="Я - новенький" />
@@ -96,21 +115,24 @@ class SignupForm extends Component {
             <FormLabel labelStyle={formLabelStyle}>ФАМИЛИЯ*</FormLabel>
             <FormInput
               inputStyle={formInputStyle}
-              onChangeText={() => {}}
+              value={lastName}
+              onChangeText={(value) => changeCredential('lastName', value)}
               underlineColorAndroid="transparent"
             />
             <Divider style={dividerStyle} />
             <FormLabel labelStyle={formLabelStyle}>ИМЯ*</FormLabel>
             <FormInput
               inputStyle={formInputStyle}
-              onChangeText={() => {}}
+              value={firstName}
+              onChangeText={(value) => changeCredential('firstName', value)}
               underlineColorAndroid="transparent"
             />
             <Divider style={dividerStyle} />
             <FormLabel labelStyle={formLabelStyle}>ОТЧЕСТВО</FormLabel>
             <FormInput
               inputStyle={formInputStyle}
-              onChangeText={() => {}}
+              value={fatherName}
+              onChangeText={(value) => changeCredential('fatherName', value)}
               underlineColorAndroid="transparent"
             />
             <Divider style={dividerStyle} />
@@ -120,7 +142,8 @@ class SignupForm extends Component {
             </Row>
             <FormInput
               inputStyle={formInputStyle}
-              onChangeText={() => {}}
+              value={phone}
+              onChangeText={(value) => changeCredential('phone', value)}
               underlineColorAndroid="transparent"
             />
             <Divider style={dividerStyle} />
@@ -128,8 +151,8 @@ class SignupForm extends Component {
               <FormLabel labelStyle={[formLabelStyle, { color: '#091b75', height: 20, textAlignVertical: 'bottom' }]}>ГОРОД ПРОЖИВАНИЯ*</FormLabel>
               <Picker
                 style={{ flex: 1, height: 20 }}
-                selectedValue={0}
-                onValueChange={() => {}}
+                selectedValue={city}
+                onValueChange={(value) => changeCredential('city', value)}
               >
                 {this.renderCities(cities)}
               </Picker>
@@ -139,7 +162,8 @@ class SignupForm extends Component {
             <FormInput
               secureTextEntry
               inputStyle={formInputStyle}
-              onChangeText={() => {}}
+              value={password}
+              onChangeText={(value) => changeCredential('password', value)}
               underlineColorAndroid="transparent"
             />
             <Divider style={dividerStyle} />
@@ -150,7 +174,8 @@ class SignupForm extends Component {
             <FormInput
               secureTextEntry
               inputStyle={[formInputStyle]}
-              onChangeText={() => {}}
+              value={passwordRe}
+              onChangeText={(value) => changeCredential('passwordRe', value)}
               underlineColorAndroid="transparent"
             />
             <Divider style={dividerStyle} />
@@ -188,4 +213,14 @@ class SignupForm extends Component {
   }
 }
 
-export default SignupForm;
+const mapStateToProps = (state) => ({
+  phone: state.signupForm.phone,
+  password: state.signupForm.password,
+  passwordRe: state.signupForm.passwordRe,
+  firstName: state.signupForm.firstName,
+  lastName: state.signupForm.lastName,
+  fatherName: state.signupForm.fatherName,
+  city: state.signupForm.city
+});
+
+export default connect(mapStateToProps, { changeCredential, submitSignupForm })(SignupForm);

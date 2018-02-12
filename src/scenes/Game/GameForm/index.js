@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
 import { Button } from 'react-native-elements';
@@ -18,7 +19,7 @@ class GameForm extends Component {
   handleUpdateGame() {
     const {
       gameType, minPlayers, maxPlayers, price, gameTime, gameId,
-      startTime, finishTime, gameAddress, gameInfo, updateGame
+      startTime, finishTime, gameAddress, gameInfo
     } = this.props;
     const updates = {
       gameType,
@@ -31,42 +32,55 @@ class GameForm extends Component {
       gameAddress,
       gameInfo
     };
-    updateGame(gameId, updates);
+    this.props.updateGame(updates, gameId);
     Actions.GameList();
   }
   handleCreateGame() {
     const {
       gameType, minPlayers, maxPlayers, price, gameTime,
-      startTime, finishTime, gameAddress, gameInfo, createGame
+      startTime, finishTime, gameAddress, gameInfo
     } = this.props;
-    const updates = {
-      gameType,
-      minPlayers,
-      maxPlayers,
-      price,
-      gameTime,
-      startTime,
-      finishTime,
+    const game = {
+      kindOfSportsId: gameType,
+      players: {
+        min: minPlayers,
+        max: maxPlayers,
+        total: 0
+      },
+      cost: price,
+      date: moment(gameTime).toISOString(),
+      startTime: moment(gameTime).toISOString(),
+      arrivalTime: moment(startTime).toISOString(),
+      duration: {
+        hours: moment(finishTime).diff(startTime),
+        minutes: moment(finishTime).diff(startTime),
+        seconds: moment(finishTime).diff(startTime)
+      },
       gameAddress,
-      gameInfo
+      gameInfo,
+      paymentTerms: {},
+      gymId: 'myPersonalGymId',
+      creatorId: 'myProfileId'
     };
-    createGame(updates);
+    this.props.createGame(game);
     Actions.GameList();
+  }
+  handleGameForm() {
+    if (this.props.actionType === 'create') {
+      return this.handleCreateGame();
+    }
+    return this.handleUpdateGame();
   }
   render() {
     console.log(this.props.gameId);
     return (
       <Background>
         <GameFormFields />
-        <Button
-          containerViewStyle={{ position: 'absolute', bottom: 60, width: '100%' }}
-          title="РЕДАКТИРОВАТЬ ИГРУ"
-          onPress={this.handleUpdateGame.bind(this)}
-        />
+
         <Button
           containerViewStyle={{ position: 'absolute', bottom: 0, width: '100%' }}
-          title="СОЗДАТЬ ИГРУ"
-          onPress={this.handleCreateGame.bind(this)}
+          title={this.props.actionType === 'create' ? 'СОЗДАТЬ ИГРУ' : 'РЕДАКТИРОВАТЬ ИГРУ'}
+          onPress={this.handleGameForm.bind(this)}
         />
       </Background>
     );

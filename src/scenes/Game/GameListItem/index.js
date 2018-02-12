@@ -8,6 +8,9 @@ import Row from '../../../components/common/Row';
 import styles from './styles';
 
 class GameListItem extends Component {
+  componentDidMount() {
+    Actions.refresh();
+  }
   render() {
     const {
       gameContainerStyle, leftColumnStyle, imageContainerStyle, rightColumnStyle, blueBgTextStyle,
@@ -18,6 +21,7 @@ class GameListItem extends Component {
       gameId, gameAddress, gameCreator, gameTime, gameType, price,
       startTime, finishTime, minPlayers, maxPlayers, totalPlayers
     } = this.props;
+    console.log(this.props);
     return (
       <Row
         extraStyles={gameContainerStyle}
