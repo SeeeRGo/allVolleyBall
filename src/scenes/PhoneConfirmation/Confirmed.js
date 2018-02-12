@@ -24,7 +24,7 @@ class PhoneConfirmed extends Component {
                 source={require('../../assets/icons_arr_next_active.png')}
               />
             </TouchableOpacity>
-            <Text style={[textStyle, { fontSize: 10 }]}>СТАРТУЕМ!</Text>
+            <Text style={[textStyle, { fontSize: 10, marginTop: 15 }]}>СТАРТУЕМ!</Text>
           </View>
         </View>
       </Background>

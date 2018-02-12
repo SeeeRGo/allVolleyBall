@@ -67,6 +67,7 @@ export default class App extends Component {
               component={GameList}
             />
             <Scene
+              hideNavBar
               key="Search"
               path="/search"
               component={SearchScreen}
