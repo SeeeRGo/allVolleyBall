@@ -13,7 +13,11 @@ const styles = {
   },
   formLabelStyle: {
     marginTop: 0,
-    maxWidth: 150
+    marginLeft: 0,
+    marginRight: 0,
+    maxWidth: SCREEN_WIDTH * 0.45,
+    fontSize: 12,
+    color: 'white'
   },
   formInputStyle: {
     fontSize: 14,
@@ -24,7 +28,9 @@ const styles = {
   },
   datePickerStyle: {
     width: 140,
-    marginLeft: 15
+    marginLeft: 15,
+    paddingBottom: 20,
+    paddingTop: 10
   },
   avatarStyles: {
     labelStyle: {
@@ -60,17 +66,17 @@ const styles = {
     flex: 1
   },
   datePickerCustomStyle: {
-    dateIcon: {
-      position: 'absolute',
-      width: 20,
-      height: 20,
-      left: 0,
-      top: 4,
-      marginLeft: 0
-    },
     dateInput: {
-      marginLeft: 36,
       borderWidth: 0
+    },
+    dateText: {
+      color: 'white',
+      fontSize: 18,
+      padding: 10
+    },
+    dateIcon: {
+      height: 0,
+      width: 0
     }
   }
 };

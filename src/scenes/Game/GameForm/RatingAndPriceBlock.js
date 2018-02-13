@@ -9,12 +9,15 @@ import Row from '../../../components/common/Row';
 import { gameFormUpdate } from './actions';
 import styles from './styles';
 import PriceOptionsBlock from '../../Search/PriceOptionsBlock';
+import { SCREEN_HEIGHT } from '../../Welcome/index';
 
 class RatingAndPriceBlock extends Component {
   render() {
     const { formLabelStyle, ratingStyle } = styles;
     return (
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{ justifyContent: 'center', alignItems: 'center'
+      }}
+      >
         <FormLabel labelStyle={[formLabelStyle]}>УРОВЕНЬ</FormLabel>
         <Rating
           imageSize={20}
@@ -26,9 +29,9 @@ class RatingAndPriceBlock extends Component {
           style={ratingStyle}
           onFinishRating={() => {}}
         />
-        <PriceOptionsBlock />
+        <PriceOptionsBlock bgColor="transparent" />
       </View>
-    )
+    );
   }
 }
 

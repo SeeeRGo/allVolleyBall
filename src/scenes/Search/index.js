@@ -40,7 +40,7 @@ class SearchScene extends Component {
         <SvgShadow />
         <DateOptionsBlock />
         <SvgShadow dark />
-        <PriceOptionsBlock />
+        <PriceOptionsBlock bgColor="rgba(0,0,0, 0.25)" />
         <SvgShadow />
         <Button
           containerViewStyle={{

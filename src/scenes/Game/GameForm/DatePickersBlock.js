@@ -14,7 +14,7 @@ class DatePickersBlock extends Component {
     const { formLabelStyle, datePickerCustomStyle, datePickerStyle } = styles;
     return (
       <View>
-        <FormLabel>ДАТА И ВРЕМЯ НАЧАЛА ИГРЫ</FormLabel>
+        <FormLabel labelStyle={[formLabelStyle, { textAlign: 'center' }]} containerStyle={{ alignSelf: 'center' }}>ДАТА И ВРЕМЯ НАЧАЛА ИГРЫ</FormLabel>
         <Row extraStyles={{ justifyContent: 'space-around' }}>
           <Icon
             name="calendar"
@@ -58,8 +58,8 @@ class DatePickersBlock extends Component {
           />
         </Row>
         <Row extraStyles={{ justifyContent: 'space-around' }}>
-          <FormLabel>НАЧАЛО БРОНИ/СБОРА</FormLabel>
-          <FormLabel>ОКОНЧАНИЕ БРОНИ</FormLabel>
+          <FormLabel labelStyle={formLabelStyle}>НАЧАЛО БРОНИ/СБОРА</FormLabel>
+          <FormLabel labelStyle={formLabelStyle}>ОКОНЧАНИЕ БРОНИ</FormLabel>
         </Row>
         <Row extraStyles={{ justifyContent: 'space-around' }}>
           <DatePicker
@@ -92,7 +92,7 @@ class DatePickersBlock extends Component {
           />
         </Row>
       </View>
-    )
+    );
   }
 }
 

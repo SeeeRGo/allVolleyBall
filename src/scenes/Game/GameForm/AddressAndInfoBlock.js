@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Picker, ScrollView, Slider } from 'react-native';
+import { View, Picker, ScrollView, Slider, Text } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import { FormInput, FormLabel, Rating, Divider, Icon } from 'react-native-elements';
@@ -8,6 +8,7 @@ import { FormInput, FormLabel, Rating, Divider, Icon } from 'react-native-elemen
 import Row from '../../../components/common/Row';
 import { gameFormUpdate } from './actions';
 import styles from './styles';
+import { SCREEN_WIDTH } from '../../../styles';
 
 const cities = [
   'ТОЛЬЯТТИ',
@@ -22,16 +23,18 @@ const streets = [
 ];
 
 const houses = [
-  '1',
-  '2',
-  '3'
+  '1А',
+  '2Б',
+  '3В'
 ];
 
 class AddressAndInfoBlock extends Component {
   renderPicker(fieldName, itemList) {
     return (
       <Picker
-        style={{ flex: 1, height: 30, alignItems: 'flex-end' }}
+        style={{
+          flex: 1, height: 30, alignItems: 'flex-end', color: 'white'
+        }}
         selectedValue={this.props[fieldName]}
         onValueChange={(value) => this.props.gameFormUpdate(fieldName, value)}
       >
@@ -50,8 +53,16 @@ class AddressAndInfoBlock extends Component {
     } = this.props;
     return (
       <View style={containerStyle}>
-        <Row extraStyles={{ justifyContent: 'space-between' }}>
-          <FormLabel>ГОРОД</FormLabel>
+        <Row extraStyles={{ marginBottom: 20 }}>
+          <Text style={[formLabelStyle, { left: SCREEN_WIDTH * 0.25, width: SCREEN_WIDTH * 0.5, textAlign: 'center' }]}>АДРЕС ИГРЫ</Text>
+          <Text style={[formLabelStyle, {
+            left: SCREEN_WIDTH * 0.15, width: SCREEN_WIDTH * 0.35, textAlign: 'right', color: 'yellow', alignSelf: 'flex-end'
+          }]}
+          >ВЫБРАТЬ НА КАРТЕ
+          </Text>
+        </Row>
+        <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center' }}>
+          <FormLabel labelStyle={formLabelStyle}>ГОРОД</FormLabel>
           <Row extraStyles={{ flex: 1 }}>
             {this.renderPicker('city', cities)}
             <Icon
@@ -63,8 +74,8 @@ class AddressAndInfoBlock extends Component {
           </Row>
         </Row>
         <Divider />
-        <Row extraStyles={{ justifyContent: 'space-between' }}>
-          <FormLabel>УЛИЦА</FormLabel>
+        <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center' }}>
+          <FormLabel labelStyle={formLabelStyle}>УЛИЦА</FormLabel>
           <Row extraStyles={{ flex: 1 }}>
             {this.renderPicker('street', streets)}
             <Icon
@@ -75,8 +86,9 @@ class AddressAndInfoBlock extends Component {
             />
           </Row>
         </Row>
-        <Row extraStyles={{ justifyContent: 'space-between' }}>
-          <FormLabel>ДОМ, ЗДАНИНЕ</FormLabel>
+        <Divider />
+        <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center' }}>
+          <FormLabel labelStyle={formLabelStyle}>ДОМ, ЗДАНИНЕ</FormLabel>
           <Row extraStyles={{ flex: 1 }}>
             {this.renderPicker('house', houses)}
             <Icon
@@ -88,14 +100,19 @@ class AddressAndInfoBlock extends Component {
           </Row>
         </Row>
         <Divider />
-        <FormLabel>ОПИСАНИЕ ИГРЫ</FormLabel>
-        <FormInput
-          inputStyle={{height: 120, borderColor: 'gray', borderWidth: 1}}
-          multiline
-          placeholder="Пишем текст описания"
-        />
+        <FormLabel labelStyle={[formLabelStyle, { alignSelf: 'center', marginTop: 25, marginBottom: 15 }]}>ОПИСАНИЕ ИГРЫ</FormLabel>
+        <View style={{ backgroundColor: 'white' }}>
+          <FormInput
+            inputStyle={{ height: 120, backgroundColor: 'white', textAlignVertical: 'top' }}
+            containerStyle={{ marginLeft: 0, marginRight: 0 }}
+            multiline
+            placeholder="Пишем текст описания"
+            underlineColorAndroid="transparent"
+          />
+          <Text style={{ fontSize: 10, padding: 5 }}>ОЧИСТИТЬ</Text>
+        </View>
       </View>
-    )
+    );
   }
 }
 

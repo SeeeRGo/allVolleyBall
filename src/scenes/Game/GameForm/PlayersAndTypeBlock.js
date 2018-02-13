@@ -10,12 +10,6 @@ import { gameFormUpdate } from './actions';
 import styles from './styles';
 import { SCREEN_WIDTH } from '../../../styles';
 
-const cities = [
-  'Тольятти',
-  'Москва',
-  'Санкт-Петербург'
-];
-
 const volleyballTypes = [
   'ВОЛЕЙБОЛ КЛАССИЧЕСКИЙ',
   'ВОЛЕЙБОЛ ПЛЯЖНЫЙ'
@@ -44,11 +38,14 @@ class PlayersAndTypeBlock extends Component {
   renderPicker(fieldName, itemList) {
     return (
       <Picker
-        style={{ flex: 1, height: 30, alignItems: 'flex-end' }}
+        style={{
+          flex: 1, height: 30, alignItems: 'flex-end', color: 'white'
+        }}
+        textStyle={{ fontSize: 12 }}
         selectedValue={this.props[fieldName]}
         onValueChange={(value) => this.props.gameFormUpdate(fieldName, value)}
       >
-        {itemList.map((item) => <Picker.Item key={item} label={item} value={item} />)}
+        {itemList.map((item) => <Picker.Item style={{ fontSize: 12 }} key={item} label={item} value={item} />)}
       </Picker>
     );
   }
@@ -63,8 +60,8 @@ class PlayersAndTypeBlock extends Component {
     } = this.props;
     return (
       <View style={containerStyle}>
-        <Row extraStyles={{ justifyContent: 'space-between' }}>
-          <FormLabel>ВИД СПОРТА</FormLabel>
+        <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center', flex: 1 }}>
+          <FormLabel labelStyle={formLabelStyle}>ВИД СПОРТА</FormLabel>
           <Row extraStyles={{ flex: 1 }}>
             {this.renderPicker('volleyballType', volleyballTypes)}
             <Icon
@@ -76,8 +73,8 @@ class PlayersAndTypeBlock extends Component {
           </Row>
         </Row>
         <Divider />
-        <Row extraStyles={{ justifyContent: 'space-between' }}>
-          <FormLabel>ТИП ИГРЫ</FormLabel>
+        <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center' }}>
+          <FormLabel labelStyle={formLabelStyle}>ТИП ИГРЫ</FormLabel>
           <Row extraStyles={{ flex: 1 }}>
             {this.renderPicker('gameType', gameTypes)}
             <Icon
@@ -91,34 +88,36 @@ class PlayersAndTypeBlock extends Component {
         <Divider />
         <Row>
           <View style={{ justifyContent: 'space-between', width: SCREEN_WIDTH * 0.5 }}>
-            <FormLabel labelStyle={formLabelStyle}>МИНИМУМ ИГРОКОВ</FormLabel>          
+            <FormLabel labelStyle={[formLabelStyle]}>МИНИМУМ ИГРОКОВ</FormLabel>
             <FormInput
-              inputStyle={[formInputStyle]}
+              inputStyle={[formInputStyle, { width: SCREEN_WIDTH * 0.4 }]}
+              containerStyle={{ marginLeft: 0, marginRight: 0 }}
               onFocus={() => {}}
               onChangeText={() => {}}
               underlineColorAndroid="transparent"
               ref={(username) => { this.username = username; }}
             />
             <Divider style={{
-              marginBottom: 10, marginTop: 3, backgroundColor: '#bfbfbf', width: '90%', alignSelf: 'center'
+              marginBottom: 10, marginTop: 3, backgroundColor: '#bfbfbf', width: '90%'
             }}
             />
-          </View>    
+          </View>
           <View style={{ justifyContent: 'space-between', width: SCREEN_WIDTH * 0.45 }}>
-            <FormLabel labelStyle={formLabelStyle}>МАКСИМУМ ИГРОКОВ</FormLabel>          
+            <FormLabel labelStyle={[formLabelStyle]}>МАКСИМУМ ИГРОКОВ</FormLabel>
             <FormInput
-              inputStyle={[formInputStyle]}
+              inputStyle={[formInputStyle, { width: SCREEN_WIDTH * 0.4 }]}
               onFocus={() => {}}
               onChangeText={() => {}}
+              containerStyle={{ marginLeft: 0, marginRight: 0 }}
               underlineColorAndroid="transparent"
               ref={(username) => { this.username = username; }}
             />
             <Divider style={{
-              marginBottom: 10, marginTop: 3, backgroundColor: '#bfbfbf', width: '90%', alignSelf: 'center'
+              marginBottom: 10, marginTop: 3, backgroundColor: '#bfbfbf', width: '100%'
             }}
             />
-          </View>         
-        </Row>      
+          </View>
+        </Row>
       </View>
     );
   }
