@@ -5,6 +5,7 @@ import { ButtonGroup } from 'react-native-elements';
 import styles from './styles';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
 const component1 = () => (
   <View style={{
@@ -61,7 +62,10 @@ class GameTypeOptionsBlock extends Component {
       containerStyle, selectedButtonStyle, innerBorderStyle
     } = styles.gameTypeOptionsStyle;
     return (
-      <View style={{ height: SCREEN_HEIGHT * 0.15 }}>
+      <View style={{
+        height: SCREEN_HEIGHT * 0.15, width: SCREEN_WIDTH, backgroundColor: 'rgba(0,0,0, 0.25)', justifyContent: 'center', alignItems: 'center'
+      }}
+      >
         <Text style={styles.buttonTextStyle}>ТИП ИГРЫ</Text>
         <ButtonGroup
           onPress={this.updateIndex}

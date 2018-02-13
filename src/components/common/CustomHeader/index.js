@@ -12,6 +12,7 @@ const BackButton = () => (
     type="font-awesome"
     color="white"
     containerStyle={{ paddingLeft: 5, paddingRight: 5 }}
+    size={32}
   />
 );
 const LeftComponent = () => (
@@ -58,8 +59,10 @@ class CustomHeader extends Component {
             {showBackButton && <BackButton />}
             {!!leftIcon && leftIcon}
             {!!leftText && <Text style={{
- color: 'white', textAlign: 'center', paddingTop: 5, fontSize: 12 
-}}>{leftText}</Text>}
+              color: 'white', textAlign: 'center', paddingTop: 5, fontSize: 12
+            }}
+            >{leftText}
+            </Text>}
           </Row>
           <Text style={{
             position: 'absolute', width: '50%', top: 0, left: SCREEN_WIDTH * 0.25, textAlign: 'center', color: 'white', paddingTop: 5, fontSize: 16

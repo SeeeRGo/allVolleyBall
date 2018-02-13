@@ -12,7 +12,7 @@ class PriceOptionsBlock extends Component {
   render() {
     const { formLabelStyle } = styles;
     return (
-      <View style={{ width: SCREEN_WIDTH }}>
+      <View style={{ width: SCREEN_WIDTH, backgroundColor: 'rgba(0,0,0, 0.25)' }}>
         <Row extraStyles={{ justifyContent: 'center', alignItems: 'center' }}>
           <Text style={formLabelStyle}>СТОИМОСТЬ ИГРЫ</Text>
           <Slider

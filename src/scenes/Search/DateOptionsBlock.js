@@ -7,7 +7,6 @@ import Svg, { Rect, Defs, LinearGradient, Stop, Ellipse } from 'react-native-svg
 
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
-import SvgShadow from '../../components/common/SvgShadow';
 import styles from './styles';
 import { SCREEN_HEIGHT } from '../../components/common/CustomHeader/navBarStyles';
 
@@ -62,7 +61,6 @@ class DateOptionsBlock extends Component {
             androidMode="spinner"
           />
         </Row>
-        <SvgShadow />
       </View>
     );
   }

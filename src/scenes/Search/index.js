@@ -5,6 +5,7 @@ import { Button, Icon } from 'react-native-elements';
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
 import CustomHeader from '../../components/common/CustomHeader';
+import SvgShadow from '../../components/common/SvgShadow';
 import LocationOptionsBlock from './LocationOptionsBlock';
 import SportOptionsBlock from './SportOptionsBlock';
 import GameTypeOptionsBlock from './GameTypeOptionsBlock';
@@ -30,11 +31,17 @@ class SearchScene extends Component {
             />
           }
         />
+        <SvgShadow dark />
         <LocationOptionsBlock />
+        <SvgShadow />
         <SportOptionsBlock />
+        <SvgShadow dark />
         <GameTypeOptionsBlock />
+        <SvgShadow />
         <DateOptionsBlock />
+        <SvgShadow dark />
         <PriceOptionsBlock />
+        <SvgShadow />
         <Button
           containerViewStyle={{
             width: '100%', position: 'absolute', bottom: 0, marginBottom: 0

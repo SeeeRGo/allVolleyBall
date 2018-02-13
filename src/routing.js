@@ -60,7 +60,6 @@ export default class App extends Component {
             />
             <Scene
               hideNavBar
-              initial
               key="GameScreen"
               path="/game/:id"
               component={GameScreen}
@@ -73,6 +72,7 @@ export default class App extends Component {
             />
             <Scene
               hideNavBar
+              initial
               key="Search"
               path="/search"
               component={SearchScreen}

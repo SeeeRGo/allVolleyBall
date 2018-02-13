@@ -7,10 +7,12 @@ export default {
   rightIconStyles: {
     paddingLeft: 5,
     paddingRight: 5,
+    marginTop: 5,
     position: 'absolute',
     width: '25%',
     left: SCREEN_WIDTH * 0.75,
     top: 0,
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
+    alignSelf: 'center'
   }
 };
