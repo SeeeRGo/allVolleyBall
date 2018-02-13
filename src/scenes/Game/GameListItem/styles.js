@@ -32,8 +32,7 @@ const styles = {
   },
   gameContainerStyle: {
     height: 100,
-    backgroundColor: 'white', 
-    elevation: 10, 
+    backgroundColor: 'white',
     marginBottom: 10
   },
   leftColumnStyle: {

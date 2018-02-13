@@ -1,110 +1,120 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Dimensions } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon, Rating } from 'react-native-elements';
+import moment from 'moment';
+
+import Row from '../../../components/common/Row';
+import styles from './styles';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
 class RightColumn extends Component {
   static defaultProps = {
-    totalPlayers: '0'
+    totalPlayers: '0',
+    gameType: 'классический',
+    minPlayers: '7',
+    maxPlayers: '7',
+    price: 1000,
+    gameTime: moment(),
+    startTime: moment().format('HH:mm'),
+    finishTime: moment().format('HH:mm'),
+    gameAddress: moment().format('HH:mm')
   }
   render() {
     const {
       gameType, minPlayers, maxPlayers, price, totalPlayers,
       gameTime, startTime, finishTime, gameAddress, gameInfo
     } = this.props;
+    const { textStyle, iconContainerStyle, ratingStyle } = styles.rightColumnStyle;
     return (
-      <View>
-        <Text style={styles.containerStyle}>ВОЛЕЙБОЛ</Text>
-        <Text style={styles.containerStyle}>Тип: {gameType}</Text>
-        <Text style={styles.containerStyle}>Состав: {minPlayers}-{maxPlayers} игроков</Text>
-        <View style={styles.rowContainerStyle}>
-          <Text>{price}</Text>
-          <Icon
-            name="rub"
-            type="font-awesome"
-            size={12}
+      <View style={{ height: SCREEN_HEIGHT * 0.6, marginLeft: 15 }}>
+        <Text style={textStyle}>ВОЛЕЙБОЛ</Text>
+        <Text style={textStyle}>Тип: {gameType}</Text>
+        <Text style={textStyle}>Состав: {minPlayers}-{maxPlayers} игроков</Text>
+        <Row>
+          <Text style={textStyle}>Уровень{' '}</Text>
+          <Rating
+            imageSize={20}
+            readonly
+            startingValue={3}
+            ratingCount={3}
+            style={ratingStyle}
           />
-        </View>
-        <View style={styles.rowContainerStyle}>
-          <Icon
-            name="calendar"
-            type="font-awesome"
-            size={12}
-            containerStyle={styles.iconContainerStyle}
-          />
-          <Text>{gameTime} в {gameTime}</Text>
-        </View>
-        <View style={styles.rowContainerStyle}>
-          <Icon
-            name="clock-o"
-            type="font-awesome"
-            size={12}
-            containerStyle={styles.iconContainerStyle}
-          />
-          <Text>{startTime} - {finishTime}</Text>
-        </View>
-        <View style={styles.rowContainerStyle}>
-          <Icon
-            name="map-marker"
-            type="font-awesome"
-            size={12}
-            containerStyle={styles.iconContainerStyle}
-          />
-          <Text style={{ lineHeight: 20 }}>{gameAddress}</Text>
-        </View>
-        <View style={styles.rowContainerStyle}>
-          <Icon
-            name="child"
-            type="font-awesome"
-            size={12}
-            containerStyle={styles.iconContainerStyle}
-          />
-          <Text>Подали заявку {parseInt(totalPlayers, 10)} игрока</Text>
-        </View>
-        <View style={styles.rowContainerStyle}>
-          <Icon
-            name="tshirt-crew"
-            type="material-community"
-            size={12}
-            containerStyle={styles.iconContainerStyle}
-          />
-          <Text>Свободно {parseInt(maxPlayers, 10) - parseInt(totalPlayers, 10)} мест</Text>
+        </Row>
+        <View style={{ flex: 1, justifyContent: 'space-around', marginBottom: 50 }}>
+          <Row extraStyles={{ alignItems: 'flex-end' }}>
+            <Text style={{ color: '#d4ff32', fontSize: 18 }}>{price}{' '}</Text>
+            <Icon
+              name="rub"
+              type="font-awesome"
+              color="#d4ff32"
+              size={14}
+            />
+            <Text style={{ color: '#d4ff32', fontSize: 14 }}>{' | '}наличные</Text>
+          </Row>
+          <Row>
+            <Text style={{ backgroundColor: '#091b75', color: 'white', padding: 3 }}>{moment(gameTime).format('DD/MM/YY')}
+            </Text>
+            <Text style={{ backgroundColor: '#b30005', color: 'white', padding: 3 }}>{moment(gameTime).format('HH:mm')}</Text>
+          </Row>
+          <Row>
+            <Icon
+              name="clock-o"
+              type="font-awesome"
+              color="#00bfb1"
+              size={12}
+              containerStyle={iconContainerStyle}
+            />
+            <Text style={textStyle}>{startTime} - {finishTime}</Text>
+          </Row>
+          <Row>
+            <Icon
+              name="map-marker"
+              type="font-awesome"
+              color="#00bfb1"
+              size={12}
+              containerStyle={iconContainerStyle}
+            />
+            <Text style={textStyle}>{gameAddress}</Text>
+          </Row>
+          <Row>
+            <Icon
+              name="child"
+              type="font-awesome"
+              color="#00bfb1"
+              size={12}
+              containerStyle={iconContainerStyle}
+            />
+            <Text style={textStyle}>Подали заявку {parseInt(totalPlayers, 10)} игрока</Text>
+          </Row>
+          <Row>
+            <Icon
+              name="tshirt-crew"
+              type="material-community"
+              color="#00bfb1"
+              size={12}
+              containerStyle={iconContainerStyle}
+            />
+            <Text style={textStyle}>Свободно {parseInt(maxPlayers, 10) - parseInt(totalPlayers, 10)} мест</Text>
+          </Row>
         </View>
       </View>
     );
   }
 }
-
-const styles = {
-  containerStyle: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 10
-  },
-  iconContainerStyle: {
-    paddingRight: 10
-  },
-  rowContainerStyle: {
-    flexDirection: 'row',
-    padding: 10,
-    maxWidth: SCREEN_WIDTH * 0.42
-  }
-};
-
 const mapStateToProps = (state, ownProps) => {
   const gameScreen = state.game.find((item) => item.id === ownProps.gameId);
   return {
-    gameType: gameScreen.gameType,
-    minPlayers: gameScreen.minPlayers,
-    maxPlayers: gameScreen.maxPlayers,
-    price: gameScreen.price,
-    gameTime: gameScreen.gameTime,
-    startTime: gameScreen.startTime,
-    finishTime: gameScreen.finishTime,
-    gameAddress: gameScreen.gameAddress,
-    totalPlayers: gameScreen.totalPlayers
+    // gameType: gameScreen.gameType,
+    // minPlayers: gameScreen.minPlayers,
+    // maxPlayers: gameScreen.maxPlayers,
+    // price: gameScreen.price,
+    // gameTime: gameScreen.gameTime,
+    // startTime: gameScreen.startTime,
+    // finishTime: gameScreen.finishTime,
+    // gameAddress: gameScreen.gameAddress,
+    // totalPlayers: gameScreen.totalPlayers
   };
 };
 

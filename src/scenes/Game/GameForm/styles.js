@@ -5,10 +5,11 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 const styles = {
   containerStyle: {
-    width: SCREEN_WIDTH * 0.8,
+    width: SCREEN_WIDTH,
     alignSelf: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white'
+    paddingLeft: 10,
+    paddingRight: 10
   },
   formLabelStyle: {
     marginTop: 0,
@@ -56,8 +57,6 @@ const styles = {
     marginBottom: 0
   },
   ratingStyle: {
-    maxWidth: '20%',
-    alignSelf: 'center',
     flex: 1
   },
   datePickerCustomStyle: {

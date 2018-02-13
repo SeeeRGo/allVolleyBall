@@ -1,71 +1,81 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Dimensions } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
+import { View, Text, Dimensions, ScrollView } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 
 import LeftColumn from './LeftColumn';
 import RightColumn from './RightColumn';
 import Background from '../../../components/common/Background';
 import Row from '../../../components/common/Row';
-import { Actions } from 'react-native-router-flux';
+import CustomHeader from '../../../components/common/CustomHeader';
+import navBarStyles from '../../../components/common/CustomHeader/navBarStyles';
+import styles from './styles';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
 class GameScreen extends Component {
   static defaultProps = {
-    gameInfo: 'Game Info here'
+    gameInfo: 'Game Info here',
+    gameCreator: {
+      firstName: 'Виталий',
+      lastName: 'Андрейчук'
+    }
   }
   render() {
     console.log(this.props);
-    const { gameInfo, gameId } = this.props;
+    const { gameInfo, gameId, gameCreator } = this.props;
     return (
       <Background>
-        <View style={{ width: '100%' }}>
+        <CustomHeader
+          title={`Создал ${gameCreator.firstName} ${gameCreator.lastName}`}
+          leftIcon={
+            <Icon
+              name="phone"
+              type="font-awesome"
+              color="white"
+              containerStyle={navBarStyles.leftIconStyles}
+              onPress={() => Actions.replace('Feed')}
+            />
+          }
+          rightIcon={
+            <Icon
+              name="close"
+              type="font-awesome"
+              color="white"
+              containerStyle={navBarStyles.rightIconStyles}
+              onPress={() => Actions.replace('Search')}
+            />
+          }
+        />
+        <ScrollView style={{ width: '100%', top: 45 }}>
           <Row>
             <LeftColumn gameId={gameId} />
             <RightColumn gameId={gameId} />
           </Row>
-          <Text
-            style={styles.textBlockStyle}
-            onPress={() => Actions.GameForm({ gameId })}
-          >
-            {gameInfo}
-          </Text>
-        </View>
-        <Button title="Отправить заявку" containerViewStyle={styles.buttonStyle} />
+          <View style={{top: -30}}>
+            <Text
+              style={[styles.textBlockStyle]}
+              onPress={() => Actions.GameForm({ gameId })}
+            >
+              {gameInfo}
+            </Text>
+          </View>
+        </ScrollView>
+        <Button
+          title="Отправить заявку"
+          containerViewStyle={styles.buttonStyle}
+          buttonStyle={{ backgroundColor: '#00bfb1' }}
+        />
       </Background>
     );
   }
 }
 
-const styles = {
-  imageStyle: {
-    width: SCREEN_WIDTH * 0.5,
-    height: SCREEN_HEIGHT * 0.2
-  },
-  textBlockStyle: {
-    width: SCREEN_WIDTH * 0.85,
-    maxWidth: SCREEN_WIDTH * 0.7,
-    backgroundColor: 'white',
-    alignSelf: 'flex-end',
-    paddingLeft: 10,
-    paddingTop: 15,
-    paddingRight: 15
-  },
-  buttonStyle: {
-    width: SCREEN_WIDTH,
-    marginLeft: 0,
-    marginRight: 0,
-    marginBottom: 0,
-    position: 'absolute',
-    bottom: 0
-  }
-};
-
 const mapStateToProps = (state, ownProps) => {
   const gameScreen = state.game.find((item) => item.id === ownProps.gameId);
   return {
-    gameInfo: gameScreen.gameInfo
+    // gameInfo: gameScreen.gameInfo
   };
 };
 
