@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Image, Text } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
 
 import styles from './styles';
+import { changeSelection } from './actions';
+import { Actions } from 'react-native-router-flux';
 
 const component1 = () => (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -32,6 +35,12 @@ const component3 = () => (
   </View>
 );
 
+const scenes = [
+  'Feed',
+  'MyGames',
+  'MyGyms'
+];
+
 class FooterButtonGroup extends Component {
   constructor() {
     super();
@@ -41,11 +50,12 @@ class FooterButtonGroup extends Component {
     this.updateIndex = this.updateIndex.bind(this);
   }
   updateIndex(selectedIndex) {
-    this.setState({ selectedIndex });
+    this.props.changeSelection('feedFooterButtons', selectedIndex);
+    Actions.replace(`${scenes[selectedIndex]}`);
   }
   render() {
     const buttons = [{ element: component1 }, { element: component2 }, { element: component3 }];
-    const { selectedIndex } = this.state;
+    const { selectedIndex } = this.props;
     const { containerStyle, selectedButtonStyle, innerBorderStyle } = styles.footerButtonGroupStyle;
     return (
       <ButtonGroup
@@ -62,4 +72,8 @@ class FooterButtonGroup extends Component {
   }
 }
 
-export default FooterButtonGroup;
+const mapStateToProps = (state) => ({
+  selectedIndex: state.selections.feedFooterButtons
+});
+
+export default connect(mapStateToProps, { changeSelection })(FooterButtonGroup);

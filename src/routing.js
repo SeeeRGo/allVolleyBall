@@ -10,6 +10,8 @@ import GameForm from './scenes/Game/GameForm';
 import GameList from './scenes/Game/GameList';
 import SearchScreen from './scenes/Search';
 import FeedScreen from './scenes/Feed';
+import MyGamesScreen from './scenes/Feed/MyGames';
+import MyGymsScreen from './scenes/Feed/MyGyms';
 import WelcomeScreen from './scenes/Welcome';
 import PhoneConfirmationScreen from './scenes/PhoneConfirmation';
 
@@ -79,8 +81,20 @@ export default class App extends Component {
             <Scene
               hideNavBar
               key="Feed"
-              path="/feed"
+              path=":id/feed"
               component={FeedScreen}
+            />
+            <Scene
+              hideNavBar
+              key="MyGames"
+              path=":id/feed/my-games"
+              component={MyGamesScreen}
+            />
+            <Scene
+              hideNavBar
+              key="MyGyms"
+              path=":id/feed/my-gyms"
+              component={MyGymsScreen}
             />
           </Scene>
         </Lightbox>

@@ -7,6 +7,7 @@ import profile from '../scenes/Profile/reducer';
 import game from '../scenes/Game/GameScreen/reducer';
 import gameForm from '../scenes/Game/GameForm/reducer';
 import signupForm from '../scenes/Signup/reducer';
+import selections from '../scenes/Feed/reducer';
 
 
 export default combineReducers({
@@ -17,5 +18,6 @@ export default combineReducers({
   profile,
   game,
   gameForm,
-  signupForm
+  signupForm,
+  selections
 });
