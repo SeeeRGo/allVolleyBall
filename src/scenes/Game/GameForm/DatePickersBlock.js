@@ -12,6 +12,10 @@ import styles from './styles';
 class DatePickersBlock extends Component {
   render() {
     const { formLabelStyle, datePickerCustomStyle, datePickerStyle } = styles;
+    const {
+      gameType, minPlayers, maxPlayers, price, gameTime, gameDate,
+      startTime, finishTime, gameAddress, gameInfo, gameFormUpdate, gameEndTime, gameStartTime
+    } = this.props;
     return (
       <View>
         <FormLabel labelStyle={[formLabelStyle, { textAlign: 'center' }]} containerStyle={{ alignSelf: 'center' }}>ДАТА И ВРЕМЯ НАЧАЛА ИГРЫ</FormLabel>
@@ -30,7 +34,8 @@ class DatePickersBlock extends Component {
         <Row extraStyles={{ justifyContent: 'space-around' }}>
           <DatePicker
             style={datePickerStyle}
-            date={moment().format('DD MMM YYYY')}
+            date={gameDate}
+            value={gameDate}
             mode="date"
             placeholder="select date"
             format="DD MMM YYYY"
@@ -39,12 +44,13 @@ class DatePickersBlock extends Component {
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
             customStyles={datePickerCustomStyle}
-            onDateChange={() => {}}
+            onDateChange={(value) => gameFormUpdate('gameDate', value)}
             androidMode="spinner"
           />
           <DatePicker
             style={datePickerStyle}
-            date="12 00"
+            date={gameTime}
+            value={gameTime}
             mode="time"
             placeholder="select date"
             format="HH mm"
@@ -53,7 +59,7 @@ class DatePickersBlock extends Component {
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
             customStyles={datePickerCustomStyle}
-            onDateChange={() => {}}
+            onDateChange={(value) => gameFormUpdate('gameTime', value)}
             androidMode="spinner"
           />
         </Row>
@@ -64,7 +70,8 @@ class DatePickersBlock extends Component {
         <Row extraStyles={{ justifyContent: 'space-around' }}>
           <DatePicker
             style={datePickerStyle}
-            date="12 00"
+            date={gameStartTime}
+            value={gameStartTime}
             mode="time"
             placeholder="select date"
             format="HH mm"
@@ -73,12 +80,13 @@ class DatePickersBlock extends Component {
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
             customStyles={datePickerCustomStyle}
-            onDateChange={() => {}}
+            onDateChange={(value) => gameFormUpdate('gameStartTime', value)}
             androidMode="spinner"
           />
           <DatePicker
             style={datePickerStyle}
-            date="12 00"
+            date={gameEndTime}
+            value={gameEndTime}
             mode="time"
             placeholder="select date"
             format="HH mm"
@@ -87,7 +95,7 @@ class DatePickersBlock extends Component {
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
             customStyles={datePickerCustomStyle}
-            onDateChange={() => {}}
+            onDateChange={(value) => gameFormUpdate('gameEndTime', value)}
             androidMode="spinner"
           />
         </Row>
@@ -96,4 +104,20 @@ class DatePickersBlock extends Component {
   }
 }
 
-export default DatePickersBlock;
+const mapStateToProps = (state) => ({
+  gameType: state.gameForm.gameType,
+  minPlayers: state.gameForm.minPlayers,
+  maxPlayers: state.gameForm.maxPlayers,
+  price: state.gameForm.price,
+  gameTime: state.gameForm.gameTime,
+  startTime: state.gameForm.startTime,
+  finishTime: state.gameForm.finishTime,
+  gameAddress: state.gameForm.gameAddress,
+  gameInfo: state.gameForm.gameInfo,
+  gameDate: state.gameForm.gameDate,
+  gameStartTime: state.gameForm.gameStartTime,
+  gameEndTime: state.gameForm.gameEndTime
+});
+
+
+export default connect(mapStateToProps, { gameFormUpdate })(DatePickersBlock);

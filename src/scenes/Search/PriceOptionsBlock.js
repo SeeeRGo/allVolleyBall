@@ -9,6 +9,9 @@ import styles from './styles';
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
 class PriceOptionsBlock extends Component {
+  static defaultProps = {
+    onSliderValueChange: () => {}
+  }
   render() {
     const { formLabelStyle } = styles;
     return (
@@ -45,7 +48,7 @@ class PriceOptionsBlock extends Component {
           maximumTrackTintColor="white"
           thumbTintColor="#d4ff32"
           style={{ width: SCREEN_WIDTH * 0.9, alignSelf: 'center' }}
-          onSlidingComplete={() => {}}
+          onSlidingComplete={this.props.onSliderValueChange}
         />
         <Row extraStyles={{ justifyContent: 'space-between' }}>
           <FormLabel labelStyle={[formLabelStyle, { fontSize: 16 }]}>0 Р</FormLabel>

@@ -10,7 +10,7 @@ import { gameFormUpdate } from './actions';
 import styles from './styles';
 import { SCREEN_WIDTH } from '../../../styles';
 
-const volleyballTypes = [
+const sportTypes = [
   'ВОЛЕЙБОЛ КЛАССИЧЕСКИЙ',
   'ВОЛЕЙБОЛ ПЛЯЖНЫЙ'
 ];
@@ -55,7 +55,7 @@ class PlayersAndTypeBlock extends Component {
       datePickerStyle, ratingStyle, datepickerCustomStyle
     } = styles;
     const {
-      gameType, minPlayers, maxPlayers, price, gameFormUpdate,
+      gameType, minPlayers, maxPlayers, price, gameFormUpdate, sportType,
       gameTime, startTime, finishTime, gameAddress, gameInfo
     } = this.props;
     return (
@@ -63,7 +63,7 @@ class PlayersAndTypeBlock extends Component {
         <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center', flex: 1 }}>
           <FormLabel labelStyle={formLabelStyle}>ВИД СПОРТА</FormLabel>
           <Row extraStyles={{ flex: 1 }}>
-            {this.renderPicker('volleyballType', volleyballTypes)}
+            {this.renderPicker('sportType', sportTypes)}
             <Icon
               name="angle-down"
               type="font-awesome"
@@ -93,9 +93,9 @@ class PlayersAndTypeBlock extends Component {
               inputStyle={[formInputStyle, { width: SCREEN_WIDTH * 0.4 }]}
               containerStyle={{ marginLeft: 0, marginRight: 0 }}
               onFocus={() => {}}
-              onChangeText={() => {}}
+              onChangeText={(value) => gameFormUpdate('minPlayers', value)}
               underlineColorAndroid="transparent"
-              ref={(username) => { this.username = username; }}
+              ref={(minPlayers) => { this.minPlayers = minPlayers; }}
             />
             <Divider style={{
               marginBottom: 10, marginTop: 3, backgroundColor: '#bfbfbf', width: '90%'
@@ -107,10 +107,10 @@ class PlayersAndTypeBlock extends Component {
             <FormInput
               inputStyle={[formInputStyle, { width: SCREEN_WIDTH * 0.4 }]}
               onFocus={() => {}}
-              onChangeText={() => {}}
+              onChangeText={(value) => gameFormUpdate('minPlayers', value)}
               containerStyle={{ marginLeft: 0, marginRight: 0 }}
               underlineColorAndroid="transparent"
-              ref={(username) => { this.username = username; }}
+              ref={(maxPlayers) => { this.maxPlayers = maxPlayers; }}
             />
             <Divider style={{
               marginBottom: 10, marginTop: 3, backgroundColor: '#bfbfbf', width: '100%'

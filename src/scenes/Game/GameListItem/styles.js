@@ -20,7 +20,7 @@ const styles = {
     fontSize: 12,
     lineHeight: 24,
     textAlign: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   boldTextStyle: {
     fontSize: 14,
@@ -33,10 +33,10 @@ const styles = {
   gameContainerStyle: {
     height: 100,
     backgroundColor: 'white',
-    marginBottom: 10
+    marginBottom: 30
   },
   leftColumnStyle: {
-    width: SCREEN_WIDTH * 0.2, 
+    width: SCREEN_WIDTH * 0.2,
     height: 100
   },
   imageContainerStyle: {
@@ -79,7 +79,7 @@ const styles = {
     width: SCREEN_WIDTH * 0.21,
     color: 'navy',
     borderBottomWidth: 1,
-    borderRightWidth: 1 
+    borderRightWidth: 1
   },
   borderedRedTextStyle: {
     fontSize: 12,
@@ -89,7 +89,7 @@ const styles = {
     width: SCREEN_WIDTH * 0.14,
     color: 'red',
     borderBottomWidth: 1,
-    borderRightWidth: 1 
+    borderRightWidth: 1
   },
   borderedTealTextStyle: {
     fontSize: 12,

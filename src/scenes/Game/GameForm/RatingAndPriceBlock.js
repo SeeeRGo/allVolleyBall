@@ -27,12 +27,23 @@ class RatingAndPriceBlock extends Component {
           ratingColor="white"
           ratingBackgroundColor="transparent"
           style={ratingStyle}
-          onFinishRating={() => {}}
+          onFinishRating={(value) => gameFormUpdate('gameRating', value)}
         />
-        <PriceOptionsBlock bgColor="transparent" />
+        <PriceOptionsBlock bgColor="transparent" onSliderValueChange={(value) => gameFormUpdate('price', value)} />
       </View>
     );
   }
 }
+const mapStateToProps = (state) => ({
+  gameType: state.gameForm.gameType,
+  minPlayers: state.gameForm.minPlayers,
+  maxPlayers: state.gameForm.maxPlayers,
+  price: state.gameForm.price,
+  gameTime: state.gameForm.gameTime,
+  startTime: state.gameForm.startTime,
+  finishTime: state.gameForm.finishTime,
+  gameAddress: state.gameForm.gameAddress,
+  gameInfo: state.gameForm.gameInfo
+});
 
-export default RatingAndPriceBlock;
+export default connect(mapStateToProps, { gameFormUpdate })(RatingAndPriceBlock);

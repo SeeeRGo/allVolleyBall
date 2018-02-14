@@ -53,7 +53,7 @@ class GameScreen extends Component {
             <LeftColumn gameId={gameId} />
             <RightColumn gameId={gameId} />
           </Row>
-          <View style={{top: -30}}>
+          <View style={{ top: -30 }}>
             <Text
               style={[styles.textBlockStyle]}
               onPress={() => Actions.GameForm({ gameId })}
@@ -75,7 +75,7 @@ class GameScreen extends Component {
 const mapStateToProps = (state, ownProps) => {
   const gameScreen = state.game.find((item) => item.id === ownProps.gameId);
   return {
-    // gameInfo: gameScreen.gameInfo
+    gameInfo: gameScreen.gameInfo
   };
 };
 

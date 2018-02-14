@@ -49,7 +49,7 @@ class AddressAndInfoBlock extends Component {
     } = styles;
     const {
       gameType, minPlayers, maxPlayers, price, gameFormUpdate,
-      gameTime, startTime, finishTime, gameAddress, gameInfo
+      gameTime, startTime, finishTime, gameAddress, gameInfo, street, house, city
     } = this.props;
     return (
       <View style={containerStyle}>
@@ -108,6 +108,7 @@ class AddressAndInfoBlock extends Component {
             multiline
             placeholder="Пишем текст описания"
             underlineColorAndroid="transparent"
+            onChangeText={(value) => gameFormUpdate('gameInfo', value)}
           />
           <Text style={{ fontSize: 10, padding: 5 }}>ОЧИСТИТЬ</Text>
         </View>
@@ -116,4 +117,18 @@ class AddressAndInfoBlock extends Component {
   }
 }
 
-export default AddressAndInfoBlock;
+const mapStateToProps = (state) => ({
+  gameType: state.gameForm.gameType,
+  minPlayers: state.gameForm.minPlayers,
+  maxPlayers: state.gameForm.maxPlayers,
+  price: state.gameForm.price,
+  city: state.gameForm.city,
+  house: state.gameForm.house,
+  street: state.gameForm.street,
+  gameAddress: state.gameForm.gameAddress,
+  gameInfo: state.gameForm.gameInfo
+});
+
+
+export default connect(mapStateToProps, { gameFormUpdate })(AddressAndInfoBlock);
+

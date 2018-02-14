@@ -187,6 +187,7 @@ class LoginScene extends Component {
               </Row>
               <FormInput
                 inputStyle={[formInputStyle, passwordInputHeight]}
+                secureTextEntry
                 value={credentials.password}
                 onFocus={() => this.setState(() => ({
                   passwordInputHeight: {}, submitButtonColor: '#00bfb1', showLogo: false, showRememberMe: true

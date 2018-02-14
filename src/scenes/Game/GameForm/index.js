@@ -42,8 +42,8 @@ class GameForm extends Component {
   }
   handleCreateGame() {
     const {
-      gameType, minPlayers, maxPlayers, price, gameTime,
-      startTime, finishTime, gameAddress, gameInfo
+      gameType, minPlayers, maxPlayers, price, gameTime, gameDate,
+      startTime, finishTime, gameAddress, gameInfo, gameEndTime, gameStartTime
     } = this.props;
     const game = {
       kindOfSportsId: gameType,
@@ -53,13 +53,13 @@ class GameForm extends Component {
         total: 0
       },
       cost: price,
-      date: moment(gameTime).toISOString(),
-      startTime: moment(gameTime).toISOString(),
+      date: moment(gameDate).toISOString(),
+      startTime: moment(startTime).toISOString(),
       arrivalTime: moment(startTime).toISOString(),
       duration: {
-        hours: moment(finishTime).diff(startTime),
-        minutes: moment(finishTime).diff(startTime),
-        seconds: moment(finishTime).diff(startTime)
+        hours: moment(gameEndTime).diff(gameStartTime),
+        minutes: moment(gameEndTime).diff(gameStartTime),
+        seconds: moment(gameEndTime).diff(gameStartTime)
       },
       gameAddress,
       gameInfo,
@@ -118,8 +118,9 @@ const mapStateToProps = (state) => ({
   maxPlayers: state.gameForm.maxPlayers,
   price: state.gameForm.price,
   gameTime: state.gameForm.gameTime,
-  startTime: state.gameForm.startTime,
-  finishTime: state.gameForm.finishTime,
+  gameDate: state.gameForm.gameDate,
+  gameStartTime: state.gameForm.gameStartTime,
+  gameEndTime: state.gameForm.gameEndTime,
   gameAddress: state.gameForm.gameAddress,
   gameInfo: state.gameForm.gameInfo
 });
