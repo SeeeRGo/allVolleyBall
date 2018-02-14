@@ -12,6 +12,7 @@ import SearchScreen from './scenes/Search';
 import FeedScreen from './scenes/Feed';
 import MyGamesScreen from './scenes/Feed/MyGames';
 import MyGymsScreen from './scenes/Feed/MyGyms';
+import GymForm from './scenes/Gym/GymForm';
 import WelcomeScreen from './scenes/Welcome';
 import PhoneConfirmationScreen from './scenes/PhoneConfirmation';
 
@@ -95,6 +96,12 @@ export default class App extends Component {
               key="MyGyms"
               path=":id/feed/my-gyms"
               component={MyGymsScreen}
+            />
+            <Scene
+              hideNavBar
+              key="GymForm"
+              path="/gym/:id/edit"
+              component={GymForm}
             />
           </Scene>
         </Lightbox>

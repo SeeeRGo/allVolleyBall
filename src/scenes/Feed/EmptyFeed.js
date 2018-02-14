@@ -58,10 +58,12 @@ class EmptyFeed extends Component {
         >
           <Row extraStyles={{ justifyContent: 'center', flex: 1, alignItems: 'center' }}>
             <Text style={textStyle}>СОЗДАТЬ ЗАЛ</Text>
-            <Image
-              style={{ width: 50, height: 50, margin: 10 }}
-              source={require('../../assets/icons_new_gym.png')}
-            />
+            <TouchableOpacity onPress={() => Actions.replace('GymForm', { actionType: 'create' })}>
+              <Image
+                style={{ width: 50, height: 50, margin: 10 }}
+                source={require('../../assets/icons_new_gym.png')}
+              />
+            </TouchableOpacity>
           </Row>
           <Row extraStyles={{ justifyContent: 'center', flex: 1, alignItems: 'center' }}>
             <Text style={textStyle}>СОЗДАТЬ ИГРУ</Text>
