@@ -100,6 +100,7 @@ export default class App extends Component {
             <Scene
               hideNavBar
               key="GymForm"
+              initial
               path="/gym/:id/edit"
               component={GymForm}
             />

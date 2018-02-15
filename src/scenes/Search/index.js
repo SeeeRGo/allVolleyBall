@@ -5,7 +5,7 @@ import { Button, Icon } from 'react-native-elements';
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
 import CustomHeader from '../../components/common/CustomHeader';
-import SvgShadow from '../../components/common/SvgShadow';
+import SvgShadow from '../../components/common/Svg/SvgShadow';
 import LocationOptionsBlock from './LocationOptionsBlock';
 import SportOptionsBlock from './SportOptionsBlock';
 import GameTypeOptionsBlock from './GameTypeOptionsBlock';

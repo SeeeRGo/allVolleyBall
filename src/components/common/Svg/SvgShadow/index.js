@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Svg, { Rect } from 'react-native-svg';
 
-import { SCREEN_WIDTH } from '../CustomHeader/navBarStyles';
+import { SCREEN_WIDTH } from '../../CustomHeader/navBarStyles';
 
 class SvgShadow extends Component {
   render() {

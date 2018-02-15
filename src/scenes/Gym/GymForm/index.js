@@ -29,7 +29,7 @@ class GymForm extends Component {
             />
           }
         />
-        <ScrollView style={{ bottom: 40, maxHeight: SCREEN_HEIGHT - 80 }}>
+        <ScrollView style={{ bottom: 5, top: 5, maxHeight: SCREEN_HEIGHT - 120 }}>
           <AddressBlock />
           <QualificationsBlock />
           <GalleryBlock />
