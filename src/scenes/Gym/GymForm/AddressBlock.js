@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Picker, Text } from 'react-native';
 import { FormLabel, FormInput, Divider, Icon } from 'react-native-elements';
 
+import { gymFormUpdate } from './actions';
 import Row from '../../../components/common/Row';
 import styles from './styles';
 
@@ -68,7 +70,7 @@ class AddressForm extends Component {
         <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <FormLabel labelStyle={formLabelStyle}>РАЙОН</FormLabel>
           <Row extraStyles={{ flex: 1 }}>
-            {this.renderPicker('city', cities)}
+            {this.renderPicker('district', cities)}
             <Icon
               name="angle-down"
               type="font-awesome"
@@ -81,7 +83,7 @@ class AddressForm extends Component {
         <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <FormLabel labelStyle={formLabelStyle}>СТАНЦИЯ МЕТРО</FormLabel>
           <Row extraStyles={{ flex: 1 }}>
-            {this.renderPicker('city', cities)}
+            {this.renderPicker('subwayStation', cities)}
             <Icon
               name="angle-down"
               type="font-awesome"
@@ -127,7 +129,7 @@ class AddressForm extends Component {
                 color="white"
                 containerStyle={{ paddingLeft: 5, paddingRight: 5 }}
               />
-              {this.renderPicker('house', houses)}
+              {this.renderPicker('building', houses)}
             </Row>
             <Divider />
           </View>
@@ -140,7 +142,7 @@ class AddressForm extends Component {
                 color="white"
                 containerStyle={{ paddingLeft: 5, paddingRight: 5 }}
               />
-              {this.renderPicker('house', houses)}
+              {this.renderPicker('subBuilding', houses)}
             </Row>
             <Divider />
           </View>
@@ -150,4 +152,13 @@ class AddressForm extends Component {
   }
 }
 
-export default AddressForm;
+const mapStateToProps = (state) => ({
+  city: state.gymForm.city,
+  district: state.gymForm.district,
+  house: state.gymForm.house,
+  building: state.gymForm.building,
+  subBuilding: state.gymForm.subBuilding,
+  subwayStation: state.gymForm.subwayStation
+});
+
+export default connect(mapStateToProps, { gymFormUpdate })(AddressForm);

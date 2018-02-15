@@ -1,20 +1,28 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
 import { Slider, Divider } from 'react-native-elements';
 
 import Row from '../../../components/common/Row';
 import styles from './styles';
+import { gymFormUpdate } from './actions';
 
 class QualificationSlider extends Component {
+  static defaultProps = {
+    value: 0
+  }
   render() {
     const { formLabelStyle } = styles;
+    const {
+      fieldName, value, title, gymFormUpdate
+    } = this.props;
     return (
       <View>
         <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center' }}>
-          <Text style={[formLabelStyle, { fontSize: 16 }]}>{this.props.title}</Text>
+          <Text style={[formLabelStyle, { fontSize: 16 }]}>{title}</Text>
           <Row extraStyles={{ justifyContent: 'center', alignItems: 'center' }}>
             <Slider
-              value={0}
+              value={value}
               minimumValue={0}
               maximumValue={1}
               step={1}
@@ -29,9 +37,9 @@ class QualificationSlider extends Component {
               thumbStyle={{
                 width: 15, height: 15, marginBottom: 0, marginTop: 0
               }}
-              onValueChange={(value) => {}}
+              onSlidingComplete={(sliderValue) => gymFormUpdate(fieldName, sliderValue)}
             />
-            <Text style={formLabelStyle}>ЕСТЬ</Text>
+            <Text style={formLabelStyle}>{value ? 'ЕСТЬ' : 'НЕТ '}</Text>
           </Row>
         </Row>
         <Divider />
@@ -40,4 +48,8 @@ class QualificationSlider extends Component {
   }
 }
 
-export default QualificationSlider;
+const mapStateToProps = (state, ownProps) => ({
+  value: state.gymForm[ownProps.fieldName]
+});
+
+export default connect(mapStateToProps, { gymFormUpdate })(QualificationSlider);

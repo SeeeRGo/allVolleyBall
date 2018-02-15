@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Image, ScrollView, Text, TouchableOpacity } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import _ from 'lodash';
+
+import { gymFormUpdate } from './actions';
 import { SCREEN_WIDTH } from '../../../components/common/Logo';
 import Row from '../../../components/common/Row';
 import styles from './styles';
@@ -20,10 +23,8 @@ const options = {
 };
 
 class GymForm extends Component {
-  state = {
-    photos: []
-  }
   handleButtonPress = () => {
+    const { photos, gymFormUpdate } = this.props;
     ImagePicker.showImagePicker(options, (response) => {
       console.log('Response = ', response);
 
@@ -39,21 +40,20 @@ class GymForm extends Component {
       } else {
         const source = { uri: response.uri };
 
-        this.setState((prevState) => ({
-          photos: [...prevState.photos, source]
-        }));
+        gymFormUpdate('photos', [...photos, source]);
       }
     });
   };
   render() {
     const { textStyle } = styles;
-    const slicedPhotos = _.chunk(this.state.photos, Math.floor(SCREEN_WIDTH / 130));
+    const { photos, gymFormUpdate } = this.props;
+    const slicedPhotos = _.chunk(photos, Math.floor(SCREEN_WIDTH / 130));
     return (
       <View style={{ marginBottom: 15, marginTop: 15 }}>
         <Text style={[textStyle, { marginBottom: 10, marginTop: 10 }]}>ФОТОГАЛЕРЕЯ{' '}
-          <Text style={[textStyle, { color: '#d4ff32' }]}>{this.state.photos.length}</Text>
+          <Text style={[textStyle, { color: '#d4ff32' }]}>{photos.length}</Text>
         </Text>
-        {this.state.photos.length === 0 ? (
+        {photos.length === 0 ? (
           <Image
             style={{
               width: 120,
@@ -79,9 +79,7 @@ class GymForm extends Component {
                       />
                       <TouchableOpacity
                         style={{ position: 'absolute', right: 7, top: 7 }}
-                        onPress={() => this.setState((prevState) => ({
-                          photos: prevState.photos.filter((item) => item.uri !== photo.uri)
-                        }))}
+                        onPress={() => gymFormUpdate('photos', photos.filter((item) => item.uri !== photo.uri))}
                       >
                         <CloseIcon />
                       </TouchableOpacity>
@@ -90,11 +88,11 @@ class GymForm extends Component {
                 ))}
               </Row>
             ))}
-           </ScrollView>)
+          </ScrollView>)
         }
         <Text
           style={[textStyle, { color: '#d4ff32', marginTop: 15 }]}
-          onPress={this.handleButtonPress.bind(this)}
+          onPress={this.handleButtonPress}
         >
           + ДОБАВИТЬ ЕЩЕ ФОТО
         </Text>
@@ -103,4 +101,8 @@ class GymForm extends Component {
   }
 }
 
-export default GymForm;
+const mapStateToProps = (state) => ({
+  photos: state.gymForm.photos
+});
+
+export default connect(mapStateToProps, { gymFormUpdate })(GymForm);

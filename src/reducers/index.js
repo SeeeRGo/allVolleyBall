@@ -6,6 +6,7 @@ import profileForm from '../scenes/ProfileForm/reducer';
 import profile from '../scenes/Profile/reducer';
 import game from '../scenes/Game/GameScreen/reducer';
 import gameForm from '../scenes/Game/GameForm/reducer';
+import gymForm from '../scenes/Gym/GymForm/reducer';
 import signupForm from '../scenes/Signup/reducer';
 import selections from '../scenes/Feed/reducer';
 
@@ -19,5 +20,6 @@ export default combineReducers({
   game,
   gameForm,
   signupForm,
+  gymForm,
   selections
 });

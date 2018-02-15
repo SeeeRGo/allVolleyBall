@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { ScrollView } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
+import { createGym } from '../GymScreen/actions';
 import AddressBlock from './AddressBlock';
 import QualificationsBlock from './QualificationsBlock';
 import GalleryBlock from './GalleryBlock';
@@ -13,10 +15,12 @@ import navBarStyles from '../../../components/common/CustomHeader/navBarStyles';
 import { SCREEN_HEIGHT } from '../../../styles';
 
 class GymForm extends Component {
+  handleCreateGym = () => {
+    this.props.createGym(this.props.formData);
+  }
   render() {
     return (
       <Background>
-
         <CustomHeader
           title="Новый зал"
           rightIcon={
@@ -39,11 +43,15 @@ class GymForm extends Component {
           containerViewStyle={{ position: 'absolute', bottom: 0, width: '100%' }}
           title={this.props.actionType === 'create' ? 'СОЗДАТЬ ЗАЛ' : 'РЕДАКТИРОВАТЬ ЗАЛ'}
           buttonStyle={{ backgroundColor: '#00bfb1' }}
-          onPress={() => {}}
+          onPress={this.handleCreateGym}
         />
       </Background>
     );
   }
 }
 
-export default GymForm;
+const mapStateToProps = (state) => ({
+  formData: state.gymForm
+});
+
+export default connect(mapStateToProps, { createGym })(GymForm);
