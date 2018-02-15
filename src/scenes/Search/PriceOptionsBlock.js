@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, Dimensions } from 'react-native';
 import { FormLabel, Slider } from 'react-native-elements';
 
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
 import styles from './styles';
+import { updateSearchFilter } from './actions';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
+
+const paidOrFree = [
+  'paid',
+  'free'
+];
 
 class PriceOptionsBlock extends Component {
   static defaultProps = {
@@ -19,7 +26,7 @@ class PriceOptionsBlock extends Component {
         <Row extraStyles={{ justifyContent: 'center', alignItems: 'center' }}>
           <Text style={formLabelStyle}>СТОИМОСТЬ ИГРЫ</Text>
           <Slider
-            value={0}
+            value={paidOrFree.indexOf(this.props.paidOrFree)}
             minimumValue={0}
             maximumValue={1}
             step={1}
@@ -34,7 +41,7 @@ class PriceOptionsBlock extends Component {
             thumbStyle={{
               width: 15, height: 15, marginBottom: 0, marginTop: 0
             }}
-            onValueChange={(value) => {}}
+            onValueChange={(value) => updateSearchFilter('paidOrFree', paidOrFree[value])}
           />
           <Text style={formLabelStyle}>БЕСПЛАТНО</Text>
         </Row>
@@ -59,4 +66,8 @@ class PriceOptionsBlock extends Component {
   }
 }
 
-export default PriceOptionsBlock;
+const mapStateToProps = (state) => ({
+  paidOrFree: state.searchFilter.paidOrFree
+});
+
+export default connect(mapStateToProps, { updateSearchFilter })(PriceOptionsBlock);

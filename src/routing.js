@@ -76,6 +76,7 @@ export default class App extends Component {
             <Scene
               hideNavBar
               key="Search"
+              initial
               path="/search"
               component={SearchScreen}
             />
@@ -100,7 +101,6 @@ export default class App extends Component {
             <Scene
               hideNavBar
               key="GymForm"
-              initial
               path="/gym/:id/edit"
               component={GymForm}
             />

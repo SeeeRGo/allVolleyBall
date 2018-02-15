@@ -9,7 +9,7 @@ import gameForm from '../scenes/Game/GameForm/reducer';
 import gymForm from '../scenes/Gym/GymForm/reducer';
 import signupForm from '../scenes/Signup/reducer';
 import selections from '../scenes/Feed/reducer';
-
+import searchFilter from '../scenes/Search/reducer';
 
 export default combineReducers({
   login,
@@ -21,5 +21,6 @@ export default combineReducers({
   gameForm,
   signupForm,
   gymForm,
-  selections
+  selections,
+  searchFilter
 });

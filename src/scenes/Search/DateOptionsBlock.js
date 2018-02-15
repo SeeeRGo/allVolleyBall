@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
 import moment from 'moment';
 import { Icon } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
-import Svg, { Rect, Defs, LinearGradient, Stop, Ellipse } from 'react-native-svg';
 
+import { updateSearchFilter } from './actions';
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
 import styles from './styles';
@@ -14,10 +15,11 @@ import { SCREEN_HEIGHT } from '../../components/common/CustomHeader/navBarStyles
 class DateOptionsBlock extends Component {
   render() {
     const { formLabelStyle, datePickerCustomStyle, datePickerStyle } = styles;
+    const { startDate, startTime, updateSearchFilter } = this.props;
     return (
       <View style={{ height: SCREEN_HEIGHT * 0.25, justifyContent: 'space-around' }}>
         <Text style={formLabelStyle}>КОГДА{' '}
-          <Text style={[formLabelStyle, { color: '#d4ff32' }]}>{'ОТ '}{moment().format('DD/MM/YY')}</Text>
+          <Text style={[formLabelStyle, { color: '#d4ff32' }]}>{'ОТ '}{startDate.format('DD/MM/YY')}</Text>
         </Text>
         <Row extraStyles={{ justifyContent: 'space-around' }}>
           <Icon
@@ -34,7 +36,7 @@ class DateOptionsBlock extends Component {
         <Row extraStyles={{ justifyContent: 'space-around' }}>
           <DatePicker
             style={datePickerStyle}
-            date={moment().format('DD MMM YYYY')}
+            date={startDate}
             mode="date"
             placeholder="select date"
             format="DD MMM YYYY"
@@ -43,12 +45,12 @@ class DateOptionsBlock extends Component {
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
             customStyles={datePickerCustomStyle}
-            onDateChange={() => {}}
+            onDateChange={(value) => updateSearchFilter('startDate', value)}
             androidMode="spinner"
           />
           <DatePicker
             style={datePickerStyle}
-            date="12 00"
+            date={startTime}
             mode="time"
             placeholder="select date"
             format="HH mm"
@@ -57,7 +59,7 @@ class DateOptionsBlock extends Component {
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
             customStyles={datePickerCustomStyle}
-            onDateChange={() => {}}
+            onDateChange={(value) => updateSearchFilter('startTime', value)}
             androidMode="spinner"
           />
         </Row>
@@ -66,5 +68,9 @@ class DateOptionsBlock extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  startTime: state.searchFilter.startTime,
+  startDate: state.searchFilter.startDate
+});
 
-export default DateOptionsBlock;
+export default connect(mapStateToProps, { updateSearchFilter })(DateOptionsBlock);

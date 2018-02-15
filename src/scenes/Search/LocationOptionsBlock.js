@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, Dimensions } from 'react-native';
 import { Slider } from 'react-native-elements';
 
+import { updateSearchFilter } from './actions';
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
 import styles from './styles';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
+
+const cityOrDistrict = [
+  'city',
+  'district'
+];
 
 class LocationOptionsBlock extends Component {
   render() {
@@ -39,7 +46,7 @@ class LocationOptionsBlock extends Component {
               thumbStyle={{
                 width: 15, height: 15, marginBottom: 0, marginTop: 0
               }}
-              onValueChange={(value) => {}}
+              onValueChange={(value) => updateSearchFilter('cityOrDistrict', cityOrDistrict[value])}
             />
             <Text style={formLabelStyle}>РАЙОН</Text>
           </Row>
@@ -58,4 +65,8 @@ class LocationOptionsBlock extends Component {
   }
 }
 
-export default LocationOptionsBlock;
+const mapStateToProps = (state) => ({
+  cityOrDistrict: state.searchFilter.cityOrDistrict
+});
+
+export default connect(mapStateToProps, { updateSearchFilter })(LocationOptionsBlock);
