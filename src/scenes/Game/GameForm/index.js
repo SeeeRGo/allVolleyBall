@@ -40,34 +40,8 @@ class GameForm extends Component {
     this.props.updateGame(updates, gameId);
     Actions.GameList();
   }
-  handleCreateGame() {
-    const {
-      gameType, minPlayers, maxPlayers, price, gameTime, gameDate,
-      startTime, finishTime, gameAddress, gameInfo, gameEndTime, gameStartTime
-    } = this.props;
-    const game = {
-      kindOfSportsId: gameType,
-      players: {
-        min: minPlayers,
-        max: maxPlayers,
-        total: 0
-      },
-      cost: price,
-      date: moment(gameDate).toISOString(),
-      startTime: moment(startTime).toISOString(),
-      arrivalTime: moment(startTime).toISOString(),
-      duration: {
-        hours: moment(gameEndTime).diff(gameStartTime),
-        minutes: moment(gameEndTime).diff(gameStartTime),
-        seconds: moment(gameEndTime).diff(gameStartTime)
-      },
-      gameAddress,
-      gameInfo,
-      paymentTerms: {},
-      gymId: 'myPersonalGymId',
-      creatorId: 'myProfileId'
-    };
-    this.props.createGame(game);
+  handleCreateGame = () => {
+    this.props.createGame(this.props.formData);
     Actions.GameList();
   }
   handleGameForm() {
@@ -105,7 +79,7 @@ class GameForm extends Component {
           containerViewStyle={{ position: 'absolute', bottom: 0, width: '100%' }}
           title={this.props.actionType === 'create' ? 'СОЗДАТЬ ИГРУ' : 'РЕДАКТИРОВАТЬ ИГРУ'}
           buttonStyle={{ backgroundColor: '#00bfb1' }}
-          onPress={this.handleGameForm.bind(this)}
+          onPress={this.handleCreateGame}
         />
       </Background>
     );
@@ -113,16 +87,7 @@ class GameForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  gameType: state.gameForm.gameType,
-  minPlayers: state.gameForm.minPlayers,
-  maxPlayers: state.gameForm.maxPlayers,
-  price: state.gameForm.price,
-  gameTime: state.gameForm.gameTime,
-  gameDate: state.gameForm.gameDate,
-  gameStartTime: state.gameForm.gameStartTime,
-  gameEndTime: state.gameForm.gameEndTime,
-  gameAddress: state.gameForm.gameAddress,
-  gameInfo: state.gameForm.gameInfo
+  formData: state.gameForm
 });
 
 export default connect(mapStateToProps, { updateGame, createGame })(GameForm);

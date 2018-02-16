@@ -156,6 +156,7 @@ const mapStateToProps = (state) => ({
   city: state.gymForm.city,
   district: state.gymForm.district,
   house: state.gymForm.house,
+  street: state.gymForm.street,
   building: state.gymForm.building,
   subBuilding: state.gymForm.subBuilding,
   subwayStation: state.gymForm.subwayStation

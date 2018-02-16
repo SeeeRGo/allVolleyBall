@@ -11,7 +11,9 @@ import { SCREEN_WIDTH } from '../../../styles';
 class AdminBlock extends Component {
   render() {
     const { formLabelStyle, formInputStyle } = styles;
-    const { adminDataConfirmation, tarifGrid, contactPhone } = this.props;
+    const {
+      adminDataConfirmation, tarifGrid, contactPhone, gymFormUpdate
+    } = this.props;
     return (
       <View>
         <FormLabel labelStyle={[formLabelStyle, { alignSelf: 'center', marginTop: 25, marginBottom: 15 }]}>ТАРИФНАЯ СЕТКА</FormLabel>
