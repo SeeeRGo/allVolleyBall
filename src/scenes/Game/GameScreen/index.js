@@ -53,7 +53,7 @@ class GameScreen extends Component {
             <LeftColumn gameId={gameId} />
             <RightColumn gameId={gameId} />
           </Row>
-          <View style={{ top: -30 }}>
+          <View>
             <Text
               style={[styles.textBlockStyle]}
               onPress={() => Actions.GameForm({ gameId })}

@@ -127,12 +127,7 @@ const mapStateToProps = (state) => ({
   gameType: state.gameForm.gameType,
   minPlayers: state.gameForm.minPlayers,
   maxPlayers: state.gameForm.maxPlayers,
-  price: state.gameForm.price,
-  gameTime: state.gameForm.gameTime,
-  startTime: state.gameForm.startTime,
-  finishTime: state.gameForm.finishTime,
-  gameAddress: state.gameForm.gameAddress,
-  gameInfo: state.gameForm.gameInfo
+  sportType: state.gameForm.sportType
 });
 
 export default connect(mapStateToProps, { gameFormUpdate })(PlayersAndTypeBlock);

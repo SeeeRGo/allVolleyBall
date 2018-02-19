@@ -1,5 +1,5 @@
 import uuidv4 from 'uuid/v4';
-import { GAME_UPDATE, GAME_CREATE, FETCH_GAMES } from './actions';
+import { GAME_UPDATE, GAME_CREATE, FETCH_GAMES, GET_GAME_CREATOR_SUCCESS } from './actions';
 
 const INITIAL_STATE = [];
 

@@ -8,6 +8,11 @@ import Row from '../../../components/common/Row';
 import styles from './styles';
 
 class GameListItem extends Component {
+  static defaultProps = {
+    gameImage: {
+      uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjs7X0GOmJmaQhq0f6HQcuogHiRq-YuNOFKhy24GxmA30uUPGS'
+    }
+  }
   componentDidMount() {
     Actions.refresh();
   }
@@ -18,7 +23,7 @@ class GameListItem extends Component {
       textStyle, mainTextStyle, iconStyle, blueText, rowHeight, spaceAroundRow
     } = styles;
     const {
-      gameId, gameAddress, gameCreator, gameTime, gameType, price,
+      gameId, gameAddress, gameCreator, gameTime, gameType, price, gameImage,
       startTime, finishTime, minPlayers, maxPlayers, totalPlayers
     } = this.props;
     console.log(this.props);
@@ -31,7 +36,7 @@ class GameListItem extends Component {
         >
           <Image
             style={imageContainerStyle}
-            source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjs7X0GOmJmaQhq0f6HQcuogHiRq-YuNOFKhy24GxmA30uUPGS' }}
+            source={gameImage}
           />
           <Rating
             imageSize={20}

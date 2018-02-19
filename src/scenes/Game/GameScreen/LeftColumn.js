@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { View, Text, Image, Dimensions } from 'react-native';
+import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
+import ImagePicker from 'react-native-image-picker';
 import { Actions } from 'react-native-router-flux';
 
+import { updateGameImage } from './actions';
 import Row from '../../../components/common/Row';
 import styles from './styles';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
+const options = {
+  title: 'Изменить фото игры',
+  takePhotoButtonTitle: 'Сделать снимок',
+  storageOptions: {
+    skipBackup: true,
+    path: 'images'
+  }
+};
 
 class LeftColumn extends Component {
   static defaultProps = {
@@ -25,15 +35,40 @@ class LeftColumn extends Component {
       time: moment().format('HH:mm')
     }
   }
+  handleImagePress = () => {
+    const { gameId, updateGameImage } = this.props;
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        ImagePicker.launchCamera(options, (res) => {
+          console.log('Response = ', res);
+        });
+      } else {
+        const source = `data:image/jpeg;base64,${response.data}`;
+
+        updateGameImage(gameId, source);
+
+        // updateGame(gameId, { gameImage: source });
+      }
+    });
+  };
   render() {
     const { gameImage, gameCreator, createdAt } = this.props;
     const { textStyle, iconContainerStyle, imageStyle } = styles.leftColumnStyle;
     return (
       <View>
-        <Image
-          style={imageStyle}
-          source={gameImage}
-        />         
+        <TouchableOpacity onPress={this.handleImagePress}>
+          <Image
+            style={imageStyle}
+            source={{ uri: gameImage.uri }}
+          />
+        </TouchableOpacity>
         <View style={{ backgroundColor: '#091b75', height: SCREEN_HEIGHT * 0.4, paddingLeft: 10 }}>
           <Text
             style={textStyle}
@@ -71,11 +106,11 @@ class LeftColumn extends Component {
 const mapStateToProps = (state, ownProps) => {
   const gameScreen = state.game.find((item) => item.id === ownProps.gameId);
   return {
-    // gameImage: gameScreen.gameImage,
+    gameImage: gameScreen.gameImage
     // gameCreator: gameScreen.gameCreator,
     // createdAt: gameScreen.createdAt
   };
 };
 
 
-export default connect(mapStateToProps)(LeftColumn);
+export default connect(mapStateToProps, { updateGameImage })(LeftColumn);

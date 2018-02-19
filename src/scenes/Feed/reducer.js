@@ -2,7 +2,8 @@ import { CHANGE_SELECTION } from './actions';
 
 const INITIAL_STATE = {
   feedFooterButtons: 0,
-  myGamesSubHeaderButtons: 0
+  myGamesSubHeaderButtons: 0,
+  gameListItemView: 0
 };
 
 export default (state = INITIAL_STATE, action) => {

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
@@ -48,10 +50,15 @@ class SearchScene extends Component {
           }}
           title="НАЙТИ"
           buttonStyle={{ backgroundColor: '#00bfb1' }}
+          onPress={() => Actions.replace('GameList', { filter: this.props.filter })}
         />
       </Background>
     );
   }
 }
 
-export default SearchScene;
+const mapStateToProps = (state) => ({
+  filter: state.searchFilter
+});
+
+export default connect(mapStateToProps)(SearchScene);

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View, ScrollView } from 'react-native';
 import { List, ListItem, Icon } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 
-import { fetchGames } from '../GameScreen/actions';
+import { fetchGames, getGameCreator, fetchGamesFiltered } from '../GameScreen/actions';
 import GameListItem from '../GameListItem';
 import GameSearchHeader from './GameSearchHeader';
 import Background from '../../../components/common/Background';
@@ -16,6 +17,7 @@ class GameList extends Component {
     this.props.fetchGames();
   }
   render() {
+    const { games, getGameCreator } = this.props;
     return (
       <Background>
         <CustomHeader
@@ -33,9 +35,9 @@ class GameList extends Component {
         />
         <GameSearchHeader numGamesFound={this.props.games.length} />
         <ScrollView style={{ maxHeight: SCREEN_HEIGHT, top: 50 }}>
-          <List containerStyle={{ marginBottom: 20 }}>
+          <List>
             {
-              this.props.games.map((game) => (
+              games.map((game) => (
                 <GameListItem
                   key={game.id}
                   {...game}
@@ -54,4 +56,4 @@ const mapStateToProps = (state) => ({
   games: state.game
 });
 
-export default connect(mapStateToProps, { fetchGames })(GameList);
+export default connect(mapStateToProps, { fetchGames, getGameCreator, fetchGamesFiltered })(GameList);
