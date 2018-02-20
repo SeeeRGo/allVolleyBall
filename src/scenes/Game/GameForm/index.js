@@ -41,8 +41,12 @@ class GameForm extends Component {
     Actions.GameList();
   }
   handleCreateGame = () => {
-    this.props.createGame(this.props.formData);
-    Actions.GameList();
+    const { createGame, formData, creatorId } = this.props;
+    createGame({
+      ...formData,
+      creatorId
+    });
+    Actions.replace('MyGames');
   }
   handleGameForm() {
     if (this.props.actionType === 'create') {
@@ -87,7 +91,8 @@ class GameForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  formData: state.gameForm
+  formData: state.gameForm,
+  creatorId: state.user.userId
 });
 
 export default connect(mapStateToProps, { updateGame, createGame })(GameForm);

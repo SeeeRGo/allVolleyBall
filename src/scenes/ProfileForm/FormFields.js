@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Picker, ScrollView } from 'react-native';
+import { View, Picker, ScrollView, TouchableHighlight } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import { FormInput, FormLabel, Icon } from 'react-native-elements';
 
 import Row from '../../components/common/Row';
+import GenderIcon from '../../components/common/Svg/GenderIcon';
 import { playerFormUpdate } from './actions';
 import styles from './styles';
+import { SCREEN_WIDTH } from '../../components/common/Logo/index';
 
 const cities = [
   'Тольятти',
@@ -16,6 +18,9 @@ const cities = [
 ];
 
 class FormFields extends Component {
+  static defaultProps = {
+    gender: 'male'
+  }
   renderCities(cityList) {
     return cityList.map((city) => <Picker.Item key={city} label={city} value={city} />);
   }
@@ -25,7 +30,7 @@ class FormFields extends Component {
     } = styles;
     const {
       lastName, firstName, fatherName, birthDate, fbLink, city,
-      vkLink, phone, password, passwordRe, playerFormUpdate
+      vkLink, phone, password, passwordRe, gender, playerFormUpdate
     } = this.props;
     return (
       <ScrollView>
@@ -50,8 +55,8 @@ class FormFields extends Component {
             value={fatherName}
           />
           <FormLabel labelStyle={formLabelStyle}>Дата Рождения</FormLabel>
-          <Row>
-            <View>
+          <Row extraStyles={{ justifyContent: 'space-around', alignItems: 'center' }}>
+            <View style={{ justifyContent: 'space-around', alignItems: 'center', width: SCREEN_WIDTH * 0.4 }}>
               <DatePicker
                 style={datePickerStyle}
                 date={birthDate}
@@ -76,26 +81,22 @@ class FormFields extends Component {
                 }}
                 onDateChange={(value) => playerFormUpdate('birthDate', value)}
               />
-              <FormLabel labelStyle={[formLabelStyle]}>ТЕЛЕФОН*</FormLabel>
+              <FormLabel labelStyle={[formLabelStyle, { maxWidth: SCREEN_WIDTH * 0.35 }]}>ТЕЛЕФОН*</FormLabel>
               <FormInput
-                inputStyle={[formInputStyle, { maxWidth: 150 }]}
+                inputStyle={[formInputStyle, { maxWidth: SCREEN_WIDTH * 0.35 }]}
                 value={phone}
                 onChangeText={(value) => playerFormUpdate('phone', value)}
               />
             </View>
-            <View style={{ justifyContent: 'space-around', alignItems: 'center' }}>
+            <View style={{ justifyContent: 'space-around', alignItems: 'center', width: SCREEN_WIDTH * 0.35 }}>
               <FormLabel>ПОЛ</FormLabel>
-              <Row extraStyles={{ justifyContent: 'space-around', alignItems: 'center', width: 150 }}>
-                <Icon
-                  name="male"
-                  type="font-awesome"
-                  reverse
-                />
-                <Icon
-                  name="female"
-                  type="font-awesome"
-                  reverse
-                />
+              <Row extraStyles={{ justifyContent: 'space-around', alignItems: 'center' }}>
+                <TouchableHighlight onPress={() => playerFormUpdate('gender', 'male')}>
+                  <GenderIcon title="М" active={gender === 'male'} />
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => playerFormUpdate('gender', 'female')}>
+                  <GenderIcon title="Ж" active={gender === 'female'} />
+                </TouchableHighlight>
               </Row>
             </View>
           </Row>
@@ -156,7 +157,8 @@ const mapStateToProps = (state) => ({
   fbLink: state.profileForm.fbLink,
   city: state.profileForm.city,
   password: state.profileForm.password,
-  passwordRe: state.profileForm.passwordRe
+  passwordRe: state.profileForm.passwordRe,
+  gender: state.profileForm.gender
 });
 
 export default connect(mapStateToProps, { playerFormUpdate })(FormFields);

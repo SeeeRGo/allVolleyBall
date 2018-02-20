@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 import { Rating, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
 import Row from '../../../components/common/Row';
+import SvgShadow from '../../../components/common/Svg/SvgShadow';
+import ThumbnailView from './ThumbnailView';
 import styles from './styles';
+
+const sportTypes = [
+  'ВОЛЕЙБОЛ КЛАССИЧЕСКИЙ',
+  'ВОЛЕЙБОЛ ПЛЯЖНЫЙ'
+];
+
+const gameTypes = [
+  'СВОБОДНАЯ ИГРА',
+  'ТРЕНИРОВКА',
+  'ИГРА ЧЕМПИОНАТА'
+
+];
 
 class GameListItem extends Component {
   static defaultProps = {
@@ -23,92 +37,93 @@ class GameListItem extends Component {
       textStyle, mainTextStyle, iconStyle, blueText, rowHeight, spaceAroundRow
     } = styles;
     const {
-      gameId, gameAddress, gameCreator, gameTime, gameType, price, gameImage,
-      startTime, finishTime, minPlayers, maxPlayers, totalPlayers
+      gameId, gameAddress, creator, gameTime, gameTypeId, cost, gameImage, kindOfSportsId, display,
+      startTime, finishTime, playersCounts, maxPlayers, totalPlayers, requestStatus, deleteItem
     } = this.props;
     console.log(this.props);
     return (
-      <Row
-        extraStyles={gameContainerStyle}
-      >
-        <View
-          style={leftColumnStyle}
-        >
-          <Image
-            style={imageContainerStyle}
-            source={gameImage}
-          />
-          <Rating
-            imageSize={20}
-            readonly
-            startingValue={3}
-            ratingCount={3}
-            style={ratingStyle}
-          />
-        </View>
-        <View style={rightColumnStyle}>
-          <Row extraStyles={rowHeight}>
-            <Text style={blueBgTextStyle}>{gameTime}</Text>
-            <Text style={redBgTextStyle}>{moment(gameTime).format('HH:mm')}</Text>
-            <Text style={borderedBlueTextStyle}>{startTime}-{finishTime}</Text>
-            <Text style={borderedRedTextStyle}>{minPlayers}-{maxPlayers} чел</Text>
-            <Text style={borderedTealStyle}>{price} р</Text>
-          </Row>
-          <Row extraStyles={rowHeight}>
-            <Icon
-              size={12}
-              name="user"
-              type="font-awesome"
-              color="grey"
-              iconStyle={iconStyle}
-            />
-            <Text style={mainTextStyle}>{gameCreator}{' '}
-            </Text>
-            <Text style={textStyle}>волейбол, {gameType}{' '}</Text>
-            <Text
-              style={textStyle}
-              onPress={() => {
-                console.log(gameId);
-                Actions.GameScreen({ gameId });
-              }}
+      <View style={{ backgroundColor: 'transparent', marginBottom: 7 }}>
+        <TouchableOpacity onPress={() => Actions.GameScreen({ gameId })}>
+          <Row
+            extraStyles={gameContainerStyle}
+          >
+            <View
+              style={leftColumnStyle}
             >
-              ПОДРОБНЕЕ
-            </Text>
-          </Row>
-          <Row extraStyles={rowHeight}>
-            <Icon
-              size={12}
-              name="home"
-              type="font-awesome"
-              color="grey"
-              iconStyle={iconStyle}
-            />
-            <Text style={textStyle}>{gameAddress}{' '}
-              <Text>{gameAddress}</Text>
-            </Text>
-          </Row>
-          <Row extraStyles={spaceAroundRow}>
-            <Text style={textStyle}>ЗАЯВКИ{' '}
-              <Text style={blueText}>{totalPlayers}</Text>
-            </Text>
-            <Text style={textStyle}>СВОБОДНЫХ МЕСТ{' '}
-              <Text style={blueText}>{(maxPlayers - totalPlayers)}</Text>
-            </Text>
-            <Row>
-              <Icon
-                size={12}
-                name="comment"
-                type="font-awesome"
-                color="grey"
-                iconStyle={{ paddingRight: 5 }}
+              <Image
+                style={imageContainerStyle}
+                source={gameImage}
               />
-              <Text style={textStyle}>10/{''}
-                <Text style={blueText}>1</Text>
-              </Text>
-            </Row>
+              <Rating
+                imageSize={20}
+                readonly
+                startingValue={3}
+                ratingCount={3}
+                style={ratingStyle}
+              />
+            </View>
+            <View style={rightColumnStyle}>
+              <Row extraStyles={rowHeight}>
+                <Text style={blueBgTextStyle}>{gameTime}</Text>
+                <Text style={redBgTextStyle}>{moment(gameTime).format('HH:mm')}</Text>
+                <Text style={borderedBlueTextStyle}>{startTime}-{finishTime}</Text>
+                <Text style={borderedRedTextStyle}>{playersCounts.min}-{playersCounts.max} чел</Text>
+                <Text style={borderedTealStyle}>{cost} р</Text>
+              </Row>
+              <Row extraStyles={rowHeight}>
+                <Icon
+                  size={12}
+                  name="user"
+                  type="font-awesome"
+                  color="grey"
+                  iconStyle={iconStyle}
+                />
+                <Text style={mainTextStyle}>{creator.firstName[0]}{'. '}{creator.lastName}
+                </Text>
+                <Text style={textStyle}>{sportTypes[kindOfSportsId]}{' '}</Text>
+                <Text style={textStyle}>{gameTypes[gameTypeId]}{' '}</Text>
+              </Row>
+              <Row extraStyles={[rowHeight, { alignItems: 'center' }]}>
+                <Icon
+                  size={12}
+                  name="home"
+                  type="font-awesome"
+                  color="grey"
+                  iconStyle={iconStyle}
+                />
+                <Text style={textStyle}>{gameAddress}{' '}
+                  <Text>{gameAddress}</Text>
+                </Text>
+              </Row>
+              <Row extraStyles={spaceAroundRow}>
+                <Text style={textStyle}>ЗАЯВКИ{' '}
+                  <Text style={blueText}>{totalPlayers}</Text>
+                </Text>
+                <Text style={textStyle}>СВОБОДНЫХ МЕСТ{' '}
+                  <Text style={blueText}>{(maxPlayers - totalPlayers)}</Text>
+                </Text>
+                <Row>
+                  <Icon
+                    size={12}
+                    name="comment"
+                    type="font-awesome"
+                    color="grey"
+                    iconStyle={{ paddingRight: 5 }}
+                  />
+                  <Text style={textStyle}>10/{''}
+                    <Text style={blueText}>1</Text>
+                  </Text>
+                </Row>
+              </Row>
+            </View>
           </Row>
-        </View>
-      </Row>
+          <SvgShadow />
+        </TouchableOpacity>
+        <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent' }}>
+          {!!requestStatus && <Text style={textStyle}>ОЖИДАЕТ ОДОБРЕНИЯ...</Text>}
+          {!!deleteItem && <Text style={[textStyle, { color: '#d4ff32' }]}>х УДАЛИТЬ</Text>}
+        </Row>
+      </View>
     );
   }
 }

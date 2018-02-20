@@ -106,15 +106,15 @@ class RightColumn extends Component {
 const mapStateToProps = (state, ownProps) => {
   const gameScreen = state.game.find((item) => item.id === ownProps.gameId);
   return {
-    // gameType: gameScreen.gameType,
-    // minPlayers: gameScreen.minPlayers,
-    // maxPlayers: gameScreen.maxPlayers,
-    // price: gameScreen.price,
-    // gameTime: gameScreen.gameTime,
-    // startTime: gameScreen.startTime,
-    // finishTime: gameScreen.finishTime,
-    // gameAddress: gameScreen.gameAddress,
-    // totalPlayers: gameScreen.totalPlayers
+    gameType: gameScreen.gameType,
+    minPlayers: gameScreen.playersCounts.min,
+    maxPlayers: gameScreen.playersCounts.max,
+    price: gameScreen.cost,
+    gameTime: gameScreen.date,
+    startTime: gameScreen.arrivalTime,
+    finishTime: gameScreen.arrivalTime,
+    gameAddress: gameScreen.gameAddress,
+    totalPlayers: gameScreen.totalPlayers
   };
 };
 

@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import { View, Text, Dimensions, ScrollView } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 
+import { sendJoinGameRequest } from './actions';
 import LeftColumn from './LeftColumn';
 import RightColumn from './RightColumn';
 import Background from '../../../components/common/Background';
@@ -18,13 +19,13 @@ class GameScreen extends Component {
   static defaultProps = {
     gameInfo: 'Game Info here',
     gameCreator: {
-      firstName: 'Виталий',
-      lastName: 'Андрейчук'
+      firstName: '',
+      lastName: ''
     }
   }
   render() {
     console.log(this.props);
-    const { gameInfo, gameId, gameCreator } = this.props;
+    const { gameInfo, gameId, gameCreator, userId, sendJoinGameRequest } = this.props;
     return (
       <Background>
         <CustomHeader
@@ -66,6 +67,7 @@ class GameScreen extends Component {
           title="Отправить заявку"
           containerViewStyle={styles.buttonStyle}
           buttonStyle={{ backgroundColor: '#00bfb1' }}
+          onPress={() => sendJoinGameRequest(userId, gameId)}
         />
       </Background>
     );
@@ -75,8 +77,10 @@ class GameScreen extends Component {
 const mapStateToProps = (state, ownProps) => {
   const gameScreen = state.game.find((item) => item.id === ownProps.gameId);
   return {
-    gameInfo: gameScreen.gameInfo
+    gameInfo: gameScreen.gameInfo,
+    gameCreator: gameScreen.creator,
+    userId: state.user.userId
   };
 };
 
-export default connect(mapStateToProps)(GameScreen);
+export default connect(mapStateToProps, { sendJoinGameRequest })(GameScreen);

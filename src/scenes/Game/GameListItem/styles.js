@@ -4,7 +4,8 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const styles = {
   iconStyle: {
-    padding: 5
+    paddingLeft: 5,
+    paddingRight: 5
   },
   rowHeight: {
     height: 25
@@ -14,13 +15,12 @@ const styles = {
   },
   spaceAroundRow: {
     height: 25,
-    justifyContent: 'space-around'
+    justifyContent: 'space-between'
   },
   textStyle: {
     fontSize: 12,
     lineHeight: 24,
-    textAlign: 'center',
-    justifyContent: 'center'
+    textAlign: 'center'
   },
   boldTextStyle: {
     fontSize: 14,
@@ -32,24 +32,23 @@ const styles = {
   },
   gameContainerStyle: {
     height: 100,
-    backgroundColor: 'white',
-    marginBottom: 30
+    backgroundColor: 'white'
   },
   leftColumnStyle: {
-    width: SCREEN_WIDTH * 0.2,
+    width: SCREEN_WIDTH * 0.2 - 10,
     height: 100
   },
   imageContainerStyle: {
-    width: SCREEN_WIDTH * 0.2,
+    width: SCREEN_WIDTH * 0.2 - 10,
     height: 80
   },
   ratingStyle: {
-    maxWidth: SCREEN_WIDTH * 0.2,
+    maxWidth: SCREEN_WIDTH * 0.2 - 10,
     alignSelf: 'center',
     flex: 1
   },
   rightColumnStyle: {
-    width: SCREEN_WIDTH * 0.8,
+    width: SCREEN_WIDTH * 0.8 - 10,
     height: 100,
     backgroundColor: 'white'
   },
@@ -100,7 +99,6 @@ const styles = {
     color: 'teal',
     borderBottomWidth: 1
   }
-
 };
 
 export default styles;

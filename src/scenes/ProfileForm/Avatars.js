@@ -1,11 +1,51 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View } from 'react-native';
 import { Avatar, FormLabel, Icon } from 'react-native-elements';
+import ImagePicker from 'react-native-image-picker';
+
+import { playerFormUpdate } from './actions';
 import Row from '../../components/common/Row';
 import styles from './styles';
 
+const options = {
+  title: 'Изменить фото игры',
+  takePhotoButtonTitle: 'Сделать снимок',
+  storageOptions: {
+    skipBackup: true,
+    path: 'images'
+  }
+};
 
 class Avatars extends Component {
+  static defaultProps = {
+    photo: {
+      uri: 'http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg'
+    }
+  }
+  handleImagePress = () => {
+    const { gameId, updateGameImage } = this.props;
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        ImagePicker.launchCamera(options, (res) => {
+          console.log('Response = ', res);
+        });
+      } else {
+        const source = `data:image/jpeg;base64,${response.data}`;
+
+        playerFormUpdate('selfInfo', source);
+
+        // updateGame(gameId, { gameImage: source });
+      }
+    });
+  };
   render() {
     const {
       labelStyle, sizeLarge, sizeMedium, sizeSmall
@@ -15,8 +55,8 @@ class Avatars extends Component {
         <Avatar
           width={sizeLarge.width}
           height={sizeLarge.height}
-          title="CR"
-          onPress={() => console.log('Works!')}
+          source={{uri: this.props.photo}}
+          onPress={this.handleImagePress}
           activeOpacity={0.7}
           containerStyle={{ marginRight: 15 }}
         />
@@ -29,7 +69,7 @@ class Avatars extends Component {
           <Avatar
             width={sizeMedium.width}
             height={sizeMedium.height}
-            title="CR"
+            source={this.props.photo}
             onPress={() => console.log('Works!')}
             activeOpacity={0.7}
             containerStyle={{ marginRight: 15 }}
@@ -39,7 +79,7 @@ class Avatars extends Component {
           width={sizeSmall.width}
           height={sizeSmall.height}
           rounded
-          title="CR"
+          source={this.props.photo}
           onPress={() => console.log('Works!')}
           activeOpacity={0.7}
           containerStyle={{ marginRight: 15 }}
@@ -49,4 +89,8 @@ class Avatars extends Component {
   }
 }
 
-export default Avatars;
+const mapStateToProps = (state) => ({
+  photo: state.profile.selfInfo
+})
+
+export default connect(mapStateToProps, { playerFormUpdate })(Avatars);

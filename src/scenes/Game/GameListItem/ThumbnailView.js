@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, Dimensions, Text, Image, ImageBackground } from 'react-native';
 import { Rating, Icon } from 'react-native-elements';
+import moment from 'moment';
 
-import Row from '../../../helpers/Row';
+import Row from '../../../components/common/Row';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -20,23 +21,23 @@ class ThumbnailView extends Component {
             <Text
               style={[styles.paragraph, { flex: 2 / 3, color: 'teal' }]}
             >
-              300 Р
+              {this.props.cost}
             </Text>
           </Row>
           <Row>
             <Text
               style={[styles.paragraph, { flex: 2, backgroundColor: 'navy', color: 'white' }]}
             >
-              19/07/18
+              {moment(this.props.date).format('DD/MM/YY')}
             </Text>
             <Text
               style={[styles.paragraph, { flex: 1, backgroundColor: 'red', color: 'white' }]}
             >
-              11:00
+              {moment(this.props.startTime).format('HH:mm')}
             </Text>
           </Row>
         </ImageBackground>
-      </View >
+      </View>
     );
   }
 }

@@ -74,10 +74,10 @@ class LeftColumn extends Component {
             style={textStyle}
             onPress={() => Actions.Profile()}
           >
-            {gameCreator.name}
+            {gameCreator.lastName}{` ${gameCreator.firstName[0]}. ${gameCreator.fatherName[0]}.`}
           </Text>
           <Text style={textStyle}>Создано {createdAt.date} в {createdAt.time}</Text>
-          <Row>
+          {!!gameCreator.fbLink && <Row>
             <Icon
               name="facebook"
               type="font-awesome"
@@ -86,8 +86,8 @@ class LeftColumn extends Component {
               size={16}
             />
             <Text style={textStyle}>{gameCreator.fbLink}</Text>
-          </Row>
-          <Row>
+          </Row>}
+          {!!gameCreator.vkLink && <Row>
             <Icon
               name="vk"
               type="font-awesome"
@@ -96,7 +96,7 @@ class LeftColumn extends Component {
               size={16}
             />
             <Text style={textStyle}>{gameCreator.vkLink}</Text>
-          </Row>
+          </Row>}
         </View>
       </View>
     );
@@ -106,8 +106,8 @@ class LeftColumn extends Component {
 const mapStateToProps = (state, ownProps) => {
   const gameScreen = state.game.find((item) => item.id === ownProps.gameId);
   return {
-    gameImage: gameScreen.gameImage
-    // gameCreator: gameScreen.gameCreator,
+    gameImage: gameScreen.gameImage,
+    gameCreator: gameScreen.creator
     // createdAt: gameScreen.createdAt
   };
 };
