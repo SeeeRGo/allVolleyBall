@@ -7,6 +7,8 @@ import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
 import styles from './styles';
 import { updateSearchFilter } from './actions';
+import { gameFormUpdate } from '../Game/GameForm/actions';
+import { Actions } from 'react-native-router-flux';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -15,12 +17,13 @@ const paidOrFree = [
   'free'
 ];
 
+
 class PriceOptionsBlock extends Component {
-  static defaultProps = {
-    onSliderValueChange: () => {}
-  }
   render() {
     const { formLabelStyle } = styles;
+    const {
+      price, updateSearchFilter, gameFormUpdate, use
+    } = this.props;
     return (
       <View style={{ width: SCREEN_WIDTH, backgroundColor: this.props.bgColor }}>
         <Row extraStyles={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -55,19 +58,26 @@ class PriceOptionsBlock extends Component {
           maximumTrackTintColor="white"
           thumbTintColor="#d4ff32"
           style={{ width: SCREEN_WIDTH * 0.9, alignSelf: 'center' }}
-          onSlidingComplete={this.props.onSliderValueChange}
+          onValueChange={(value) => {
+            if (use === 'searchFilter') return updateSearchFilter('price', value);
+            return gameFormUpdate('price', value);
+          }}
         />
         <Row extraStyles={{ justifyContent: 'space-between' }}>
           <FormLabel labelStyle={[formLabelStyle, { fontSize: 16 }]}>0 Р</FormLabel>
-          <FormLabel labelStyle={[formLabelStyle, { fontSize: 16, color: '#d4ff32' }]}>до 2000 Р</FormLabel>
+          <FormLabel labelStyle={[formLabelStyle, { fontSize: 16, color: '#d4ff32' }]}>{price} Р</FormLabel>
         </Row>
       </View>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  paidOrFree: state.searchFilter.paidOrFree
-});
+const mapStateToProps = (state, ownProps) => {
+  console.log(ownProps);
+  return {
+    paidOrFree: state.searchFilter.paidOrFree,
+    price: state[ownProps.use].price
+  };
+};
 
-export default connect(mapStateToProps, { updateSearchFilter })(PriceOptionsBlock);
+export default connect(mapStateToProps, { updateSearchFilter, gameFormUpdate })(PriceOptionsBlock);

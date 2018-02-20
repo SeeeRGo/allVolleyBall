@@ -6,7 +6,7 @@ import { Actions } from 'react-native-router-flux';
 
 import Background from '../../components/common/Background';
 import CustomHeader from '../../components/common/CustomHeader';
-import navBarStyles from '../../components/common/CustomHeader/navBarStyles';
+import navBarStyles, { SCREEN_HEIGHT } from '../../components/common/CustomHeader/navBarStyles';
 import FormFields from './FormFields';
 import { updateProfile } from '../Profile/actions';
 import Avatars from './Avatars';
@@ -50,7 +50,7 @@ class PlayerForm extends Component {
             />
           }
         />
-        <ScrollView>
+        <ScrollView style={{ bottom: 5, top: 5, maxHeight: '75%' }}>
           <Avatars />
           <FormFields />
         </ScrollView>

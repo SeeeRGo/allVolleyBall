@@ -53,8 +53,8 @@ class SignupForm extends Component {
   }
 
   handleSignup() {
-    const { 
-      lastName, firstName, fatherName, phone, password, 
+    const {
+      lastName, firstName, fatherName, phone, password,
       passwordRe, city
     } = this.props;
     console.log(phone);
@@ -78,7 +78,7 @@ class SignupForm extends Component {
       mainContainerStyle, formLabelStyle, formInputStyle, agreeTextStyle, dividerStyle, boldText,
       outsideTextStyle
     } = styles;
-    const { 
+    const {
       lastName, firstName, fatherName, phone, password,
       passwordRe, city, changeCredential, resetCredentials
     } = this.props;
@@ -86,7 +86,7 @@ class SignupForm extends Component {
       <Background type="one">
         <CustomHeader title="Я - новенький" />
         <View style={mainContainerStyle}>
-          <ScrollView >
+          <ScrollView style={{ height: '100%' }}>
             <Row extraStyles={{ justifyContent: 'space-around', alignItems: 'flex-start', marginTop: 15 }}>
               <View>
                 <FormLabel labelStyle={[formLabelStyle, { marginLeft: 0, marginBottom: 10 }]}>РЕГИСТРИРУЙТЕСЬ ЧЕРЕЗ</FormLabel>

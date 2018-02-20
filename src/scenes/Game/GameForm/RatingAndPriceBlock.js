@@ -29,7 +29,7 @@ class RatingAndPriceBlock extends Component {
           style={ratingStyle}
           onFinishRating={(value) => gameFormUpdate('gameRating', value)}
         />
-        <PriceOptionsBlock bgColor="transparent" onSliderValueChange={(value) => gameFormUpdate('price', value)} />
+        <PriceOptionsBlock bgColor="transparent" use="gameForm" />
       </View>
     );
   }

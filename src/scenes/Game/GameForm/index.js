@@ -73,7 +73,7 @@ class GameForm extends Component {
         <View style={{ maxHeight: SCREEN_HEIGHT * 0.8 }}>
           <ScrollView >
             <PlayersAndTypeBlock />
-            <RatingAndPriceBlock />
+            <RatingAndPriceBlock use="searchFilter" />
             <DatePickersBlock />
             <AddressAndInfoBlock />
           </ScrollView>

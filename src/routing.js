@@ -15,6 +15,7 @@ import MyGymsScreen from './scenes/Feed/MyGyms';
 import GymForm from './scenes/Gym/GymForm';
 import WelcomeScreen from './scenes/Welcome';
 import PhoneConfirmationScreen from './scenes/PhoneConfirmation';
+import Chat from './scenes/Chat';
 
 export default class App extends Component {
   render() {
@@ -70,7 +71,6 @@ export default class App extends Component {
             <Scene
               hideNavBar
               key="GameList"
-              initial
               path="/games"
               component={GameList}
             />
@@ -103,6 +103,13 @@ export default class App extends Component {
               key="GymForm"
               path="/gym/:id/edit"
               component={GymForm}
+            />
+            <Scene
+              hideNavBar
+              key="Chat"
+              initial
+              path="/game/:id/chat"
+              component={Chat}
             />
           </Scene>
         </Lightbox>

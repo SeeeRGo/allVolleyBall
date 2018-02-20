@@ -64,8 +64,8 @@ class DatePickersBlock extends Component {
           />
         </Row>
         <Row extraStyles={{ justifyContent: 'space-around' }}>
-          <FormLabel labelStyle={formLabelStyle}>НАЧАЛО БРОНИ/СБОРА</FormLabel>
-          <FormLabel labelStyle={formLabelStyle}>ОКОНЧАНИЕ БРОНИ</FormLabel>
+          <FormLabel labelStyle={formLabelStyle}>НАЧАЛО СБОРА</FormLabel>
+          <FormLabel labelStyle={formLabelStyle}>ОКОНЧАНИЕ ИГРЫ</FormLabel>
         </Row>
         <Row extraStyles={{ justifyContent: 'space-around' }}>
           <DatePicker

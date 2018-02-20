@@ -36,7 +36,10 @@ class GameList extends Component {
           }
         />
         <GameSearchHeader numGamesFound={this.props.games.length} />
-        <ScrollView style={{ maxHeight: SCREEN_HEIGHT, top: 70, backgroundColor: 'transparent', marginLeft: 10, marginRight: 10 }}>
+        <ScrollView style={{
+          maxHeight: SCREEN_HEIGHT, top: 70, backgroundColor: 'transparent', marginLeft: 10, marginRight: 10
+        }}
+        >
           {
             games.map((game) => (
               <View>

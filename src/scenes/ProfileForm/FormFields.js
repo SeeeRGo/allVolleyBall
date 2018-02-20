@@ -91,12 +91,8 @@ class FormFields extends Component {
             <View style={{ justifyContent: 'space-around', alignItems: 'center', width: SCREEN_WIDTH * 0.35 }}>
               <FormLabel>ПОЛ</FormLabel>
               <Row extraStyles={{ justifyContent: 'space-around', alignItems: 'center' }}>
-                <TouchableHighlight onPress={() => playerFormUpdate('gender', 'male')}>
-                  <GenderIcon title="М" active={gender === 'male'} />
-                </TouchableHighlight>
-                <TouchableHighlight onPress={() => playerFormUpdate('gender', 'female')}>
-                  <GenderIcon title="Ж" active={gender === 'female'} />
-                </TouchableHighlight>
+                <GenderIcon title="М" active={gender === 'male'} />
+                <GenderIcon title="Ж" active={gender === 'female'} />
               </Row>
             </View>
           </Row>

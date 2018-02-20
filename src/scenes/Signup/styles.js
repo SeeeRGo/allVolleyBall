@@ -5,6 +5,8 @@ export default {
   mainContainerStyle: {
     maxWidth: '80%',
     height: '70%',
+    bottom: 5,
+    top: 5,
     backgroundColor: 'white',
     alignItems: 'flex-start',
     justifyContent: 'center',

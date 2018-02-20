@@ -11,7 +11,7 @@ export default class Model {
   plural = '';
 
   /** @prop {String} apiUrl - api url сервера */
-  url = 'http://192.168.1.108:3000';
+  url = 'http://10.0.3.2:3010';
 
   /** @prop {String} apiUrl - api url сервера */
   apiUrl = `${this.url}/api`;

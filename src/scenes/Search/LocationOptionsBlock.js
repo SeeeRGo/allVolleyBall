@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Dimensions } from 'react-native';
-import { Slider } from 'react-native-elements';
+import { View, Text, Dimensions, Picker } from 'react-native';
+import { Slider, Icon } from 'react-native-elements';
 
 import { updateSearchFilter } from './actions';
 import Background from '../../components/common/Background';
@@ -15,7 +15,26 @@ const cityOrDistrict = [
   'district'
 ];
 
+const cities = [
+  'ТОЛЬЯТТИ',
+  'МОСКВА',
+  'САНКТ-ПЕТЕРБУРГ'
+];
+
 class LocationOptionsBlock extends Component {
+  renderPicker(fieldName, itemList) {
+    return (
+      <Picker
+        style={{
+          flex: 1, height: 30, alignItems: 'flex-end', color: 'white'
+        }}
+        selectedValue={this.props[fieldName]}
+        onValueChange={(value) => this.props.updateSearchFilter(fieldName, value)}
+      >
+        {itemList.map((item) => <Picker.Item key={item} label={item} value={item} />)}
+      </Picker>
+    );
+  }
   render() {
     const { formLabelStyle } = styles;
     return (
@@ -53,7 +72,15 @@ class LocationOptionsBlock extends Component {
         </Row>
         <Row extraStyles={{ justifyContent: 'space-around' }}>
           <Text style={[formLabelStyle, { width: SCREEN_WIDTH * 0.25, textAlign: 'center' }]}>ТОЛЬЯТТИ</Text>
-          <Text style={[formLabelStyle, { width: SCREEN_WIDTH * 0.5, textAlign: 'center' }]}>САНКТ-ПЕТЕРБУРГ</Text>
+          <Row extraStyles={{ flex: 1 }}>
+            {this.renderPicker('city', cities)}
+            <Icon
+              name="angle-down"
+              type="font-awesome"
+              color="white"
+              containerStyle={{ paddingLeft: 5, paddingRight: 5 }}
+            />
+          </Row>
           <Text style={[formLabelStyle, {
             width: SCREEN_WIDTH * 0.25, textAlign: 'center', color: 'yellow', alignSelf: 'flex-end'
           }]}
@@ -66,7 +93,8 @@ class LocationOptionsBlock extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  cityOrDistrict: state.searchFilter.cityOrDistrict
+  cityOrDistrict: state.searchFilter.cityOrDistrict,
+  city: state.searchFilter.city
 });
 
 export default connect(mapStateToProps, { updateSearchFilter })(LocationOptionsBlock);
