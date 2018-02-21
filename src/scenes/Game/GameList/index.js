@@ -14,9 +14,6 @@ import { SCREEN_HEIGHT } from '../../../styles';
 import ThumbnailView from '../GameListItem/ThumbnailView';
 
 class GameList extends Component {
-  componentWillMount() {
-    this.props.fetchGames();
-  }
   render() {
     const { games, getGameCreator, display } = this.props;
     console.log(this.props);

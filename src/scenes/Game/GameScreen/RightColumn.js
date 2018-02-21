@@ -1,44 +1,51 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Dimensions } from 'react-native';
-import { Icon, Rating } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import moment from 'moment';
 
+import MyRating from '../../../components/common/MyRating';
 import Row from '../../../components/common/Row';
 import styles from './styles';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
+const sportTypes = [
+  'ВОЛЕЙБОЛ КЛАССИЧЕСКИЙ',
+  'ВОЛЕЙБОЛ ПЛЯЖНЫЙ'
+];
+
 class RightColumn extends Component {
-  static defaultProps = {
-    totalPlayers: '0',
-    gameType: 'классический',
-    minPlayers: '7',
-    maxPlayers: '7',
-    price: 1000,
-    gameTime: moment(),
-    startTime: moment().format('HH:mm'),
-    finishTime: moment().format('HH:mm'),
-    gameAddress: moment().format('HH:mm')
-  }
+  // static defaultProps = {
+  //   totalPlayers: '0',
+  //   gameType: 'классический',
+  //   minPlayers: '7',
+  //   maxPlayers: '7',
+  //   price: 1000,
+  //   gameTime: moment(),
+  //   startTime: moment().format('HH:mm'),
+  //   finishTime: moment().format('HH:mm'),
+  //   gameAddress: moment().format('HH:mm')
+  // }
   render() {
     const {
-      gameType, minPlayers, maxPlayers, price, totalPlayers,
-      gameTime, startTime, finishTime, gameAddress, gameInfo
+      gameType, minPlayers, maxPlayers, price, totalPlayers, sportType, approvedRequests,
+      gameTime, startTime, finishTime, gameAddress, gameInfo, duration, pendingRequests
     } = this.props;
     const { textStyle, iconContainerStyle, ratingStyle } = styles.rightColumnStyle;
     return (
       <View style={{ height: SCREEN_HEIGHT * 0.6, marginLeft: 15 }}>
-        <Text style={textStyle}>ВОЛЕЙБОЛ</Text>
-        <Text style={textStyle}>Тип: {gameType}</Text>
+        <Text style={textStyle}>{sportTypes[sportType].split(' ')[0]}</Text>
+        <Text style={textStyle}>Тип: {sportTypes[sportType].split(' ')[1].toLowerCase()}</Text>
         <Text style={textStyle}>Состав: {minPlayers}-{maxPlayers} игроков</Text>
-        <Row>
+        <Row extraStyles={{ alignItems: 'center' }}>
           <Text style={textStyle}>Уровень{' '}</Text>
-          <Rating
-            imageSize={20}
+          <MyRating
             readonly
-            startingValue={3}
-            ratingCount={3}
+            showRating={false}
+            count={3}
+            defaultRating={3}
+            size={20}
             style={ratingStyle}
           />
         </Row>
@@ -66,7 +73,7 @@ class RightColumn extends Component {
               size={12}
               containerStyle={iconContainerStyle}
             />
-            <Text style={textStyle}>{startTime} - {finishTime}</Text>
+            <Text style={textStyle}>{moment(startTime).format('HH:mm')} - {moment(startTime).add(duration.hours).format('HH:mm')}</Text>
           </Row>
           <Row>
             <Icon
@@ -76,7 +83,7 @@ class RightColumn extends Component {
               size={12}
               containerStyle={iconContainerStyle}
             />
-            <Text style={textStyle}>{gameAddress}</Text>
+            <Text style={textStyle}>{`${gameAddress.city}, ул. ${gameAddress.street} ${gameAddress.houseNumber}`}</Text>
           </Row>
           <Row>
             <Icon
@@ -86,7 +93,7 @@ class RightColumn extends Component {
               size={12}
               containerStyle={iconContainerStyle}
             />
-            <Text style={textStyle}>Подали заявку {parseInt(totalPlayers, 10)} игрока</Text>
+            <Text style={[textStyle, { maxWidth: '90%' }]}>Заявки{'\n'}На рассмотрении - {pendingRequests}{'\n'}Одобрено - {approvedRequests}</Text>
           </Row>
           <Row>
             <Icon
@@ -96,27 +103,32 @@ class RightColumn extends Component {
               size={12}
               containerStyle={iconContainerStyle}
             />
-            <Text style={textStyle}>Свободно {parseInt(maxPlayers, 10) - parseInt(totalPlayers, 10)} мест</Text>
+            <Text style={textStyle}>Свободных мест - {maxPlayers - approvedRequests}</Text>
           </Row>
         </View>
       </View>
     );
   }
 }
-const mapStateToProps = (state, ownProps) => {
-  const gameScreen = state.game.find((item) => item.id === ownProps.gameId);
-  return {
-    gameType: gameScreen.gameType,
-    minPlayers: gameScreen.playersCounts.min,
-    maxPlayers: gameScreen.playersCounts.max,
-    price: gameScreen.cost,
-    gameTime: gameScreen.date,
-    startTime: gameScreen.arrivalTime,
-    finishTime: gameScreen.arrivalTime,
-    gameAddress: gameScreen.gameAddress,
-    totalPlayers: gameScreen.totalPlayers
-  };
-};
+const mapStateToProps = (state) => ({
+  gameType: state.gameForm.gameType,
+  minPlayers: state.gameForm.playersCounts.min,
+  maxPlayers: state.gameForm.playersCounts.max,
+  price: state.gameForm.cost,
+  gameTime: state.gameForm.date,
+  startTime: state.gameForm.arrivalTime,
+  finishTime: state.gameForm.arrivalTime,
+  gameAddress: {
+    city: state.gameForm.gym.city,
+    street: state.gameForm.gym.street,
+    houseNumber: state.gameForm.gym.houseNumber
+  },
+  sportType: state.gameForm.kindOfSportsId,
+  totalPlayers: state.gameForm.totalPlayers,
+  duration: state.gameForm.duration,
+  pendingRequests: state.gameForm.joinRequests.filter((req) => req.status === 'request').length,
+  approvedRequests: state.gameForm.joinRequests.filter((req) => req.status === 'approved').length
+});
 
 
 export default connect(mapStateToProps)(RightColumn);

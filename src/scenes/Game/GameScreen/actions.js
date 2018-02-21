@@ -7,6 +7,8 @@ export const GAME_UPDATE = 'GAME_UPDATE';
 export const GAME_CREATE = 'GAME_CREATE';
 export const FETCH_GAMES = 'FETCH_GAMES';
 export const GET_GAME_CREATOR_SUCCESS = 'GET_GAME_CREATOR_SUCCESS';
+export const SET_GAME = 'SET_GAME';
+export const SET_GALLERY = 'SET_GALLERY';
 
 const sportTypes = [
   'ВОЛЕЙБОЛ КЛАССИЧЕСКИЙ',
@@ -87,7 +89,13 @@ export const createGame = (formData) => async (dispatch) => {
     };
     console.log(JSON.stringify(game));
     let response;
-    response = await axios.post('http://10.0.3.2:3010/api/Games', game);
+    let ACCESS_TOKEN;
+    ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
+    response = await axios.post('http://10.0.3.2:3010/api/Games', game, {
+      headers: {
+        Authorization: ACCESS_TOKEN
+      }
+    });
     console.log(response);
     dispatch({ type: GAME_CREATE, payload: game });
   } catch (e) {
@@ -193,4 +201,49 @@ export const sendJoinGameRequest = (userId, gameId) => async (dispatch) => {
     console.log(e.request);
     console.log(e.response);
   }
-}
+};
+
+export const getGameById = (gameId) => async (dispatch) => {
+  try {
+    const ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
+    let game;
+    game = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}`);
+    let creator;
+    creator = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}/creator`);
+    let gym;
+    gym = await axios.get(`http://10.0.3.2:3010/api/Gyms/${game.data.gymId}`);
+    let joinRequests;
+    joinRequests = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}/requestsToGame`);
+    // await axios.patch('http://10.0.3.2:3010/api/RequestToGames/2', {
+    //   status: 'approved'
+    // }, {
+    //   headers: {
+    //     Authorization: ACCESS_TOKEN
+    //   }
+    // });
+    console.log(game);
+    dispatch({
+      type: SET_GAME,
+      payload: {
+        ...game.data,
+        creator: creator.data,
+        gym: gym.data,
+        joinRequests: joinRequests.data
+      }
+    });
+  } catch (e) {
+    console.log(e.request);
+    console.log(e.response);
+  }
+};
+
+export const getGameFiles = (gameId) => async (dispatch) => {
+  try {
+    let files;
+    files = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}/customFiles`);
+    dispatch({ type: 'SET_GALLERY', payload: files.data });
+  } catch (e) {
+    console.log(e.request);
+    console.log(e.response);
+  }
+};

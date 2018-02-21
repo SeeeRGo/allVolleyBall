@@ -4,9 +4,10 @@ import { Actions } from 'react-native-router-flux';
 import { View, Text, Dimensions, ScrollView } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 
-import { sendJoinGameRequest } from './actions';
+import { sendJoinGameRequest, getGameById, getGameFiles } from './actions';
 import LeftColumn from './LeftColumn';
 import RightColumn from './RightColumn';
+import GalleryAndCommentsBlock from './GalleryAndCommentsBlock';
 import Background from '../../../components/common/Background';
 import Row from '../../../components/common/Row';
 import CustomHeader from '../../../components/common/CustomHeader';
@@ -24,8 +25,11 @@ class GameScreen extends Component {
     }
   }
   render() {
-    console.log(this.props);
-    const { gameInfo, gameId, gameCreator, userId, sendJoinGameRequest } = this.props;
+    console.log(this.props.files);
+    const {
+      gameInfo, gameId, gameCreator, userId, files, sendJoinGameRequest
+    } = this.props;
+    const isFutureGame = false;
     return (
       <Background>
         <CustomHeader
@@ -62,25 +66,26 @@ class GameScreen extends Component {
               {gameInfo}
             </Text>
           </View>
+          {!isFutureGame && <GalleryAndCommentsBlock files={files} />}
         </ScrollView>
-        <Button
-          title="Отправить заявку"
-          containerViewStyle={styles.buttonStyle}
-          buttonStyle={{ backgroundColor: '#00bfb1' }}
-          onPress={() => sendJoinGameRequest(userId, gameId)}
-        />
+        {isFutureGame &&
+          (<Button
+            title="Отправить заявку"
+            containerViewStyle={styles.buttonStyle}
+            buttonStyle={{ backgroundColor: '#00bfb1' }}
+            onPress={() => sendJoinGameRequest(userId, gameId)}
+          />)
+        }
       </Background>
     );
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const gameScreen = state.game.find((item) => item.id === ownProps.gameId);
-  return {
-    gameInfo: gameScreen.gameInfo,
-    gameCreator: gameScreen.creator,
-    userId: state.user.userId
-  };
-};
+const mapStateToProps = (state) => ({
+  gameInfo: state.gameForm.gameInfo,
+  gameCreator: state.gameForm.creator,
+  files: state.files,
+  userId: state.user.userId
+});
 
-export default connect(mapStateToProps, { sendJoinGameRequest })(GameScreen);
+export default connect(mapStateToProps, { sendJoinGameRequest, getGameById, getGameFiles })(GameScreen);

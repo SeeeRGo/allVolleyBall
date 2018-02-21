@@ -4265,6 +4265,13 @@ react-native-parsed-text@^0.0.19:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-ratings@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-5.3.0.tgz#f496ac6ebe934e29d7e2cfe8359b6a812ec95599"
+  dependencies:
+    lodash "^4.17.4"
+    prop-types "^15.5.10"
+
 react-native-router-flux@4.0.0-beta.26:
   version "4.0.0-beta.26"
   resolved "https://registry.yarnpkg.com/react-native-router-flux/-/react-native-router-flux-4.0.0-beta.26.tgz#08b044ffe649dd6bd782847abb4d99491bfd17e6"

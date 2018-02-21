@@ -20,8 +20,9 @@ const styles = {
     color: 'white'
   },
   formInputStyle: {
-    fontSize: 14,
-    minHeight: 20,
+    color: 'white',
+    fontSize: 20,
+    minHeight: 25,
     paddingTop: 0,
     paddingBottom: 5,
     marginTop: 0
@@ -63,7 +64,8 @@ const styles = {
     marginBottom: 0
   },
   ratingStyle: {
-    flex: 1
+    flex: 1,
+    backgroundColor: 'transparent'
   },
   datePickerCustomStyle: {
     dateInput: {

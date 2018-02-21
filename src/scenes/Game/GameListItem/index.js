@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 import { Rating, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
+import Svg, { Rect } from 'react-native-svg';
 
+import { getGameById, getGameFiles } from '../GameScreen/actions';
 import Row from '../../../components/common/Row';
 import SvgShadow from '../../../components/common/Svg/SvgShadow';
 import ThumbnailView from './ThumbnailView';
@@ -25,7 +28,13 @@ class GameListItem extends Component {
   static defaultProps = {
     gameImage: {
       uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjs7X0GOmJmaQhq0f6HQcuogHiRq-YuNOFKhy24GxmA30uUPGS'
-    }
+    },
+    playersCounts: {
+      max: 0,
+      min: 0
+    },
+    showRequestStatus: false,
+    deleteItem: false
   }
   componentDidMount() {
     Actions.refresh();
@@ -37,13 +46,19 @@ class GameListItem extends Component {
       textStyle, mainTextStyle, iconStyle, blueText, rowHeight, spaceAroundRow
     } = styles;
     const {
-      gameId, gameAddress, creator, gameTime, gameTypeId, cost, gameImage, kindOfSportsId, display,
-      startTime, finishTime, playersCounts, maxPlayers, totalPlayers, requestStatus, deleteItem
+      gameId, gameAddress, creator, gameTime, gameTypeId, cost, gameImage,
+      kindOfSportsId, display, startTime, finishTime, playersCounts,
+      maxPlayers, totalPlayers, showRequestStatus, requestStatus, deleteItem
     } = this.props;
     console.log(this.props);
     return (
       <View style={{ backgroundColor: 'transparent', marginBottom: 7 }}>
-        <TouchableOpacity onPress={() => Actions.GameScreen({ gameId })}>
+        <TouchableOpacity onPress={async () => {
+          await this.props.getGameById(gameId);
+          await this.props.getGameFiles(gameId);
+          Actions.GameScreen({ gameId });
+        }}
+        >
           <Row
             extraStyles={gameContainerStyle}
           >
@@ -119,13 +134,16 @@ class GameListItem extends Component {
           </Row>
           <SvgShadow />
         </TouchableOpacity>
-        <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent' }}>
-          {!!requestStatus && <Text style={textStyle}>ОЖИДАЕТ ОДОБРЕНИЯ...</Text>}
-          {!!deleteItem && <Text style={[textStyle, { color: '#d4ff32' }]}>х УДАЛИТЬ</Text>}
+        <Row extraStyles={{
+          justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent', marginRight: 20
+        }}
+        >
+          {showRequestStatus && <Text style={textStyle}>{requestStatus}</Text>}
+          {deleteItem && <Text style={[textStyle, { color: '#d4ff32' }]}>х УДАЛИТЬ</Text>}
         </Row>
       </View>
     );
   }
 }
 
-export default GameListItem;
+export default connect(null, { getGameById, getGameFiles })(GameListItem);

@@ -4,8 +4,10 @@ import { View, Picker, ScrollView, Slider } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import { FormInput, FormLabel, Rating } from 'react-native-elements';
+import { AirbnbRating } from 'react-native-ratings';
 
 import Row from '../../../components/common/Row';
+import MyRating from '../../../components/common/MyRating';
 import { gameFormUpdate } from './actions';
 import styles from './styles';
 import PriceOptionsBlock from '../../Search/PriceOptionsBlock';
@@ -19,15 +21,12 @@ class RatingAndPriceBlock extends Component {
       }}
       >
         <FormLabel labelStyle={[formLabelStyle]}>УРОВЕНЬ</FormLabel>
-        <Rating
-          imageSize={20}
-          startingValue={1}
-          ratingCount={4}
-          type="custom"
-          ratingColor="white"
-          ratingBackgroundColor="transparent"
-          style={ratingStyle}
-          onFinishRating={(value) => gameFormUpdate('gameRating', value)}
+        <MyRating
+          showRating={false}
+          count={4}
+          defaultRating={1}
+          size={20}
+          onFinishRating={(value) => this.props.gameFormUpdate('rating', value)}
         />
         <PriceOptionsBlock bgColor="transparent" use="gameForm" />
       </View>

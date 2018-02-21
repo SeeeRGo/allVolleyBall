@@ -24,15 +24,6 @@ class LeftColumn extends Component {
   static defaultProps = {
     gameImage: {
       uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjs7X0GOmJmaQhq0f6HQcuogHiRq-YuNOFKhy24GxmA30uUPGS'
-    },
-    gameCreator: {
-      name: 'Андрейчук В.С.',
-      vkLink: 'vk.com/volley.nevolley',
-      fbLink: 'facebook.com/volley.nevolley'
-    },
-    createdAt: {
-      date: moment().format('DD/MM/YY'),
-      time: moment().format('HH:mm')
     }
   }
   handleImagePress = () => {
@@ -61,6 +52,7 @@ class LeftColumn extends Component {
   render() {
     const { gameImage, gameCreator, createdAt } = this.props;
     const { textStyle, iconContainerStyle, imageStyle } = styles.leftColumnStyle;
+    console.log(gameCreator);
     return (
       <View>
         <TouchableOpacity onPress={this.handleImagePress}>
@@ -77,6 +69,7 @@ class LeftColumn extends Component {
             {gameCreator.lastName}{` ${gameCreator.firstName[0]}. ${gameCreator.fatherName[0]}.`}
           </Text>
           <Text style={textStyle}>Создано {createdAt.date} в {createdAt.time}</Text>
+          {!!gameCreator.username && <Text style={textStyle}>Моб. {gameCreator.username}</Text>}
           {!!gameCreator.fbLink && <Row>
             <Icon
               name="facebook"
@@ -86,7 +79,7 @@ class LeftColumn extends Component {
               size={16}
             />
             <Text style={textStyle}>{gameCreator.fbLink}</Text>
-          </Row>}
+                                   </Row>}
           {!!gameCreator.vkLink && <Row>
             <Icon
               name="vk"
@@ -96,7 +89,7 @@ class LeftColumn extends Component {
               size={16}
             />
             <Text style={textStyle}>{gameCreator.vkLink}</Text>
-          </Row>}
+                                   </Row>}
         </View>
       </View>
     );
@@ -106,9 +99,12 @@ class LeftColumn extends Component {
 const mapStateToProps = (state, ownProps) => {
   const gameScreen = state.game.find((item) => item.id === ownProps.gameId);
   return {
-    gameImage: gameScreen.gameImage,
-    gameCreator: gameScreen.creator
-    // createdAt: gameScreen.createdAt
+    gameImage: state.gameForm.gameImage,
+    gameCreator: state.gameForm.creator,
+    createdAt: {
+      date: moment(state.gameForm.date).format('DD/MM/YY'),
+      time: moment(state.gameForm.date).format('HH:mm')
+    }
   };
 };
 

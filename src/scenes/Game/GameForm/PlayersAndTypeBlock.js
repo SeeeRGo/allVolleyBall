@@ -95,7 +95,6 @@ class PlayersAndTypeBlock extends Component {
               onFocus={() => {}}
               onChangeText={(value) => gameFormUpdate('minPlayers', value)}
               underlineColorAndroid="transparent"
-              ref={(minPlayers) => { this.minPlayers = minPlayers; }}
             />
             <Divider style={{
               marginBottom: 10, marginTop: 3, backgroundColor: '#bfbfbf', width: '90%'
@@ -107,10 +106,9 @@ class PlayersAndTypeBlock extends Component {
             <FormInput
               inputStyle={[formInputStyle, { width: SCREEN_WIDTH * 0.4 }]}
               onFocus={() => {}}
-              onChangeText={(value) => gameFormUpdate('minPlayers', value)}
+              onChangeText={(value) => gameFormUpdate('maxPlayers', value)}
               containerStyle={{ marginLeft: 0, marginRight: 0 }}
               underlineColorAndroid="transparent"
-              ref={(maxPlayers) => { this.maxPlayers = maxPlayers; }}
             />
             <Divider style={{
               marginBottom: 10, marginTop: 3, backgroundColor: '#bfbfbf', width: '100%'
