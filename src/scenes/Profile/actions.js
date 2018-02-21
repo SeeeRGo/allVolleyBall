@@ -9,6 +9,10 @@ export const updateProfile = (updates, userId) => async (dispatch) => {
   try {
     let ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
     let response = await axios.patch(`http://10.0.3.2:3010/api/Profiles/${userId}?access_token=${ACCESS_TOKEN}`, {...updates});
+    if (updates.photo) {
+      response = await axios.post('http://10.0.3.2:3010/api/CustomFiles/upload', {base64: updates.photo, profileId: userId})
+      console.log(response);
+    }
     dispatch({ 
       type: PROFILE_UPDATE,
       payload: updates

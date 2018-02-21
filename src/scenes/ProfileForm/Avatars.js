@@ -24,7 +24,7 @@ class Avatars extends Component {
     }
   }
   handleImagePress = () => {
-    const { gameId, updateGameImage } = this.props;
+    const { gameId, playerFormUpdate } = this.props;
     ImagePicker.showImagePicker(options, (response) => {
       console.log('Response = ', response);
 
@@ -40,7 +40,7 @@ class Avatars extends Component {
       } else {
         const source = `data:image/jpeg;base64,${response.data}`;
 
-        playerFormUpdate('selfInfo', source);
+        playerFormUpdate('photo', source);
 
         // updateGame(gameId, { gameImage: source });
       }
@@ -50,6 +50,7 @@ class Avatars extends Component {
     const {
       labelStyle, sizeLarge, sizeMedium, sizeSmall
     } = styles.avatarStyles;
+    console.log(this.props.photo)
     return (
       <Row extraStyles={{ alignItems: 'flex-end' }}>
         <Avatar
@@ -90,7 +91,7 @@ class Avatars extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  photo: state.profile.selfInfo
+  photo: state.profileForm.photo
 })
 
 export default connect(mapStateToProps, { playerFormUpdate })(Avatars);

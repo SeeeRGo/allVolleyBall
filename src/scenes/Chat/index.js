@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, TextInput } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { GiftedChat, Bubble, Send, InputToolbar, Composer } from 'react-native-gifted-chat';
+import SocketIOClient from 'socket.io-client';
 
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
@@ -10,6 +11,13 @@ import { SCREEN_WIDTH } from '../../components/common/CustomHeader/navBarStyles'
 import CircledNumber from '../../components/common/Svg/CircledNumber';
 
 class Chat extends Component {
+  constructor(props) {
+    super(props);
+  
+    // Creating the socket-client instance will automatically connect to the server.
+    this.socket = SocketIOClient('http://localhost:3010');
+  }
+
   state = {
     messages: []
   }
@@ -29,6 +37,11 @@ class Chat extends Component {
         }
       ]
     });
+  }
+
+  componentDidMount() {
+    this.socket.emit('connectToGame', JSON.stringify({id: 1}));
+    this.socket.emit('game-1', JSON.stringify({text: 'test'}));
   }
 
   onSend(messages = []) {

@@ -107,7 +107,6 @@ export default class App extends Component {
             <Scene
               hideNavBar
               key="Chat"
-              initial
               path="/game/:id/chat"
               component={Chat}
             />
