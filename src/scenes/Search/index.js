@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
+import { fetchGamesFiltered } from '../Game/GameScreen/actions';
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
 import CustomHeader from '../../components/common/CustomHeader';
@@ -50,7 +51,10 @@ class SearchScene extends Component {
           }}
           title="НАЙТИ"
           buttonStyle={{ backgroundColor: '#00bfb1' }}
-          onPress={() => Actions.replace('GameList', { filter: this.props.filter })}
+          onPress={async () => {
+            await this.props.fetchGamesFiltered();
+            Actions.replace('GameList', { filter: this.props.filter });
+          }}
         />
       </Background>
     );
@@ -61,4 +65,4 @@ const mapStateToProps = (state) => ({
   filter: state.searchFilter
 });
 
-export default connect(mapStateToProps)(SearchScene);
+export default connect(mapStateToProps, { fetchGamesFiltered })(SearchScene);

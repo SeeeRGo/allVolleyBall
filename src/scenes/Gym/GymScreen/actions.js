@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AsyncStorage } from 'react-native';
 
 export const CREATE_GYM = 'CREATE_GYM';
 export const CREATE_GYM_SUCCESS = 'CREATE_GYM_SUCCESS';
@@ -17,7 +18,12 @@ export const createGym = (formData) => async (dispatch) => {
     };
 
     let response;
-    response = await axios.post('http://10.0.3.2:3010/api/Gyms/', gymData);
+    const ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
+    response = await axios.post('http://10.0.3.2:3010/api/Gyms/', gymData, {
+      headers: {
+        Authorization: ACCESS_TOKEN
+      }
+    });
     console.log(response);
     dispatch({ type: CREATE_GYM_SUCCESS });
   } catch (e) {

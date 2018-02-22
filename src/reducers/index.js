@@ -3,6 +3,9 @@ import login from '../scenes/Login/reducer';
 import user from './user';
 import loadings from './loadings';
 import files from './files';
+import review from './reviews';
+import requestList from './requests';
+import requestInfo from './requestInfo';
 import profileForm from '../scenes/ProfileForm/reducer';
 import profile from '../scenes/Profile/reducer';
 import game from '../scenes/Game/GameScreen/reducer';
@@ -16,6 +19,9 @@ export default combineReducers({
   login,
   user,
   files,
+  review,
+  requestList,
+  requestInfo,
   loadings,
   profileForm,
   profile,

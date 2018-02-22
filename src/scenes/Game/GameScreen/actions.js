@@ -9,6 +9,10 @@ export const FETCH_GAMES = 'FETCH_GAMES';
 export const GET_GAME_CREATOR_SUCCESS = 'GET_GAME_CREATOR_SUCCESS';
 export const SET_GAME = 'SET_GAME';
 export const SET_GALLERY = 'SET_GALLERY';
+export const SUBMIT_REVIEW = 'SUBMIT_REVIEW';
+export const UPDATE_REVIEW = 'SUBMIT_UPDATE';
+export const SET_REQUESTS = 'SET_REQUESTS';
+export const SET_REQUEST_INFO = 'SET_REQUEST_INFO';
 
 const sportTypes = [
   'ВОЛЕЙБОЛ КЛАССИЧЕСКИЙ',
@@ -46,7 +50,7 @@ export const updateGameImage = (gameId, source) => async (dispatch) => {
       base64: source,
       name: 'img.png',
       type: 'png',
-      gameid: gameId
+      gameId: 1
     };
     let response;
     response = await axios.post('http://10.0.3.2:3010/api/CustomFiles/upload', data);
@@ -135,7 +139,11 @@ export const fetchGamesFiltered = (filter) => async (dispatch) => {
     let ACCESS_TOKEN;
     ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
     let response;
-    response = await axios.get(`http://10.0.3.2:3010/api/Games/find-by-filter?filter=${encodeURIComponent(JSON.stringify(filter))}`);
+    if (filter) {
+      response = await axios.get(link);
+    } else {
+      response = await axios.get('http://10.0.3.2:3010/api/Games');
+    }
     console.log(response);
     let games;
     games = await Promise.all(response.data.map(async (game) => {
@@ -247,3 +255,76 @@ export const getGameFiles = (gameId) => async (dispatch) => {
     console.log(e.response);
   }
 };
+
+export const updateReview = (value) => ({
+  type: UPDATE_REVIEW,
+  payload: value
+})
+
+export const submitReview = (review, gameId, profileId) => async (dispatch) => {
+  try {
+    const data = {
+      text: review,
+      creatorId: profileId,
+      profileId,
+      gameId
+    }
+    let ACCESS_TOKEN;
+    ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
+    let response;
+    response = await axios.post(`http://10.0.3.2:3010/api/Games/${gameId}/reviews`, data, {
+      headers: {
+        Authorization: ACCESS_TOKEN
+      }
+    });
+    console.log(response);
+    dispatch({ type: SUBMIT_REVIEW });
+  } catch (e) {
+    console.log(e.request);
+    console.log(e.response);
+  }
+}
+
+export const getInfoFromRequest = (requestId) => async (dispatch) => {
+  try {
+    let game;
+    game = await axios.get(`http://10.0.3.2:3010/api/RequestToGames/${requestId}/game`);
+    let profile;
+    profile = await axios.get(`http://10.0.3.2:3010/api/RequestToGames/${requestId}/profile`);
+    dispatch({ type: SET_REQUEST_INFO, payload: { game: game.data, profile: profile.data } });
+  } catch (e) {
+    console.log(e.request);
+    console.log(e.response);
+  }
+}
+
+export const getRequestsToMyGames = (userId) => async (dispatch) => {
+  try {
+    let ACCESS_TOKEN;
+    ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
+    let response;
+    response = await axios.get('http://10.0.3.2:3010/api/Games');
+    const filteredGames = response.data.filter((game) => game.creatorId === userId);
+    console.log(filteredGames);
+    // response = await axios.get(`http://10.0.3.2:3010/api/Profiles/${userId}/games`, {
+    //   headers: {
+    //     Authorization: ACCESS_TOKEN
+    //   }
+    // });
+    console.log(response);
+    let requests = [];
+    let games;
+    games = await Promise.all(filteredGames.map(async (game) => {
+      let request;
+      request = await axios.get(`http://10.0.3.2:3010/api/Games/${game.id}/requestsToGame`);
+      console.log(request);
+      requests = [...requests, ...request.data];
+      return true;
+    }));
+    console.log(requests);
+    dispatch({ type: SET_REQUESTS, payload: requests });
+  } catch (e) {
+    console.log(e.request);
+    console.log(e.response);
+  }
+}

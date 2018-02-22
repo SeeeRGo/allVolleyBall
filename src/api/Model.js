@@ -11,7 +11,7 @@ export default class Model {
   plural = '';
 
   /** @prop {String} apiUrl - api url сервера */
-  url = 'http://10.0.3.2:3010';
+  url = 'http://134513.simplecloud.ru:3010';
 
   /** @prop {String} apiUrl - api url сервера */
   apiUrl = `${this.url}/api`;

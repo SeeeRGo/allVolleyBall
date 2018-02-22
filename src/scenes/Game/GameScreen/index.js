@@ -29,7 +29,7 @@ class GameScreen extends Component {
     const {
       gameInfo, gameId, gameCreator, userId, files, sendJoinGameRequest
     } = this.props;
-    const isFutureGame = false;
+    const isFutureGame = true;
     return (
       <Background>
         <CustomHeader
@@ -53,7 +53,7 @@ class GameScreen extends Component {
             />
           }
         />
-        <ScrollView style={{ width: '100%', top: 45 }}>
+        <ScrollView style={{ width: '100%', top: 45, height: '80%' }}>
           <Row>
             <LeftColumn gameId={gameId} />
             <RightColumn gameId={gameId} />
@@ -66,9 +66,9 @@ class GameScreen extends Component {
               {gameInfo}
             </Text>
           </View>
-          {!isFutureGame && <GalleryAndCommentsBlock files={files} />}
+          {!isFutureGame && <GalleryAndCommentsBlock files={files} gameId={gameId} />}
         </ScrollView>
-        {isFutureGame &&
+        {isFutureGame && userId !== gameCreator.id &&
           (<Button
             title="Отправить заявку"
             containerViewStyle={styles.buttonStyle}
