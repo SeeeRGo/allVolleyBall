@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
+// axios.defaults.adapter = httpAdapter;
 
 export default class Model {
   static init() {
@@ -10,7 +11,7 @@ export default class Model {
   plural = '';
 
   /** @prop {String} apiUrl - api url сервера */
-  url = 'http://192.168.1.108:3000';
+  url = 'http://134513.simplecloud.ru:3010';
 
   /** @prop {String} apiUrl - api url сервера */
   apiUrl = `${this.url}/api`;
