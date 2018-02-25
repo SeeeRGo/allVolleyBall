@@ -9,12 +9,12 @@ export function* login(action) {
   try {
     yield put(loadingsActions.startLoading('isLogin'));
     const { payload: credentials } = action;
-    const Profile = new ProfileApi();
-    const user = yield call([Profile, Profile.login], credentials);
+    const user = yield call([ProfileApi, ProfileApi.login], credentials);
     yield put(userActions.setUser(user));
     yield put(resetCredentials());
     yield put(userActions.loginSuccess());
-    Actions.replace('Dashboard');
+    Actions.pop();
+    Actions.reset('Profile', { userId: user.id });
   } catch (error) {
     yield put(userActions.loginError(error));
   } finally {
@@ -29,8 +29,7 @@ export function* loginFlow() {
 export function* logout() {
   try {
     yield put(loadingsActions.startLoading('logout'));
-    const Profile = new ProfileApi();
-    yield call([Profile, Profile.logout]);
+    yield call([ProfileApi, ProfileApi.logout]);
     yield put(userActions.resetUser());
     yield put(userActions.logoutSuccess());
   } catch (error) {
@@ -47,8 +46,7 @@ export function* logoutFlow() {
 export function* gettingMyProfile() {
   try {
     yield put(loadingsActions.startLoading('gettingMyProfile'));
-    const Profile = new ProfileApi();
-    const user = yield call([Profile, Profile.getMyProfile]);
+    const user = yield call([ProfileApi, ProfileApi.getMyProfile]);
     yield put(userActions.setUser(user));
     yield put(userActions.getMyProfileSuccess());
   } catch (error) {
@@ -66,9 +64,8 @@ export function* loginBySocialNetwork(action) {
   try {
     const { payload: token } = action;
     yield put(loadingsActions.startLoading('loginBySocialNetwork'));
-    const Profile = new ProfileApi();
-    yield Profile.setToken(token);
-    const user = yield call([Profile, Profile.getMyProfile]);
+    yield ProfileApi.setToken(token);
+    const user = yield call([ProfileApi, ProfileApi.getMyProfile]);
     yield put(userActions.setUser(user));
     yield put(userActions.loginBySocialNetworkSuccess());
     Actions.replace('Dashboard');

@@ -12,15 +12,14 @@ export function* startApp() {
     if (!tokenId) {
       return;
     }
-    const Profile = new ProfileApi();
-    const user = yield call([Profile, Profile.getMyProfile]);
+    const user = yield call([ProfileApi, ProfileApi.getMyProfile]);
     if (!user) {
       return;
     }
-    // yield put(userActions.setUser(user));
-    // Actions.replace('Dashboard');
+    yield put(userActions.setUser(user));
+    Actions.reset('Profile', { userId: user.id });
   } catch (e) {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line
     console.error(e, 'startApp error');
   } finally {
     yield put(loadingsActions.stopLoading('initApp'));

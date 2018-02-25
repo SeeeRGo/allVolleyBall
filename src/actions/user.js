@@ -50,19 +50,10 @@ export const resetUser = () => ({
  * @param {Object} credentials - объект для авторизации
  * @return {Action}
 */
-export const login = (credentials) => async (dispatch) => {
-  try {
-    console.log(credentials);
-    let response = await axios.post('http://10.0.3.2:3010/api/Profiles/login', credentials);
-    console.log(response);
-    await AsyncStorage.setItem('allVolleyballToken', response.data.id);
-    dispatch({ type: SET_USER_ID, payload: response.data.userId });
-    Actions.Profile({ userId: response.data.userId });
-  } catch (e) {
-    console.log(e.request);
-    console.log(e.response);
-  }
-};
+export const login = (credentials) => ({
+  type: LOGIN,
+  payload: credentials
+});
 
 /**
  * @function

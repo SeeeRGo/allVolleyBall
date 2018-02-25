@@ -32,7 +32,7 @@ class PhoneToConfirm extends Component {
   }
   handleConfirmCode() {
     if (this.state.code === '1234') {
-      Actions.replace('PhoneConfirmation', { phoneConfirmed: true });
+      Actions.push('PhoneConfirmation', { phoneConfirmed: true });
     } else {
       this.setState({ codeValid: false });
     }
@@ -52,7 +52,7 @@ class PhoneToConfirm extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.rightIconStyles}
-              onPress={() => Actions.replace('Signup')}
+              onPress={() => Actions.push('Signup')}
             />
           }
         />

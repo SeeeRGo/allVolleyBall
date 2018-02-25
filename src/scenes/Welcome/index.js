@@ -1,37 +1,26 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import axios from 'axios';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Background from '../../components/common/Background';
 import Logo from '../../components/common/Logo';
 import styles from './styles';
 
-export const SCREEN_HEIGHT = Dimensions.get('window').height;
-// axios.defaults.adapter = httpAdapter;
-// TODO Передача токена экрану авторизации
-
 class Welcome extends Component {
   render() {
-    const {
-      buttonContainerStyle, logoContainerStyle, textStyle, buttonImageStyle
-    } = styles;
-    // axios.get('http://178.163.8.179:3010/api/Games')
-    //   .then((res) => console.log(res.data))
-    //   .catch((e) => console.log(e));
     return (
       <Background type="one">
-        <View style={logoContainerStyle}>
+        <View style={styles.logoContainerStyle}>
           <Logo big />
         </View>
-        <View style={buttonContainerStyle} >
-          <TouchableOpacity onPress={() => Actions.Auth()}>
-            <Image
-              style={buttonImageStyle}
-              source={require('../../assets/icons_arr_next_active.png')}
+        <View style={styles.buttonContainerStyle} >
+          <TouchableOpacity onPress={() => Actions.replace('Auth')} style={styles.buttonStyle}>
+            <Icon
+              style={styles.buttonIconStyle}
+              name="arrow-right"
             />
           </TouchableOpacity>
-          <Text style={textStyle}>НА СТАРТ!</Text>
+          <Text style={styles.textStyle}>НА СТАРТ!</Text>
         </View>
       </Background>
     );

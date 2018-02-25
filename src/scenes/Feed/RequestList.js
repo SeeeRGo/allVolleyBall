@@ -25,7 +25,7 @@ class EmptyFeed extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.leftIconStyles}
-              onPress={() => Actions.replace('Feed')}
+              onPress={() => Actions.push('Feed')}
             />
           }
           rightIcon={
@@ -34,7 +34,7 @@ class EmptyFeed extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.rightIconStyles}
-              onPress={() => Actions.replace('Search')}
+              onPress={() => Actions.push('Search')}
             />
           }
         />

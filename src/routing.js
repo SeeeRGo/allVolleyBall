@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Router, Scene, Lightbox, Actions } from 'react-native-router-flux';
-
+import get from 'lodash/get';
 import Login from './scenes/Login';
 import Signup from './scenes/Signup';
 import Profile from './scenes/Profile';
@@ -18,9 +18,16 @@ import PhoneConfirmationScreen from './scenes/PhoneConfirmation';
 import Chat from './scenes/Chat';
 
 export default class App extends Component {
+  onBackPress = () => {
+    if (get(Actions, 'state.routes.0.index', 0) !== 0) {
+      Actions.pop();
+    }
+    return true;
+  }
+
   render() {
     return (
-      <Router>
+      <Router backAndroidHandler={this.onBackPress}>
         <Lightbox>
           <Scene key="root">
             <Scene

@@ -46,7 +46,7 @@ class GameForm extends Component {
       ...formData,
       creatorId
     });
-    Actions.replace('MyGames');
+    Actions.push('MyGames');
   }
   handleGameForm() {
     if (this.props.actionType === 'create') {
@@ -66,7 +66,7 @@ class GameForm extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.rightIconStyles}
-              onPress={() => Actions.replace('Signup')}
+              onPress={() => Actions.push('Signup')}
             />
           }
         />

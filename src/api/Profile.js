@@ -9,7 +9,7 @@ import Model from './Model';
  * @prop {String} created
  */
 
-export default class Profile extends Model {
+export class Profile extends Model {
   /**
    * @prop {Object} socialNetworks
    */
@@ -76,3 +76,5 @@ export default class Profile extends Model {
       });
   }
 }
+
+export default new Profile();

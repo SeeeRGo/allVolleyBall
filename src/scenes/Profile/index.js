@@ -42,7 +42,7 @@ class Profile extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.leftIconStyles}
-              onPress={() => Actions.replace('Feed')}
+              onPress={() => Actions.push('Feed')}
             />
           }
           leftText="3 игры"
@@ -52,7 +52,7 @@ class Profile extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.rightIconStyles}
-              onPress={() => Actions.replace('ProfileForm', { userId: this.props.userId })}
+              onPress={() => Actions.push('ProfileForm', { userId: this.props.userId })}
             />
           }
         />

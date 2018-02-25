@@ -32,7 +32,7 @@ class PlayerForm extends Component {
     if (password === passwordRe) {
       updateProfile(updates, userId);
     }
-    Actions.replace('Profile');
+    Actions.push('Profile');
   }
   render() {
     console.log(this.props);
@@ -46,7 +46,7 @@ class PlayerForm extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.rightIconStyles}
-              onPress={() => Actions.replace('Signup')}
+              onPress={() => Actions.push('Signup')}
             />
           }
         />

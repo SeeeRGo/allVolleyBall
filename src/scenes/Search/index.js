@@ -30,7 +30,7 @@ class SearchScene extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.rightIconStyles}
-              onPress={() => Actions.replace('Signup')}
+              onPress={() => Actions.push('Signup')}
             />
           }
         />
@@ -53,7 +53,7 @@ class SearchScene extends Component {
           buttonStyle={{ backgroundColor: '#00bfb1' }}
           onPress={async () => {
             await this.props.fetchGamesFiltered();
-            Actions.replace('GameList', { filter: this.props.filter });
+            Actions.push('GameList', { filter: this.props.filter });
           }}
         />
       </Background>
