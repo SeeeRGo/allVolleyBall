@@ -61,7 +61,12 @@ export class Profile extends Model {
    * @returns {Promise<Profile>}
    */
   getMyProfile() {
-    return this.getRequest(`${this.plural}/my-profile`);
+    return AsyncStorage.getItem('userId')
+      .then((userId) => this.getRequest(`${this.plural}/${userId}`, {
+        filter: {
+          include: 'socialNetworks'
+        }
+      }));
   }
 
   /**

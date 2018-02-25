@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Text, Keyboard } from 'react-native';
+import { View, Text } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
-import { getProfile } from './actions';
 import LeftColumn from './LeftColumn';
 import RightColumn from './RightColumn';
 import Background from '../../components/common/Background';
@@ -15,20 +14,12 @@ import styles from './styles';
 import navBarStyles from '../../components/common/CustomHeader/navBarStyles';
 
 class Profile extends Component {
-  static defaultProps = {
-    info: 'Друзья! Приглашаю вас 19 июля на очередную'
-  }
   static propTypes = {
-    info: PropTypes.string
+    user: PropTypes.object.isRequired
   }
-  static onEnter = () => {
-    Keyboard.dismiss();
-  }
-  componentWillMount() {
-    this.props.getProfile(this.props.userId);
-  }
+
   render() {
-    const { info, firstName, lastName } = this.props;
+    const { user } = this.props;
     const { textBlockStyle } = styles.profileSceneStyle;
     const linesOfText = Math.floor(textBlockStyle.maxHeight / 20);
     return (
@@ -52,38 +43,23 @@ class Profile extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.rightIconStyles}
-              onPress={() => Actions.push('ProfileForm', { userId: this.props.userId })}
+              onPress={() => Actions.push('ProfileForm', { userId: user.id })}
             />
           }
         />
-        <View style={{ width: '100%', position: 'absolute', top: 50 }}>
+        <View style={styles.profileContainer}>
           <Row>
-            <LeftColumn />
-            <RightColumn />
+            <LeftColumn user={user} />
+            <RightColumn user={user} />
           </Row>
           <Text style={textBlockStyle} numberOfLines={linesOfText}>
-            {info}{'\n'}
-            {info}{'\n'}
-            {info}{'\n'}
-            {info}{'\n'}
-            {info}{'\n'}
-            {info}{'\n'}
-            {info}{'\n'}
-            {info}{'\n'}
-            {info}{'\n'}
-            {info}{'\n'}
-            {info}{'\n'}
-            {info}{'\n'}
-            {info}{'\n'}
-            {info}{'\n'}
+            {user.selfInfo || 'Информация о себе не заполнена'}
           </Text>
         </View>
         <Button
-          containerViewStyle={{
-            width: '100%', position: 'absolute', bottom: 0, marginBottom: 0
-          }}
+          containerViewStyle={styles.offerGameButtonView}
           title="ПРЕДЛОЖИТЬ ИГРУ"
-          buttonStyle={{ backgroundColor: '#00bfb1' }}
+          buttonStyle={styles.offerGameButton}
         />
       </Background>
     );
@@ -91,8 +67,7 @@ class Profile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  info: state.profile.info,
-  userId: state.user.userId
+  user: state.user.userProfile
 });
 
-export default connect(mapStateToProps, { getProfile })(Profile);
+export default connect(mapStateToProps)(Profile);

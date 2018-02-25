@@ -1,64 +1,53 @@
 import React, { Component } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { View, Text, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
-import styles from './styles';
+import styles, { socialNetworkColors } from './styles';
 import Row from '../../components/common/Row';
 
 class LeftColumn extends Component {
-  static defaultProps = {
-    avatar: {
-      uri: 'https://upload.wikimedia.org/wikipedia/commons/2/25/Volleyball_dig_02.jpg'
-    },
-    vkLink: 'www.vk.com/melnik.mellow',
-    fbLink: 'www.facebook.com/melnik.mellow'
-  }
   static propTypes = {
-    avatar: PropTypes.object,
-    vkLink: PropTypes.string,
-    fbLink: PropTypes.string
+    user: PropTypes.object.isRequired
   }
+
   render() {
-    const { avatar, vkLink, fbLink } = this.props;
+    const { user } = this.props;
     const { imageStyle, textStyle, linksContainerStyle } = styles.leftColumnStyle;
     return (
       <View>
-        <Image
-          style={imageStyle}
-          source={{ uri: avatar.uri }}
-        />
+        {
+          get(user, 'photo.link') &&
+          (
+            <Image
+              style={imageStyle}
+              source={{ uri: user.photo.link }}
+            />
+          )
+        }
         <View style={linksContainerStyle}>
-          <Row extraStyles={{ alignItems: 'center' }}>
-            <Icon
-              name="facebook"
-              type="font-awesome"
-              reverse
-              color="#415fa8"
-              size={16}
-            />
-            <Text style={textStyle}>{fbLink}</Text>
-          </Row>
-          <Row extraStyles={{ alignItems: 'center' }}>
-            <Icon
-              name="vk"
-              type="font-awesome"
-              reverse
-              color="#0077d9"
-              size={16}
-            />
-            <Text style={textStyle}>{vkLink}</Text>
-          </Row>
+          {
+            user.socialNetworks.map((sn) => {
+              const provider = get(sn, 'data.provider');
+              console.log(provider);
+              return (
+                <Row key={sn.id} extraStyles={{ alignItems: 'center' }}>
+                  <Icon
+                    name={provider === 'vkontakte' ? 'vk' : provider}
+                    type="font-awesome"
+                    reverse
+                    color={socialNetworkColors[provider]}
+                    size={16}
+                  />
+                  <Text style={textStyle}>{get(sn, 'data.profileUrl')}</Text>
+                </Row>
+              );
+            })
+          }
         </View>
       </View>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  avatar: state.profile.avatar,
-  vkLink: state.profile.vkLink,
-  fbLink: state.profile.fbLink
-});
-
-export default connect(mapStateToProps)(LeftColumn);
+export default LeftColumn;

@@ -3,7 +3,26 @@ import { Dimensions } from 'react-native';
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
+export const socialNetworkColors = {
+  vkontakte: '#0077d9',
+  facebook: '#415fa8'
+};
+
 const styles = {
+  offerGameButtonView: {
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+    marginBottom: 0
+  },
+  offerGameButton: {
+    backgroundColor: '#00bfb1'
+  },
+  profileContainer: {
+    width: '100%',
+    position: 'absolute',
+    top: 50
+  },
   profileSceneStyle: {
     textBlockStyle: {
       width: SCREEN_WIDTH * 0.85,
