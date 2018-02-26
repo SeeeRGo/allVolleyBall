@@ -3,6 +3,7 @@ import login from '../scenes/Login/reducer';
 import user from './user';
 import loadings from './loadings';
 import files from './files';
+import fileInfo from './fileInfo';
 import review from './reviews';
 import requestList from './requests';
 import requestInfo from './requestInfo';
@@ -19,6 +20,7 @@ export default combineReducers({
   login,
   user,
   files,
+  fileInfo,
   review,
   requestList,
   requestInfo,

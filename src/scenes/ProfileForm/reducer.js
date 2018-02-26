@@ -8,9 +8,6 @@ const INITIAL_STATE = {
   birthDate: null,
   phone: '+ 7 000 123 45 67',
   address: 'Тольятти, Самарская область',
-  avatar: {
-    uri: 'https://upload.wikimedia.org/wikipedia/commons/2/25/Volleyball_dig_02.jpg'
-  },
   vkLink: 'www.vk.com/melnik.mellow',
   fbLink: 'www.facebook.com/melnik.mellow',
   city: 'Тольятти',

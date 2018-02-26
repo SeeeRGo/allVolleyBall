@@ -55,9 +55,12 @@ class GameList extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  games: state.game,
-  dispay: state.selections.gameListItemDisplay
-});
+const mapStateToProps = (state) => {
+  console.log(state.game);
+  return {
+    games: state.game,
+    dispay: state.selections.gameListItemDisplay
+  };
+};
 
 export default connect(mapStateToProps, { fetchGames, getGameCreator, fetchGamesFiltered })(GameList);

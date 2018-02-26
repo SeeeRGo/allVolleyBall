@@ -4,6 +4,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { ButtonGroup, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
+import RequestListItem from './RequestListItem';
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
 import CustomHeader from '../../components/common/CustomHeader';

@@ -114,7 +114,6 @@ export default class App extends Component {
             <Scene
               hideNavBar
               key="Map"
-              initial
               path="/map"
               component={Map}
             />

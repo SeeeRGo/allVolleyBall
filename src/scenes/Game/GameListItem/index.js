@@ -29,10 +29,6 @@ class GameListItem extends Component {
     gameImage: {
       uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjs7X0GOmJmaQhq0f6HQcuogHiRq-YuNOFKhy24GxmA30uUPGS'
     },
-    playersCounts: {
-      max: 0,
-      min: 0
-    },
     showRequestStatus: false,
     deleteItem: false
   }
@@ -46,11 +42,11 @@ class GameListItem extends Component {
       textStyle, mainTextStyle, iconStyle, blueText, rowHeight, spaceAroundRow
     } = styles;
     const {
-      gameId, gameAddress, creator, gameTime, gameTypeId, cost, gameImage,
+      gameId, gameAddress, creator, arrivalTime, gameTypeId, cost, gameImage,
       kindOfSportsId, display, startTime, finishTime, playersCounts,
       maxPlayers, totalPlayers, showRequestStatus, requestStatus, deleteItem
     } = this.props;
-    console.log(this.props);
+    console.log('gameListItem', this.props);
     return (
       <View style={{ backgroundColor: 'transparent', marginBottom: 7 }}>
         <TouchableOpacity onPress={async () => {
@@ -79,9 +75,9 @@ class GameListItem extends Component {
             </View>
             <View style={rightColumnStyle}>
               <Row extraStyles={rowHeight}>
-                <Text style={blueBgTextStyle}>{gameTime}</Text>
-                <Text style={redBgTextStyle}>{moment(gameTime).format('HH:mm')}</Text>
-                <Text style={borderedBlueTextStyle}>{startTime}-{finishTime}</Text>
+                <Text style={blueBgTextStyle}>{moment(startTime).format('DD/MM/YY')}</Text>
+                <Text style={redBgTextStyle}>{moment(startTime).format('HH:mm')}</Text>
+                <Text style={borderedBlueTextStyle}>{moment(arrivalTime).format('HH:mm')}-{moment(startTime).format('HH:mm')}</Text>
                 <Text style={borderedRedTextStyle}>{playersCounts.min}-{playersCounts.max} чел</Text>
                 <Text style={borderedTealStyle}>{cost} р</Text>
               </Row>

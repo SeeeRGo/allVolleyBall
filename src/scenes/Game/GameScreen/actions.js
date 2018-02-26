@@ -13,6 +13,7 @@ export const SUBMIT_REVIEW = 'SUBMIT_REVIEW';
 export const UPDATE_REVIEW = 'SUBMIT_UPDATE';
 export const SET_REQUESTS = 'SET_REQUESTS';
 export const SET_REQUEST_INFO = 'SET_REQUEST_INFO';
+export const APPROVE_REQUEST = 'APPROVE_REQUEST';
 
 const sportTypes = [
   'ВОЛЕЙБОЛ КЛАССИЧЕСКИЙ',
@@ -139,14 +140,16 @@ export const fetchGamesFiltered = (filter) => async (dispatch) => {
     let ACCESS_TOKEN;
     ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
     let response;
-    if (filter) {
+    // Пока поиск нормально не заработает
+    if (filter && false) {
       response = await axios.get(link);
     } else {
       response = await axios.get('http://10.0.3.2:3010/api/Games');
+      response = _.filter(response.data, filter);
     }
     console.log(response);
     let games;
-    games = await Promise.all(response.data.map(async (game) => {
+    games = await Promise.all(response.map(async (game) => {
       let creator;
       creator = await axios.get(`http://10.0.3.2:3010/api/Games/${game.id}/creator`);
       return {
@@ -259,7 +262,7 @@ export const getGameFiles = (gameId) => async (dispatch) => {
 export const updateReview = (value) => ({
   type: UPDATE_REVIEW,
   payload: value
-})
+});
 
 export const submitReview = (review, gameId, profileId) => async (dispatch) => {
   try {
@@ -268,7 +271,7 @@ export const submitReview = (review, gameId, profileId) => async (dispatch) => {
       creatorId: profileId,
       profileId,
       gameId
-    }
+    };
     let ACCESS_TOKEN;
     ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
     let response;
@@ -283,7 +286,7 @@ export const submitReview = (review, gameId, profileId) => async (dispatch) => {
     console.log(e.request);
     console.log(e.response);
   }
-}
+};
 
 export const getInfoFromRequest = (requestId) => async (dispatch) => {
   try {
@@ -296,7 +299,7 @@ export const getInfoFromRequest = (requestId) => async (dispatch) => {
     console.log(e.request);
     console.log(e.response);
   }
-}
+};
 
 export const getRequestsToMyGames = (userId) => async (dispatch) => {
   try {
@@ -327,4 +330,22 @@ export const getRequestsToMyGames = (userId) => async (dispatch) => {
     console.log(e.request);
     console.log(e.response);
   }
-}
+};
+
+export const approveJoinGameRequest = (requestId) => async (dispatch) => {
+  try {
+    let ACCESS_TOKEN;
+    ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
+    let response;
+    response = await axios.patch(`http://10.0.3.2:3010/api/RequestToGames/${requestId}`, { status: 'approved' }, {
+      headers: {
+        Authorization: ACCESS_TOKEN
+      }
+    });
+    console.log(response);
+    dispatch({ type: APPROVE_REQUEST });
+  } catch (e) {
+    console.log(e.request);
+    console.log(e.response);
+  }
+};

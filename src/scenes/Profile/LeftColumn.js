@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, Text, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
+
+import { getFilesByOwner } from '../../actions/files';
 import styles from './styles';
 import Row from '../../components/common/Row';
 
 class LeftColumn extends Component {
   static defaultProps = {
     avatar: {
-      uri: 'https://upload.wikimedia.org/wikipedia/commons/2/25/Volleyball_dig_02.jpg'
+      uri: 'http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg'
     },
     vkLink: 'www.vk.com/melnik.mellow',
     fbLink: 'www.facebook.com/melnik.mellow'
@@ -19,6 +21,9 @@ class LeftColumn extends Component {
     vkLink: PropTypes.string,
     fbLink: PropTypes.string
   }
+  componentWillMount() {
+    this.props.getFilesByOwner('profile', this.props.userId);
+  }
   render() {
     const { avatar, vkLink, fbLink } = this.props;
     const { imageStyle, textStyle, linksContainerStyle } = styles.leftColumnStyle;
@@ -26,7 +31,7 @@ class LeftColumn extends Component {
       <View>
         <Image
           style={imageStyle}
-          source={{ uri: avatar.uri }}
+          source={avatar}
         />
         <View style={linksContainerStyle}>
           <Row extraStyles={{ alignItems: 'center' }}>
@@ -55,10 +60,16 @@ class LeftColumn extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  avatar: state.profile.avatar,
-  vkLink: state.profile.vkLink,
-  fbLink: state.profile.fbLink
-});
+const mapStateToProps = (state) => {
+  const avatar = state.files.find((file) => file.profileId === state.user.userId);
+  return {
+    avatar: {
+      uri: avatar ? `http://10.0.3.2:3010${avatar.link}` : 'http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg'
+    },
+    vkLink: state.profile.vkLink,
+    fbLink: state.profile.fbLink,
+    userId: state.user.userId
+  };
+};
 
-export default connect(mapStateToProps)(LeftColumn);
+export default connect(mapStateToProps, { getFilesByOwner })(LeftColumn);

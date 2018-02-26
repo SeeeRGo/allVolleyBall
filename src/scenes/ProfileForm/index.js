@@ -9,6 +9,7 @@ import CustomHeader from '../../components/common/CustomHeader';
 import navBarStyles, { SCREEN_HEIGHT } from '../../components/common/CustomHeader/navBarStyles';
 import FormFields from './FormFields';
 import { updateProfile } from '../Profile/actions';
+import { uploadFile } from '../../actions/files';
 import Avatars from './Avatars';
 import styles from './styles';
 
@@ -16,7 +17,7 @@ class PlayerForm extends Component {
   handleProfileUpdate = () => {
     const {
       lastName, firstName, fatherName, birthdate, fbLink, city, photo,
-      vkLink, phone, password, passwordRe, userId, updateProfile
+      vkLink, phone, password, passwordRe, userId, updateProfile, uploadFile
     } = this.props;
     const updates = {
       lastName,
@@ -26,11 +27,13 @@ class PlayerForm extends Component {
       fbLink,
       vkLink,
       phone,
-      city,
-      photo
+      city
     };
     if (password === passwordRe) {
       updateProfile(updates, userId);
+      if (photo.uri) {
+        uploadFile(photo.uri, 'profile', userId, true);
+      }
     }
     Actions.replace('Profile');
   }
@@ -81,4 +84,4 @@ const mapStateToProps = (state) => ({
   userId: state.user.userId
 });
 
-export default connect(mapStateToProps, { updateProfile })(PlayerForm);
+export default connect(mapStateToProps, { updateProfile, uploadFile })(PlayerForm);
