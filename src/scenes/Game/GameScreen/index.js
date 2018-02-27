@@ -82,8 +82,8 @@ class GameScreen extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  gameInfo: state.gameForm.gameInfo,
-  gameCreator: state.gameForm.creator,
+  gameInfo: state.gameInfo.gameInfo,
+  gameCreator: state.gameInfo.creator,
   files: state.files.filter((file) => file.id !== state.gameForm.avatarId),
   userId: state.user.userId
 });

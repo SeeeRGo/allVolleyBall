@@ -4,6 +4,7 @@ import user from './user';
 import loadings from './loadings';
 import files from './files';
 import fileInfo from './fileInfo';
+import gameInfo from './gameInfo';
 import review from './reviews';
 import requestList from './requests';
 import requestInfo from './requestInfo';
@@ -29,6 +30,7 @@ export default combineReducers({
   profile,
   game,
   gameForm,
+  gameInfo,
   signupForm,
   gymForm,
   selections,

@@ -2,12 +2,14 @@ import axios from 'axios';
 import moment from 'moment';
 import { AsyncStorage } from 'react-native';
 import _ from 'lodash';
+import { getGameInfo } from '../../../actions/games';
 
 export const GAME_UPDATE = 'GAME_UPDATE';
 export const GAME_CREATE = 'GAME_CREATE';
 export const FETCH_GAMES = 'FETCH_GAMES';
 export const GET_GAME_CREATOR_SUCCESS = 'GET_GAME_CREATOR_SUCCESS';
 export const SET_GAME = 'SET_GAME';
+export const SET_GAME_INFO = 'SET_GAME_INFO';
 export const SET_GALLERY = 'SET_GALLERY';
 export const SUBMIT_REVIEW = 'SUBMIT_REVIEW';
 export const UPDATE_REVIEW = 'SUBMIT_UPDATE';
@@ -66,10 +68,10 @@ export const updateGameImage = (gameId, source) => async (dispatch) => {
 export const createGame = (formData) => async (dispatch) => {
   try {
     const {
-      gameDate, gameTime, minPlayers, maxPlayers, gameType,
+      gameDate, gameTime, minPlayers, maxPlayers, gameType, rating,
       gameEndTime, gameStartTime, price, sportType, creatorId
     } = formData;
-    console.log(formData);
+    console.log(moment(gameEndTime, 'HH mm').diff(moment(gameTime, 'HH mm')));
     const game = {
       date: moment((`${gameDate} ${gameTime}`), 'DD MMM YYYY HH mm').toISOString(),
       playersCounts: {
@@ -79,9 +81,9 @@ export const createGame = (formData) => async (dispatch) => {
       arrivalTime: moment((`${gameDate} ${gameStartTime}`), 'DD MMM YYYY HH mm').toISOString(),
       startTime: moment((`${gameDate} ${gameTime}`), 'DD MMM YYYY HH mm').toISOString(),
       duration: {
-        hours: moment(gameEndTime, 'HH mm').diff(gameStartTime, 'HH mm'),
-        minutes: moment(gameEndTime, 'HH mm').diff(gameStartTime, 'HH mm'),
-        seconds: moment(gameEndTime, 'HH mm').diff(gameStartTime, 'HH mm')
+        hours: moment(gameEndTime, 'HH mm').diff(moment(gameTime, 'HH mm'), 'hours'),
+        minutes: (moment(gameEndTime, 'HH mm').diff(moment(gameTime, 'HH mm')) % 3600000) / 60000,
+        seconds: (moment(gameEndTime, 'HH mm').diff(moment(gameTime, 'HH mm')) % 60000) / 1000
       },
       cost: price,
       paymentTerms: {},
@@ -94,6 +96,7 @@ export const createGame = (formData) => async (dispatch) => {
     };
     console.log(JSON.stringify(game));
     let response;
+    let levels;
     let ACCESS_TOKEN;
     ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
     response = await axios.post('http://10.0.3.2:3010/api/Games', game, {
@@ -102,6 +105,12 @@ export const createGame = (formData) => async (dispatch) => {
       }
     });
     console.log(response);
+    levels = await axios.put(`http://10.0.3.2:3010/api/Games/${response.data.id}/playerLevels/rel/${rating}`, null, {
+      headers: {
+        Authorization: ACCESS_TOKEN
+      }
+    });
+    console.log(levels);
     dispatch({ type: GAME_CREATE, payload: game });
   } catch (e) {
     console.log(e.request);
@@ -139,6 +148,7 @@ export const fetchGamesFiltered = (filter) => async (dispatch) => {
     console.log(link);
     let ACCESS_TOKEN;
     ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
+    console.log(ACCESS_TOKEN);
     let response;
     // Пока поиск нормально не заработает
     if (filter && false) {
@@ -150,14 +160,9 @@ export const fetchGamesFiltered = (filter) => async (dispatch) => {
     console.log(response);
     let games;
     games = await Promise.all(response.map(async (game) => {
-      let creator;
-      creator = await axios.get(`http://10.0.3.2:3010/api/Games/${game.id}/creator`);
-      return {
-        ...game,
-        creator: {
-          ...creator.data
-        }
-      };
+      let result;
+      result = await getGameInfo(game.id);
+      return result;
     }));
     console.log(games);
     dispatch({ type: FETCH_GAMES, payload: games });
@@ -208,40 +213,6 @@ export const sendJoinGameRequest = (userId, gameId) => async (dispatch) => {
       profileId: userId
     });
     console.log(response);
-  } catch (e) {
-    console.log(e.request);
-    console.log(e.response);
-  }
-};
-
-export const getGameById = (gameId) => async (dispatch) => {
-  try {
-    const ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
-    let game;
-    game = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}`);
-    let creator;
-    creator = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}/creator`);
-    let gym;
-    gym = await axios.get(`http://10.0.3.2:3010/api/Gyms/${game.data.gymId}`);
-    let joinRequests;
-    joinRequests = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}/requestsToGame`);
-    // await axios.patch('http://10.0.3.2:3010/api/RequestToGames/2', {
-    //   status: 'approved'
-    // }, {
-    //   headers: {
-    //     Authorization: ACCESS_TOKEN
-    //   }
-    // });
-    console.log(game);
-    dispatch({
-      type: SET_GAME,
-      payload: {
-        ...game.data,
-        creator: creator.data,
-        gym: gym.data,
-        joinRequests: joinRequests.data
-      }
-    });
   } catch (e) {
     console.log(e.request);
     console.log(e.response);

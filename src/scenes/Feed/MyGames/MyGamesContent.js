@@ -22,7 +22,6 @@ class MyGamesContent extends Component {
               gameId={game.id}
               showRequestStatus
               requestStatus="ОЖИДАЕТ ОДОБРЕНИЯ..."
-              deleteItem
             />
           ))
         }

@@ -2,16 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import moment from 'moment';
-import { Rating, Icon } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import Svg, { Rect } from 'react-native-svg';
 
-import { getGameById, getGameFiles } from '../GameScreen/actions';
+import { getGameFiles } from '../GameScreen/actions';
+import { getFileById } from '../../../actions/files';
+import { getGameById } from '../../../actions/games';
 import Row from '../../../components/common/Row';
 import SvgShadow from '../../../components/common/Svg/SvgShadow';
+import MyRating from '../../../components/common/MyRating';
 import ThumbnailView from './ThumbnailView';
 import styles from './styles';
 
+const placeholderImage = 'http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg';
 const sportTypes = [
   'ВОЛЕЙБОЛ КЛАССИЧЕСКИЙ',
   'ВОЛЕЙБОЛ ПЛЯЖНЫЙ'
@@ -26,11 +30,12 @@ const gameTypes = [
 
 class GameListItem extends Component {
   static defaultProps = {
-    gameImage: {
-      uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjs7X0GOmJmaQhq0f6HQcuogHiRq-YuNOFKhy24GxmA30uUPGS'
-    },
     showRequestStatus: false,
     deleteItem: false
+  }
+  componentWillMount() {
+    const { avatarId, getFileById } = this.props;
+    getFileById(avatarId);
   }
   componentDidMount() {
     Actions.refresh();
@@ -38,15 +43,17 @@ class GameListItem extends Component {
   render() {
     const {
       gameContainerStyle, leftColumnStyle, imageContainerStyle, rightColumnStyle, blueBgTextStyle,
-      redBgTextStyle, borderedBlueTextStyle, borderedRedTextStyle, ratingStyle, borderedTealStyle,
-      textStyle, mainTextStyle, iconStyle, blueText, rowHeight, spaceAroundRow
+      redBgTextStyle, borderedBlueTextStyle, borderedRedTextStyle, ratingStyle, borderedTealTextStyle,
+      textStyle, iconStyle, blueText, rowHeight, spaceAroundRow, ratingStarSize
     } = styles;
     const {
-      gameId, gameAddress, creator, arrivalTime, gameTypeId, cost, gameImage,
-      kindOfSportsId, display, startTime, finishTime, playersCounts,
-      maxPlayers, totalPlayers, showRequestStatus, requestStatus, deleteItem
+      gameId, creator, gameInfo, display, getFileById, playerLevel, arrivalTime,
+      cost, date, startTime, joinRequests, playersCounts, gameType, kindOfSport,
+      gym, showRequestStatus, requestStatus, hasDelete, link, duration
     } = this.props;
-    console.log('gameListItem', this.props);
+    const totalPlayers = joinRequests ? joinRequests.filter((request) => request.status === 'approved').length : 0;
+    const maxPlayers = playersCounts && playersCounts.max ? playersCounts.max : 0;
+    const rating = playerLevel && playerLevel.length > 0 ? playerLevel[0].id : 1;
     return (
       <View style={{ backgroundColor: 'transparent', marginBottom: 7 }}>
         <TouchableOpacity onPress={async () => {
@@ -63,25 +70,31 @@ class GameListItem extends Component {
             >
               <Image
                 style={imageContainerStyle}
-                source={gameImage}
+                source={{ uri: link }}
               />
-              <Rating
-                imageSize={20}
-                readonly
-                startingValue={3}
-                ratingCount={3}
-                style={ratingStyle}
-              />
+              <View style={{
+                backgroundColor: '#00bfb1', flex: 1, justifyContent: 'center', alignItems: 'center'
+              }}
+              >
+                <MyRating
+                  readonly
+                  showRating={false}
+                  count={rating}
+                  defaultRating={rating}
+                  size={ratingStarSize}
+                  style={ratingStyle}
+                />
+              </View>
             </View>
             <View style={rightColumnStyle}>
               <Row extraStyles={rowHeight}>
                 <Text style={blueBgTextStyle}>{moment(startTime).format('DD/MM/YY')}</Text>
                 <Text style={redBgTextStyle}>{moment(startTime).format('HH:mm')}</Text>
-                <Text style={borderedBlueTextStyle}>{moment(arrivalTime).format('HH:mm')}-{moment(startTime).format('HH:mm')}</Text>
-                <Text style={borderedRedTextStyle}>{playersCounts.min}-{playersCounts.max} чел</Text>
-                <Text style={borderedTealStyle}>{cost} р</Text>
+                <Text style={borderedBlueTextStyle}>{moment(arrivalTime).format('HH:mm')} - {moment(startTime).add(duration).format('HH:mm')}</Text>
+                <Text style={borderedRedTextStyle}>{playersCounts && playersCounts.min}-{playersCounts && playersCounts.max} чел</Text>
+                <Text style={borderedTealTextStyle}>{cost} р</Text>
               </Row>
-              <Row extraStyles={rowHeight}>
+              <Row extraStyles={[rowHeight, { alignItems: 'center' }]}>
                 <Icon
                   size={12}
                   name="user"
@@ -89,10 +102,9 @@ class GameListItem extends Component {
                   color="grey"
                   iconStyle={iconStyle}
                 />
-                <Text style={mainTextStyle}>{creator.firstName[0]}{'. '}{creator.lastName}
+                <Text style={[textStyle, blueText]}>{creator && creator.firstName[0]}{'. '}{creator && creator.lastName}
                 </Text>
-                <Text style={textStyle}>{sportTypes[kindOfSportsId]}{' '}</Text>
-                <Text style={textStyle}>{gameTypes[gameTypeId]}{' '}</Text>
+                <Text style={textStyle}>{' '}{kindOfSport && kindOfSport.name}{' '}</Text>
               </Row>
               <Row extraStyles={[rowHeight, { alignItems: 'center' }]}>
                 <Icon
@@ -102,9 +114,7 @@ class GameListItem extends Component {
                   color="grey"
                   iconStyle={iconStyle}
                 />
-                <Text style={textStyle}>{gameAddress}{' '}
-                  <Text>{gameAddress}</Text>
-                </Text>
+                {!!gym && <Text style={textStyle}>{`${gym.city}, ул. ${gym.street} ${gym.houseNumber}`}</Text>}
               </Row>
               <Row extraStyles={spaceAroundRow}>
                 <Text style={textStyle}>ЗАЯВКИ{' '}
@@ -121,8 +131,8 @@ class GameListItem extends Component {
                     color="grey"
                     iconStyle={{ paddingRight: 5 }}
                   />
-                  <Text style={textStyle}>10/{''}
-                    <Text style={blueText}>1</Text>
+                  <Text style={textStyle}>0/{''}
+                    <Text style={blueText}>0</Text>
                   </Text>
                 </Row>
               </Row>
@@ -135,11 +145,15 @@ class GameListItem extends Component {
         }}
         >
           {showRequestStatus && <Text style={textStyle}>{requestStatus}</Text>}
-          {deleteItem && <Text style={[textStyle, { color: '#d4ff32' }]}>х УДАЛИТЬ</Text>}
+          {hasDelete && <Text style={[textStyle, { color: '#d4ff32' }]}>х УДАЛИТЬ</Text>}
         </Row>
       </View>
     );
   }
 }
 
-export default connect(null, { getGameById, getGameFiles })(GameListItem);
+const mapStateToProps = (state) => ({
+  link: state.fileInfo.link ? `http://10.0.3.2:3010${state.fileInfo.link}` : placeholderImage
+});
+
+export default connect(mapStateToProps, { getGameById, getGameFiles, getFileById })(GameListItem);

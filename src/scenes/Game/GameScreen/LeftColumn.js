@@ -99,10 +99,10 @@ const mapStateToProps = (state, ownProps) => {
   const gameImage = state.files.find((item) => state.gameForm.avatarId === item.id);
   return {
     gameImage: gameImage ? `http://10.0.3.2:3010${gameImage.link}` : 'http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg',
-    gameCreator: state.gameForm.creator,
+    gameCreator: state.gameInfo.creator,
     createdAt: {
-      date: moment(state.gameForm.date).format('DD/MM/YY'),
-      time: moment(state.gameForm.date).format('HH:mm')
+      date: moment(state.gameInfo.date).format('DD/MM/YY'),
+      time: moment(state.gameInfo.date).format('HH:mm')
     }
   };
 };

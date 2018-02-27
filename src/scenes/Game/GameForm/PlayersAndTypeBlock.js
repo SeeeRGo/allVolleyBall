@@ -11,30 +11,18 @@ import styles from './styles';
 import { SCREEN_WIDTH } from '../../../styles';
 
 const sportTypes = [
-  'ВОЛЕЙБОЛ КЛАССИЧЕСКИЙ',
-  'ВОЛЕЙБОЛ ПЛЯЖНЫЙ'
+  'Классический волейбол',
+  'Пляжный волейбол'
 ];
 
 const gameTypes = [
-  'СВОБОДНАЯ ИГРА',
-  'ТРЕНИРОВКА',
-  'ИГРА ЧЕМПИОНАТА'
+  'Свободная игра',
+  'Тренировка',
+  'Игра чемпионата'
 
-];
-
-const minPlayersArray = [
-  ...Array(20).fill().map((e, i) => i.toString())
-];
-const maxPlayersArray = [
-  ...Array(20).fill().map((e, i) => i.toString())
 ];
 
 class PlayersAndTypeBlock extends Component {
-  static defaultProps = {
-    gameType: 'ВОЛЕЙБОЛ КЛАССИЧЕСКИЙ',
-    minPlayers: '0',
-    maxPlayers: '0'
-  }
   renderPicker(fieldName, itemList) {
     return (
       <Picker
