@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View } from 'react-native';
 import { Button } from 'react-native-elements';
 import MapView, { Marker } from 'react-native-maps';
-import axios from 'axios';
-// https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyAq9ErfmlREYPuro-iwD1lQd3Ela_zolMA
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../styles';
 import { Actions } from 'react-native-router-flux';
+import axios from 'axios';
+import _ from 'lodash';
+// https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyAq9ErfmlREYPuro-iwD1lQd3Ela_zolMA
+import { updateSearchFilter } from '../Search/actions';
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../styles';
 
 class Map extends Component {
   static defaultProps = {
@@ -18,7 +21,11 @@ class Map extends Component {
     try {
       const { latitude, longitude } = this.state.x;
       let response;
-      response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&result_type=${this.props.resultType}&language=ru&key=AIzaSyAq9ErfmlREYPuro-iwD1lQd3Ela_zolMA`);
+      // response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&result_type=${this.props.resultType}&language=ru&key=AIzaSyAq9ErfmlREYPuro-iwD1lQd3Ela_zolMA`);
+      // const cityName = _.result(response, 'data.results[0].address_components[0].long_name');
+      // this.props.updateSearchFilter('city', cityName);
+      const bounds = '20.00,40.00|40.00,80.00';
+      response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?result_type=${this.props.resultType}&bounds=${bounds}&language=ru&key=AIzaSyAq9ErfmlREYPuro-iwD1lQd3Ela_zolMA`);
       console.log(response);
       Actions.pop();
     } catch (e) {
@@ -57,4 +64,4 @@ class Map extends Component {
   }
 }
 
-export default Map;
+export default connect(null, { updateSearchFilter })(Map);

@@ -71,7 +71,6 @@ export const createGame = (formData) => async (dispatch) => {
       gameDate, gameTime, minPlayers, maxPlayers, gameType, rating,
       gameEndTime, gameStartTime, price, sportType, creatorId
     } = formData;
-    console.log(moment(gameEndTime, 'HH mm').diff(moment(gameTime, 'HH mm')));
     const game = {
       date: moment((`${gameDate} ${gameTime}`), 'DD MMM YYYY HH mm').toISOString(),
       playersCounts: {
@@ -94,7 +93,6 @@ export const createGame = (formData) => async (dispatch) => {
       gameTypeId: _.indexOf(gameTypes, gameType) + 1,
       creatorId
     };
-    console.log(JSON.stringify(game));
     let response;
     let levels;
     let ACCESS_TOKEN;
@@ -175,26 +173,19 @@ export const fetchGamesFiltered = (filter) => async (dispatch) => {
 export const fetchGamesThroughRequests = (userId) => async (dispatch) => {
   try {
     const filter = { profileId: userId };
-    const link = `http://10.0.3.2:3010/api/RequestToGames?filter=${encodeURIComponent(JSON.stringify(filter))}`;
+    // const link = `http://10.0.3.2:3010/api/RequestToGames?filter=${encodeURIComponent(JSON.stringify(filter))}`;
     let ACCESS_TOKEN;
     ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
     let response;
-    response = await axios.get(link);
+    response = await axios.get('http://10.0.3.2:3010/api/RequestToGames');
     //  TODO исключить возможность дублей
+    response.data = _.filter(response.data, filter);
     console.log(response);
     let games;
     games = await Promise.all(response.data.map(async (request) => {
-      let creatorProfile;
-      let game;
-      game = await axios.get(`http://10.0.3.2:3010/api/Games/${request.gameId}`);
-      let creator;
-      creator = await axios.get(`http://10.0.3.2:3010/api/Games/${game.id}/creator`);
-      return {
-        ...game.data,
-        creator: {
-          ...creator.data
-        }
-      };
+      let result;
+      result = await getGameInfo(request.gameId);
+      return result;
     }));
     console.log(games);
     dispatch({ type: FETCH_GAMES, payload: games });

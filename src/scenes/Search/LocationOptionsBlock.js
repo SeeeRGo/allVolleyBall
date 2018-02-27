@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Dimensions, Picker } from 'react-native';
 import { Slider, Icon } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 
 import { updateSearchFilter } from './actions';
 import Background from '../../components/common/Background';
@@ -16,9 +17,9 @@ const cityOrDistrict = [
 ];
 
 const cities = [
-  'ТОЛЬЯТТИ',
-  'МОСКВА',
-  'САНКТ-ПЕТЕРБУРГ'
+  'Тольятти',
+  'Москва',
+  'Санкт-Петербург'
 ];
 
 class LocationOptionsBlock extends Component {
@@ -37,6 +38,7 @@ class LocationOptionsBlock extends Component {
   }
   render() {
     const { formLabelStyle } = styles;
+    const { updateSearchFilter, city } = this.props;
     return (
       <View style={{
         width: SCREEN_WIDTH, height: SCREEN_HEIGHT * 0.14, backgroundColor: 'rgba(0,0,0, 0.25)'
@@ -71,7 +73,7 @@ class LocationOptionsBlock extends Component {
           </Row>
         </Row>
         <Row extraStyles={{ justifyContent: 'space-around' }}>
-          <Text style={[formLabelStyle, { width: SCREEN_WIDTH * 0.25, textAlign: 'center' }]}>ТОЛЬЯТТИ</Text>
+          <Text style={[formLabelStyle, { width: SCREEN_WIDTH * 0.25, textAlign: 'center' }]}>{city.toUpperCase()}</Text>
           <Row extraStyles={{ flex: 1 }}>
             {this.renderPicker('city', cities)}
             <Icon
@@ -81,10 +83,13 @@ class LocationOptionsBlock extends Component {
               containerStyle={{ paddingLeft: 5, paddingRight: 5 }}
             />
           </Row>
-          <Text style={[formLabelStyle, {
-            width: SCREEN_WIDTH * 0.25, textAlign: 'center', color: 'yellow', alignSelf: 'flex-end'
-          }]}
-          >ВЫБРАТЬ
+          <Text
+            style={[formLabelStyle, {
+              width: SCREEN_WIDTH * 0.25, textAlign: 'center', color: 'yellow', alignSelf: 'flex-end'
+            }]}
+            onPress={() => Actions.push('Map')}
+          >
+            ВЫБРАТЬ
           </Text>
         </Row>
       </View>
