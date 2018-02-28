@@ -7,21 +7,21 @@ export const SET_GAME_INFO = 'SET_GAME_INFO';
 
 export const getGameInfo = async (gameId) => {
   try {
-    const ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
+    const ACCESS_TOKEN = await AsyncStorage.getItem('tokenId');
     let game;
-    game = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}`);
+    game = await axios.get(`http://134513.simplecloud.ru:3010/api/Games/${gameId}`);
     let creator;
-    creator = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}/creator`);
+    creator = await axios.get(`http://134513.simplecloud.ru:3010/api/Games/${gameId}/creator`);
     let gym;
-    gym = await axios.get(`http://10.0.3.2:3010/api/Gyms/${game.data.gymId}`);
+    gym = await axios.get(`http://134513.simplecloud.ru:3010/api/Gyms/${game.data.gymId}`);
     let joinRequests;
-    joinRequests = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}/requestsToGame`);
+    joinRequests = await axios.get(`http://134513.simplecloud.ru:3010/api/Games/${gameId}/requestsToGame`);
     let playerLevel;
-    playerLevel = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}/playerLevels`);
+    playerLevel = await axios.get(`http://134513.simplecloud.ru:3010/api/Games/${gameId}/playerLevels`);
     let kindOfSport;
-    kindOfSport = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}/kindOfSports`);
+    kindOfSport = await axios.get(`http://134513.simplecloud.ru:3010/api/Games/${gameId}/kindOfSports`);
     let gameType;
-    gameType = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}/gameType`);
+    gameType = await axios.get(`http://134513.simplecloud.ru:3010/api/Games/${gameId}/gameType`);
     console.log(game);
     return {
       ...game.data,

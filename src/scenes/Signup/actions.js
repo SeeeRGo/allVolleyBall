@@ -44,11 +44,11 @@ export const submitSignupForm = (formData) => async (dispatch) => {
       realm: ''
     };
     console.log(JSON.stringify(data));
-    let response = await axios.post('http://10.0.3.2:3010/api/Profiles', data);
+    const response = await axios.post('http://134513.simplecloud.ru:3010/api/Profiles', data);
     console.log(response);
     dispatch({ type: SUBMIT_SIGNUP_FORM, payload: data });
   } catch (e) {
     console.log(e.request);
     console.log(e.response);
   }
-}
+};

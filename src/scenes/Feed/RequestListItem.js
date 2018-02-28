@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import moment from 'moment';
 
 import Row from '../../components/common/Row';
-import { getInfoFromRequest, approveJoinGameRequest } from '../Game/GameScreen/actions';
+import { getInfoFromRequest, updateJoinGameRequest } from '../Game/GameScreen/actions';
 import { Button } from 'react-native-elements';
 
 class RequestListItem extends Component {
@@ -20,7 +20,7 @@ class RequestListItem extends Component {
         <Row>
           <Button
             title="ПРИНЯТЬ"
-            onPress={() => this.props.approveJoinGameRequest(this.props.request.id)}
+            onPress={() => this.props.updateJoinGameRequest(this.props.request.id)}
           />
         </Row>
       </View>
@@ -32,4 +32,4 @@ const mapStateToProps = (state) => ({
   requestInfo: state.requestInfo
 });
 
-export default connect(mapStateToProps, { getInfoFromRequest, approveJoinGameRequest })(RequestListItem);
+export default connect(mapStateToProps, { getInfoFromRequest, updateJoinGameRequest })(RequestListItem);

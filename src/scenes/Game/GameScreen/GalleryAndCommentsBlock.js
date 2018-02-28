@@ -47,12 +47,14 @@ class GalleryAndCommentsBlock extends Component {
     });
   };
   render() {
-    const { files, review, updateReview, submitReview, gameId, userId } = this.props;
+    const {
+      files, review, updateReview, submitReview, gameId, userId
+    } = this.props;
     return (
       <View>
         <Row extraStyles={{ justifyContent: 'space-between', left: SCREEN_WIDTH * 0.5, width: '50%' }}>
           <Text style={{ fontSize: 12, color: 'white' }}>ФОТОГАЛЕРЕЯ</Text>
-          <Text 
+          <Text
             style={{ fontSize: 12, color: '#d4ff32' }}
             onPress={this.handleAddImage}
           >
@@ -62,16 +64,16 @@ class GalleryAndCommentsBlock extends Component {
         <Image
           style={{ width: SCREEN_WIDTH - 10, height: SCREEN_WIDTH - 10, margin: 5 }}
           source={{ uri: this.state.selectedImage }}
-        /> 
+        />
         <ScrollView horizontal>
           {files.map((file) => (
             <TouchableOpacity
-              onPress={() => this.setState({ selectedImage: `http://10.0.3.2:3010${file.link}` })}
+              onPress={() => this.setState({ selectedImage: `http://134513.simplecloud.ru:3010${file.link}` })}
             >
               <Image
                 key={file.name}
                 style={{ width: 50, height: 50, margin: 5 }}
-                source={{ uri: `http://10.0.3.2:3010${file.link}` }}
+                source={{ uri: `http://134513.simplecloud.ru:3010${file.link}` }}
               />
             </TouchableOpacity>
           ))}
@@ -113,7 +115,7 @@ class GalleryAndCommentsBlock extends Component {
 
 const mapStateToProps = (state) => ({
   review: state.review,
-  userId: state.user.userId
+  userId: state.user.userProfile.id
 });
 
 export default connect(mapStateToProps, {

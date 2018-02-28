@@ -25,7 +25,7 @@ class LeftColumn extends Component {
           )
         }
         <View style={linksContainerStyle}>
-          {
+          { user.socialNetworks &&
             user.socialNetworks.map((sn) => {
               const provider = get(sn, 'data.provider');
               console.log(provider);

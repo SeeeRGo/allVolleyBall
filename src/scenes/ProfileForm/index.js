@@ -38,7 +38,7 @@ class PlayerForm extends Component {
     Actions.push('Profile');
   }
   render() {
-    console.log(this.props);
+    console.log(this.props.userId);
     return (
       <Background>
         <CustomHeader
@@ -49,7 +49,7 @@ class PlayerForm extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.rightIconStyles}
-              onPress={() => Actions.push('Signup')}
+              onPress={() => Actions.pop()}
             />
           }
         />
@@ -81,7 +81,7 @@ const mapStateToProps = (state) => ({
   city: state.profileForm.city,
   password: state.profileForm.password,
   passwordRe: state.profileForm.passwordRe,
-  userId: state.user.userId
+  userId: state.user.userProfile.id
 });
 
 export default connect(mapStateToProps, { updateProfile, uploadFile })(PlayerForm);

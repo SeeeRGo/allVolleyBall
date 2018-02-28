@@ -23,11 +23,11 @@ class MyGames extends Component {
     const { myGames, selectedButton } = this.props;
     let filteredGames;
     if (selectedButton === 0) {
-      filteredGames = myGames.filter((game) => moment().isBefore(moment(game.startTime).add(game.duration)));
+      filteredGames = myGames.filter((game) => (game ? moment().isBefore(moment(game.startTime).add(game.duration)) : false));
     } else if (selectedButton === 1) {
-      filteredGames = myGames;
+      filteredGames = myGames.filter((game) => !!game);
     } else {
-      filteredGames = myGames.filter((game) => moment().isAfter(moment(game.startTime).add(game.duration)));
+      filteredGames = myGames.filter((game) => (game ? moment().isAfter(moment(game.startTime).add(game.duration)) : false));
     }
     console.log(this.props);
     return (
@@ -41,7 +41,7 @@ class MyGames extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userId: state.user.userId,
+  userId: state.user.userProfile.id,
   myGames: state.game,
   selectedButton: state.selections.myGamesSubHeaderButtons
 });

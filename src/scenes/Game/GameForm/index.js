@@ -105,7 +105,7 @@ class GameForm extends Component {
 
 const mapStateToProps = (state) => ({
   formData: state.gameForm,
-  creatorId: state.user.userId
+  creatorId: state.user.userProfile.id
 });
 
 export default connect(mapStateToProps, { updateGame, createGame })(GameForm);

@@ -18,8 +18,8 @@ export const createGym = (formData) => async (dispatch) => {
     };
 
     let response;
-    const ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
-    response = await axios.post('http://10.0.3.2:3010/api/Gyms/', gymData, {
+    const ACCESS_TOKEN = await AsyncStorage.getItem('tokenId');
+    response = await axios.post('http://134513.simplecloud.ru:3010/api/Gyms/', gymData, {
       headers: {
         Authorization: ACCESS_TOKEN
       }

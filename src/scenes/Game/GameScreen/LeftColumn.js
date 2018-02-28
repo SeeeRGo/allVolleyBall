@@ -48,7 +48,7 @@ class LeftColumn extends Component {
   render() {
     const { gameImage, gameCreator, createdAt } = this.props;
     const { textStyle, iconContainerStyle, imageStyle } = styles.leftColumnStyle;
-    console.log(gameCreator);
+    console.log(gameImage);
     return (
       <View>
         <TouchableOpacity onPress={this.handleImagePress}>
@@ -98,7 +98,7 @@ const mapStateToProps = (state, ownProps) => {
   const gameScreen = state.game.find((item) => item.id === ownProps.gameId);
   const gameImage = state.files.find((item) => state.gameForm.avatarId === item.id);
   return {
-    gameImage: gameImage ? `http://10.0.3.2:3010${gameImage.link}` : 'http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg',
+    gameImage: gameImage ? `http://134513.simplecloud.ru:3010${gameImage.link}` : 'http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg',
     gameCreator: state.gameInfo.creator,
     createdAt: {
       date: moment(state.gameInfo.date).format('DD/MM/YY'),

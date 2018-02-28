@@ -153,7 +153,7 @@ class GameListItem extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  link: state.fileInfo.link ? `http://10.0.3.2:3010${state.fileInfo.link}` : placeholderImage
+  link: state.fileInfo.link ? `http://134513.simplecloud.ru:3010${state.fileInfo.link}` : placeholderImage
 });
 
 export default connect(mapStateToProps, { getGameById, getGameFiles, getFileById })(GameListItem);

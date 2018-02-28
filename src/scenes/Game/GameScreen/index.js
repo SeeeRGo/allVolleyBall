@@ -85,7 +85,7 @@ const mapStateToProps = (state) => ({
   gameInfo: state.gameInfo.gameInfo,
   gameCreator: state.gameInfo.creator,
   files: state.files.filter((file) => file.id !== state.gameForm.avatarId),
-  userId: state.user.userId
+  userId: state.user.userProfile.id
 });
 
 export default connect(mapStateToProps, { sendJoinGameRequest, getGameById, getGameFiles })(GameScreen);

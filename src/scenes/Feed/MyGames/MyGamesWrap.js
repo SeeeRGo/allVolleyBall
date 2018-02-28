@@ -15,7 +15,26 @@ import SubHeaderButtonGroup from './SubHeaderButtonGroup';
 class MyGamesWrap extends Component {
   render() {
     const { messageTextStyle } = styles;
-    const { firstName, lastName, children } = this.props;
+    const {
+      firstName, lastName, children, selectedButton
+    } = this.props;
+    const rightIcon = selectedButton !== 1 ? (
+      <Icon
+        name="search"
+        type="font-awesome"
+        color="white"
+        containerStyle={navBarStyles.rightIconStyles}
+        onPress={() => Actions.push('Search')}
+      />
+    ) : (
+      <Icon
+        name="plus"
+        type="font-awesome"
+        color="white"
+        containerStyle={navBarStyles.rightIconStyles}
+        onPress={() => Actions.push('GameForm')}
+      />
+    );
     return (
       <Background>
         <CustomHeader
@@ -29,15 +48,7 @@ class MyGamesWrap extends Component {
               onPress={() => Actions.push('Feed')}
             />
           }
-          rightIcon={
-            <Icon
-              name="search"
-              type="font-awesome"
-              color="white"
-              containerStyle={navBarStyles.rightIconStyles}
-              onPress={() => Actions.push('Search')}
-            />
-          }
+          rightIcon={rightIcon}
         />
         <SubHeaderButtonGroup />
         {children}
@@ -49,7 +60,8 @@ class MyGamesWrap extends Component {
 
 const mapStateToProps = (state) => ({
   lastName: state.profile.lastName,
-  firstName: state.profile.firstName
+  firstName: state.profile.firstName,
+  selectedButton: state.selections.myGamesSubHeaderButtons
 });
 
 export default connect(mapStateToProps)(MyGamesWrap);

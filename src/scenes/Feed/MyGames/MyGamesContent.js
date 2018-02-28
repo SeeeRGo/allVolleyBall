@@ -47,7 +47,7 @@ class MyGamesContent extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userId: state.user.userId,
+  userId: state.user.userProfile.id,
   selectedButton: state.selections.myGamesSubHeaderButtons
 });
 

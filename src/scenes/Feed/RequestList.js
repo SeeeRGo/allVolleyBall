@@ -4,7 +4,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { ButtonGroup, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
-import RequestListItem from './RequestListItem';
+import FeedListItem from './FeedListItem';
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
 import CustomHeader from '../../components/common/CustomHeader';
@@ -40,7 +40,7 @@ class EmptyFeed extends Component {
           }
         />
         {this.props.requestList.map((request) => (
-          <RequestListItem request={request} />
+          <FeedListItem request={request} />
         ))}
         <FooterButtonGroup />
       </Background>
@@ -51,7 +51,7 @@ class EmptyFeed extends Component {
 const mapStateToProps = (state) => ({
   lastName: state.profile.lastName,
   firstName: state.profile.firstName,
-  userId: state.user.userId
+  userId: state.user.userProfile.id
 });
 
 export default connect(mapStateToProps)(EmptyFeed);

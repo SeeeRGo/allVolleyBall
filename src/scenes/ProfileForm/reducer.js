@@ -1,15 +1,17 @@
 import { PLAYER_FORM_UPDATE } from './actions';
 import { SET_PROFILE } from '../Profile/actions';
+import { SET_USER } from '../../actions/user';
 
 const INITIAL_STATE = {
-  lastName: 'МЕЛЬНИКОВ',
-  firstName: 'ВЯЧЕСЛАВ',
-  fatherName: 'ВЛАДИМИРОВИЧ',
+  lastName: '',
+  firstName: '',
+  fatherName: '',
   birthDate: null,
-  phone: '+ 7 000 123 45 67',
-  address: 'Тольятти, Самарская область',
-  vkLink: 'www.vk.com/melnik.mellow',
-  fbLink: 'www.facebook.com/melnik.mellow',
+  phone: '',
+  address: '',
+  photo: {
+    uri: 'http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg'
+  },
   city: 'Тольятти',
   password: '',
   passwordRe: ''
@@ -18,13 +20,13 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case PLAYER_FORM_UPDATE:
-    console.log(action.payload);
     return {
       ...state,
       ...action.payload
     };
   case SET_PROFILE:
-    console.log(action.payload);
+    return action.payload;
+  case SET_USER:
     return action.payload;
   default:
     return state;

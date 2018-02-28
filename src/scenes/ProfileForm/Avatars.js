@@ -45,7 +45,6 @@ class Avatars extends Component {
     const {
       labelStyle, sizeLarge, sizeMedium, sizeSmall
     } = styles.avatarStyles;
-    console.log(this.props.photo);
     return (
       <Row extraStyles={{ alignItems: 'flex-end' }}>
         <Avatar
@@ -88,10 +87,10 @@ class Avatars extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const avatar = state.files.find((file) => file.profileId === state.user.userId);
+  const avatar = state.files.find((file) => file.profileId === state.user.userProfile.id);
   return {
     avatar: {
-      uri: avatar ? `http://10.0.3.2:3010${avatar.link}` : 'http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg'
+      uri: avatar ? `http://134513.simplecloud.ru:3010${avatar.link}` : 'http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg'
     },
     photo: state.profileForm.photo
   };

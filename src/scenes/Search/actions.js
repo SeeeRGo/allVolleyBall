@@ -23,10 +23,10 @@ export const updateSearchFilter = (updateFieldName, updateValue) => ({
 
 export const findGames = (filter) => async (dispatch) => {
   try {
-    const link = `http://10.0.3.2:3010/api/Games/find-by-filter?filter=${encodeURIComponent(JSON.stringify(filter))}`;
+    const link = `http://134513.simplecloud.ru:3010/api/Games/find-by-filter?filter=${encodeURIComponent(JSON.stringify(filter))}`;
     let response;
     // response = await axios.get(link);
-    response = await axios.get('http://10.0.3.2:3010/api/Games');
+    response = await axios.get('http://134513.simplecloud.ru:3010/api/Games');
     console.log(filter);
     console.log(response.data);
     response.data = response.data.filter((game) => myFilter(game, filter));
