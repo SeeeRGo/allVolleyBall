@@ -17,7 +17,7 @@ export function* startApp() {
       return;
     }
     yield put(userActions.setUser(user));
-    Actions.reset('Profile', { userId: user.id });
+    Actions.reset('Profile', { id: user.id });
   } catch (e) {
     // eslint-disable-next-line
     console.error(e, 'startApp error');

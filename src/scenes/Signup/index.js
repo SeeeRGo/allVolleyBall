@@ -14,9 +14,11 @@ import Logo from '../../components/common/Logo';
 import CustomHeader from '../../components/common/CustomHeader';
 import Control from '../../components/FormControl';
 import styles from './styles';
-import { changeField } from './actions';
+import { changeField, addSocialNetwork } from './actions';
+import { register } from '../../actions/user';
 
 const cities = [
+  '',
   'Тольятти',
   'Москва',
   'Санкт-Петербург'
@@ -30,7 +32,36 @@ class SignupForm extends Component {
   constructor(props) {
     super(props);
     this.handleSignup = this.handleSignup.bind(this);
+    this.handleOpenURL = this.handleOpenURL.bind(this);
+    this.getInitialURL = this.getInitialURL.bind(this);
     this.handleChangeControl = this.handleChangeControl.bind(this);
+  }
+
+
+  componentDidMount() {
+    console.log('olololo');
+    Linking.addEventListener('url', this.handleOpenURL);
+    Linking.getInitialURL().then(this.getInitialURL);
+  }
+
+  componentWillUnmount() {
+  }
+
+  getInitialURL(url) {
+    if (!url) {
+      return;
+    }
+    this.handleOpenURL({ url });
+  }
+
+  handleOpenURL({ url }) {
+    console.log('signup!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    const [, userString] = url.match(/response=([^#]+)/);
+    console.log(userString, 'userString');
+    // const [, type] = url.match(/type=([^#]+)/);
+    // console.log(type, 'type');
+    const response = JSON.parse(decodeURI(userString));
+    this.props.addSocialNetwork(response);
   }
 
   openUrlBySocialNetwork(socialNetwork) {
@@ -39,6 +70,7 @@ class SignupForm extends Component {
   }
 
   handleSignup() {
+    this.props.register(this.props.state);
   }
 
   handleChangeControl(fieldName) {
@@ -51,7 +83,7 @@ class SignupForm extends Component {
   }
 
   renderCities(cityList) {
-    return cityList.map((city, index) => <Picker.Item style={{ backgroundColor: 'white' }} key={city} label={city} value={index} />);
+    return cityList.map((city, index) => <Picker.Item style={{ backgroundColor: 'white' }} key={city} label={city} value={city} />);
   }
 
   render() {
@@ -85,6 +117,7 @@ class SignupForm extends Component {
                     color="#0077d9"
                     size={18}
                     containerStyle={{ margin: 0 }}
+                    onPress={() => this.openUrlBySocialNetwork(ProfileApi.socialNetworks.vkontakte)}
                   />
                 </Row>
               </View>
@@ -93,8 +126,8 @@ class SignupForm extends Component {
             <FormLabel labelStyle={[formLabelStyle, { marginTop: 10, marginBottom: 10 }]}>ИЛИ ЗАПОЛНИТЕ ФОРМУ</FormLabel>
             <Control
               label="Фамилия"
-              value={get(this.props, 'state.user.secondName', '')}
-              onChangeText={this.handleChangeControl('secondName')}
+              value={get(this.props, 'state.user.lastName', '')}
+              onChangeText={this.handleChangeControl('lastName')}
             />
             <Control
               label="Имя"
@@ -103,8 +136,8 @@ class SignupForm extends Component {
             />
             <Control
               label="Отчество"
-              value={get(this.props, 'state.user.lastName', '')}
-              onChangeText={this.handleChangeControl('lastName')}
+              value={get(this.props, 'state.user.fatherName', '')}
+              onChangeText={this.handleChangeControl('fatherName')}
             />
             <Control
               label="Телефон"
@@ -177,11 +210,14 @@ class SignupForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  state: state.signup
+  state: state.signup,
+  isRegistration: state.loadings.isRegistration
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeField: (fieldName, fieldValue) => dispatch(changeField(fieldName, fieldValue))
+  changeField: (fieldName, fieldValue) => dispatch(changeField(fieldName, fieldValue)),
+  register: (user) => dispatch(register(user)),
+  addSocialNetwork: (sn) => dispatch(addSocialNetwork(sn))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);

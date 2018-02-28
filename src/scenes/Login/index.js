@@ -39,7 +39,10 @@ class LoginScene extends Component {
     this.loginWithVkontakte = this.loginWithVkontakte.bind(this);
     this.keyboardDidShow = this.keyboardDidShow.bind(this);
     this.keyboardDidHide = this.keyboardDidHide.bind(this);
+    this.handleOpenURL = this.handleOpenURL.bind(this);
+    this.getInitialURL = this.getInitialURL.bind(this);
   }
+
   state = {
     focused: null,
     showLogo: true,
@@ -52,17 +55,34 @@ class LoginScene extends Component {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
   }
 
-
   componentDidMount() {
     /**
      * @todo чекнуть вызывается ли метод при смене экрана
      */
+    Linking.addEventListener('url', this.handleOpenURL);
+    Linking.getInitialURL().then(this.getInitialURL);
     Keyboard.dismiss();
   }
 
   componentWillUnmount() {
+    Linking.removeEventListener('url', this.handleOpenURL);
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
+  }
+
+  getInitialURL(url) {
+    if (!url) {
+      return;
+    }
+    this.handleOpenURL({ url });
+  }
+
+  handleOpenURL({ url }) {
+    console.log('login!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    const [, userString] = url.match(/response=([^#]+)/);
+    console.log(userString, 'userString');
+    const response = JSON.parse(decodeURI(userString));
+    this.props.loginBySocialNetwork(response);
   }
 
   keyboardDidShow() {
@@ -98,7 +118,7 @@ class LoginScene extends Component {
   }
 
   handlePressRegisterButton() {
-    Actions.Signup();
+    Actions.reset('Signup');
   }
 
   render() {

@@ -1,6 +1,6 @@
-export const CREATE_USER = 'scenes/Signup/CREATE_USER';
-export const CREATE_USER_SUCCESS = 'scenes/Signup/CREATE_USER_SUCCESS';
-export const CREATE_USER_ERROR = 'scenes/Signup/CREATE_USER_ERROR';
+export const REGISTER = 'scenes/Signup/REGISTER';
+export const REGISTER_SUCCESS = 'scenes/Signup/REGISTER_SUCCESS';
+export const REGISTER_ERROR = 'scenes/Signup/REGISTER_ERROR';
 
 export const SET_USER = 'actions/loading/SET_USER';
 export const RESET_USER = 'actions/loading/RESET_USER';
@@ -26,15 +26,15 @@ export const GET_MY_PROFILE = 'scenes/Login/GET_MY_PROFILE';
 export const GET_MY_PROFILE_SUCCESS = 'scenes/Login/GET_MY_PROFILE_SUCCESS';
 export const GET_MY_PROFILE_ERROR = 'scenes/Login/GET_MY_PROFILE_ERROR';
 
-export const createUser = (user) => ({
-  type: CREATE_USER,
+export const register = (user) => ({
+  type: REGISTER,
   payload: user
 });
-export const createUserSuccess = () => ({
-  type: CREATE_USER_SUCCESS
+export const registerSuccess = () => ({
+  type: REGISTER_SUCCESS
 });
-export const createUserError = (message) => ({
-  type: CREATE_USER_ERROR,
+export const registerError = (message) => ({
+  type: REGISTER_ERROR,
   message
 });
 

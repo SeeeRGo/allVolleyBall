@@ -10,41 +10,9 @@ import { addSocialNetwork } from '../Signup/actions';
 import styles from './styles';
 
 class Welcome extends Component {
-  constructor(props) {
-    super(props);
-    this.handleOpenURL = this.handleOpenURL.bind(this);
-    this.getInitialURL = this.getInitialURL.bind(this);
+  componentWillMount() {
+    Linking.removeAllListeners('url');
   }
-
-  componentDidMount() {
-    console.log('olololo');
-    Linking.addEventListener('url', this.handleOpenURL);
-    Linking.getInitialURL().then(this.getInitialURL);
-  }
-
-  componentWillUnmount() {
-  }
-
-  getInitialURL(url) {
-    if (!url) {
-      return;
-    }
-    this.handleOpenURL({ url });
-  }
-
-  handleOpenURL({ url }) {
-    console.log(url, 'hhihihihihih');
-    const [, userString] = url.match(/response=([^#]+)/);
-    console.log(userString, 'userString');
-    const [, type] = url.match(/type=([^#]+)/);
-    console.log(type, 'type');
-    const response = JSON.parse(decodeURI(userString));
-    if (type === 'get') {
-      this.props.addSocialNetwork(response);
-    }
-    this.props.loginBySocialNetwork(response);
-  }
-
   render() {
     return (
       <Background type="one">
@@ -52,7 +20,7 @@ class Welcome extends Component {
           <Logo big />
         </View>
         <View style={styles.buttonContainerStyle} >
-          <TouchableOpacity onPress={() => Actions.push('Auth')} style={styles.buttonStyle}>
+          <TouchableOpacity onPress={() => Actions.reset('Auth')} style={styles.buttonStyle}>
             <Icon
               style={styles.buttonIconStyle}
               name="arrow-right"

@@ -49,7 +49,7 @@ export class Profile extends Model {
     const result = await this.postRequest(`${this.plural}/login`, credentials);
     console.log('result', result);
     await AsyncStorage.setItem('tokenId', result.id);
-    const account = await this.getById(result.userId);
+    const account = await this.getById(result.userId, { include: 'socialNetworks' });
     console.log(account, 'account');
     await AsyncStorage.setItem('userId', account.id.toString());
     return account;
@@ -61,7 +61,9 @@ export class Profile extends Model {
    * @returns {Promise}
    */
   setToken(token) {
-    return AsyncStorage.setItem('tokenId', token.id.toString());
+    console.log(token);
+    return AsyncStorage.setItem('userId', token.userId.toString())
+      .then(() => AsyncStorage.setItem('tokenId', token.id.toString()));
   }
 
   /**
@@ -70,11 +72,10 @@ export class Profile extends Model {
    */
   getMyProfile() {
     return AsyncStorage.getItem('userId')
-      .then((userId) => this.getRequest(`${this.plural}/${userId}`, {
-        filter: {
-          include: 'socialNetworks'
-        }
-      }));
+      .then((userId) => {
+        console.log(userId);
+        return this.getById(userId, { include: 'socialNetworks' });
+      });
   }
 
   /**
@@ -87,6 +88,10 @@ export class Profile extends Model {
         AsyncStorage.removeItem('tokenId');
         AsyncStorage.removeItem('userId');
       });
+  }
+
+  addSocialNetwork(sn) {
+    return this.postRequest(`${this.plural}/add-social-network`, sn);
   }
 }
 

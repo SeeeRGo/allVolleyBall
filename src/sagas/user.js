@@ -4,7 +4,34 @@ import ProfileApi from '../api/Profile';
 import * as userActions from '../actions/user';
 import * as loadingsActions from '../actions/loadings';
 import { resetCredentials } from '../scenes/Login/actions';
-import { addSocialNetwork } from '../scenes/Signup/actions';
+
+export function* register(action) {
+  try {
+    yield put(loadingsActions.startLoading('isRegistration'));
+    const { payload } = action;
+    const user = { ...payload.user };
+    delete user.secondPassword;
+    yield call([ProfileApi, ProfileApi.create], user);
+    yield call([ProfileApi, ProfileApi.login], { username: user.username, password: user.password });
+    // eslint-disable-next-line no-restricted-syntax
+    for (const sn of payload.socialNetworks) {
+      yield call([ProfileApi, ProfileApi.addSocialNetwork], sn);
+    }
+    const logginedUser = yield call([ProfileApi, ProfileApi.getMyProfile]);
+    console.log(logginedUser, 'logginedUser');
+    yield put(userActions.setUser(logginedUser));
+    Actions.reset('Profile', { id: user.id });
+    yield put(userActions.registerSuccess());
+  } catch (error) {
+    yield put(userActions.registerError(error));
+  } finally {
+    yield put(loadingsActions.stopLoading('isRegistration'));
+  }
+}
+
+export function* registerFlow() {
+  yield takeEvery(userActions.REGISTER, register);
+}
 
 export function* login(action) {
   try {
@@ -15,7 +42,7 @@ export function* login(action) {
     yield put(resetCredentials());
     yield put(userActions.loginSuccess());
     Actions.pop();
-    Actions.reset('Profile', { userId: user.id });
+    Actions.reset('Profile', { id: user.id });
   } catch (error) {
     yield put(userActions.loginError(error));
   } finally {
@@ -69,7 +96,7 @@ export function* loginBySocialNetwork(action) {
     const user = yield call([ProfileApi, ProfileApi.getMyProfile]);
     yield put(userActions.setUser(user));
     yield put(userActions.loginBySocialNetworkSuccess());
-    Actions.replace('Dashboard');
+    Actions.reset('Profile', { id: user.id });
   } catch (error) {
     yield put(userActions.loginBySocialNetworkError(error));
   } finally {
@@ -81,27 +108,9 @@ export function* loginBySocialNetworkFlow() {
   yield takeEvery(userActions.LOGIN_BY_SOCIAL_NETWORK, loginBySocialNetwork);
 }
 
-export function* gettingProfileBySocialNetwork(action) {
-  try {
-    const { payload: token } = action;
-    yield put(loadingsActions.startLoading('gettingProfileBySocialNetwork'));
-
-    yield put(userActions.setUser(user));
-    yield put(userActions.loginBySocialNetworkSuccess());
-    Actions.replace('Dashboard');
-  } catch (error) {
-    yield put(userActions.loginBySocialNetworkError(error));
-  } finally {
-    yield put(loadingsActions.stopLoading('loginBySocialNetwork'));
-  }
-}
-
-export function* gettingProfileBySocialNetworkFlow() {
-  yield takeEvery(userActions.LOGIN_BY_SOCIAL_NETWORK, gettingProfileBySocialNetwork);
-}
-
 export default function* () {
   yield all([
+    fork(registerFlow),
     fork(loginFlow),
     fork(logoutFlow),
     fork(loginBySocialNetworkFlow)
