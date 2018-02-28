@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Keyboard } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
@@ -15,11 +15,26 @@ import CustomHeader from '../../../components/common/CustomHeader';
 import navBarStyles, { SCREEN_HEIGHT } from '../../../components/common/CustomHeader/navBarStyles';
 
 class GameForm extends Component {
-  static onEnter = (params) => {
-    console.log('params', params);
+  static onEnter = () => {
+    Keyboard.dismiss();
   }
-  static onExit = (params) => {
-    console.log('exit params', params);
+  state = {
+    isKeyboardOpened: null
+  }
+  componentWillMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+  }
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+  keyboardDidShow = () => {
+    this.setState({ isKeyboardOpened: true });
+  }
+
+  keyboardDidHide = () => {
+    this.setState({ isKeyboardOpened: false });
   }
   handleUpdateGame() {
     const {
@@ -56,6 +71,7 @@ class GameForm extends Component {
   }
   render() {
     console.log(this.props.gameId);
+    const maxHeight = this.state.isKeyboardOpened ? SCREEN_HEIGHT * 0.35 : SCREEN_HEIGHT * 0.8;
     return (
       <Background>
         <CustomHeader
@@ -70,15 +86,12 @@ class GameForm extends Component {
             />
           }
         />
-        <View style={{ maxHeight: SCREEN_HEIGHT * 0.8 }}>
-          <ScrollView >
-            <PlayersAndTypeBlock />
-            <RatingAndPriceBlock use="searchFilter" />
-            <DatePickersBlock />
-            <AddressAndInfoBlock />
-          </ScrollView>
-        </View>
-
+        <ScrollView style={{ maxHeight }}>
+          <PlayersAndTypeBlock />
+          <RatingAndPriceBlock use="searchFilter" />
+          <DatePickersBlock />
+          <AddressAndInfoBlock />
+        </ScrollView>
         <Button
           containerViewStyle={{ position: 'absolute', bottom: 0, width: '100%' }}
           title={this.props.actionType === 'create' ? 'СОЗДАТЬ ИГРУ' : 'РЕДАКТИРОВАТЬ ИГРУ'}

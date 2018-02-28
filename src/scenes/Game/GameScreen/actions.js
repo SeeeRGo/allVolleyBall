@@ -108,6 +108,22 @@ export const createGame = (formData) => async (dispatch) => {
         Authorization: ACCESS_TOKEN
       }
     });
+    if (formData.participate) {
+      let joinRequest;
+      joinRequest = await axios.post('http://10.0.3.2:3010/api/RequestToGames/', {
+        status: 'request',
+        gameId: response.data.id,
+        profileId: formData.creatorId
+      });
+      console.log(joinRequest);
+      let approveRequest;
+      approveRequest = await axios.patch(`http://10.0.3.2:3010/api/RequestToGames/${joinRequest.data.id}`, { status: 'approved' }, {
+        headers: {
+          Authorization: ACCESS_TOKEN
+        }
+      });
+      console.log(approveRequest);
+    }
     console.log(levels);
     dispatch({ type: GAME_CREATE, payload: game });
   } catch (e) {

@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
+import moment from 'moment';
 
-import { fetchGamesFiltered } from '../Game/GameScreen/actions';
+import { findGames } from './actions';
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
 import CustomHeader from '../../components/common/CustomHeader';
@@ -52,8 +53,8 @@ class SearchScene extends Component {
           title="НАЙТИ"
           buttonStyle={{ backgroundColor: '#00bfb1' }}
           onPress={async () => {
-            await this.props.fetchGamesFiltered();
-            Actions.replace('GameList', { filter: this.props.filter });
+            await this.props.findGames(this.props.filter);
+            Actions.push('GameList');
           }}
         />
       </Background>
@@ -62,7 +63,12 @@ class SearchScene extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  filter: state.searchFilter
+  filter: {
+    // city: state.searchFilter.city,
+    kindOfSportsId: state.searchFilter.kindOfSportId + 1,
+    cost: state.searchFilter.price,
+    startTime: moment((`${state.searchFilter.startDate} ${state.searchFilter.startTime}`), 'DD MMM YYYY HH mm').toISOString()
+  }
 });
 
-export default connect(mapStateToProps, { fetchGamesFiltered })(SearchScene);
+export default connect(mapStateToProps, { findGames })(SearchScene);

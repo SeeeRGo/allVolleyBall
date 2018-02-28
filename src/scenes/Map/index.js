@@ -12,7 +12,8 @@ import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../styles';
 
 class Map extends Component {
   static defaultProps = {
-    resultType: 'locality'
+    resultType: 'locality',
+    resultPath: 'data.results[0].formatted_address'
   }
   state = {
     x: null
@@ -21,12 +22,10 @@ class Map extends Component {
     try {
       const { latitude, longitude } = this.state.x;
       let response;
-      // response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&result_type=${this.props.resultType}&language=ru&key=AIzaSyAq9ErfmlREYPuro-iwD1lQd3Ela_zolMA`);
-      // const cityName = _.result(response, 'data.results[0].address_components[0].long_name');
-      // this.props.updateSearchFilter('city', cityName);
-      const bounds = '20.00,40.00|40.00,80.00';
-      response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?result_type=${this.props.resultType}&bounds=${bounds}&language=ru&key=AIzaSyAq9ErfmlREYPuro-iwD1lQd3Ela_zolMA`);
-      console.log(response);
+      response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&result_type=${this.props.resultType}&language=ru&key=AIzaSyAq9ErfmlREYPuro-iwD1lQd3Ela_zolMA`);
+      const result = _.result(response, this.props.resultPath);
+      this.props.onAddressSubmit(this.props.addressUseType, result);
+      console.log(result);
       Actions.pop();
     } catch (e) {
       console.log(e);
@@ -38,12 +37,6 @@ class Map extends Component {
       <View style={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT }}>
         <MapView
           style={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT }}
-          initialRegion={{
-            latitude: 53.53,
-            longitude: 49.28,
-            latitudeDelta: 0.922,
-            longitudeDelta: 0.421
-          }}
           onRegionChange={() => {}}
           onPress={(e) => this.setState({ x: e.nativeEvent.coordinate })}
         >

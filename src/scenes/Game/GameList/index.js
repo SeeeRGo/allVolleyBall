@@ -41,7 +41,7 @@ class GameList extends Component {
             games.map((game) => (
               <View>
                 <GameListItem
-                  key={game.id}
+                  key={`game-${game.id}`}
                   {...game}
                   gameId={game.id}
                   display={display}

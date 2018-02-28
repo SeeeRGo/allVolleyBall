@@ -4,6 +4,7 @@ import { View, Picker, ScrollView, Slider, Text } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import { FormInput, FormLabel, Rating, Divider, Icon } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 
 import Row from '../../../components/common/Row';
 import { gameFormUpdate } from './actions';
@@ -51,17 +52,28 @@ class AddressAndInfoBlock extends Component {
       gameType, minPlayers, maxPlayers, price, gameFormUpdate,
       gameTime, startTime, finishTime, gameAddress, gameInfo, street, house, city
     } = this.props;
+    const addressText = gameAddress ?
+      `Игра пройдет по адресу ${gameAddress} \n а здесь должен быть список близлежащих залов` :
+      'Выберите адрес игры на карте';
     return (
       <View style={containerStyle}>
         <Row extraStyles={{ marginBottom: 20 }}>
           <Text style={[formLabelStyle, { left: SCREEN_WIDTH * 0.25, width: SCREEN_WIDTH * 0.5, textAlign: 'center' }]}>АДРЕС ИГРЫ</Text>
-          <Text style={[formLabelStyle, {
-            left: SCREEN_WIDTH * 0.15, width: SCREEN_WIDTH * 0.35, textAlign: 'right', color: 'yellow', alignSelf: 'flex-end'
-          }]}
+          <Text
+            style={[formLabelStyle, {
+              left: SCREEN_WIDTH * 0.15, width: SCREEN_WIDTH * 0.35, textAlign: 'right', color: 'yellow', alignSelf: 'flex-end'
+            }]}
+            onPress={() => Actions.push('Map', {
+              onAddressSubmit: gameFormUpdate,
+              addressUseType: 'gameAddress',
+              resultType: 'street_address',
+              resultPath: 'data.results[0].formatted_address'
+            })}
           >ВЫБРАТЬ НА КАРТЕ
           </Text>
         </Row>
-        <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center' }}>
+        <Text style={formLabelStyle}>{addressText}</Text>
+        {/* <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <FormLabel labelStyle={formLabelStyle}>ГОРОД</FormLabel>
           <Row extraStyles={{ flex: 1 }}>
             {this.renderPicker('city', cities)}
@@ -99,7 +111,7 @@ class AddressAndInfoBlock extends Component {
             />
           </Row>
         </Row>
-        <Divider />
+        <Divider /> */}
         <FormLabel labelStyle={[formLabelStyle, { alignSelf: 'center', marginTop: 25, marginBottom: 15 }]}>ОПИСАНИЕ ИГРЫ</FormLabel>
         <View style={{ backgroundColor: 'white' }}>
           <FormInput

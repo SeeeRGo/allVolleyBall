@@ -87,7 +87,12 @@ class LocationOptionsBlock extends Component {
             style={[formLabelStyle, {
               width: SCREEN_WIDTH * 0.25, textAlign: 'center', color: 'yellow', alignSelf: 'flex-end'
             }]}
-            onPress={() => Actions.push('Map')}
+            onPress={() => Actions.push('Map', {
+              onAddressSubmit: updateSearchFilter,
+              addressUseType: 'city',
+              resultType: 'locality',
+              resultPath: 'data.results[0].address_components[0].long_name'
+            })}
           >
             ВЫБРАТЬ
           </Text>
