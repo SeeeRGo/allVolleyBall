@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-import { Text, View, Picker, ScrollView, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
+import get from 'lodash/get';
+import { Text, View, ScrollView, TouchableOpacity, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-// import { emailChanged, passwordChanged, loginUser } from '../actions';
-import { FormLabel, FormInput, Button, Icon, Divider } from 'react-native-elements';
+import { FormLabel, Icon, Divider } from 'react-native-elements';
+import { Picker, Label } from 'native-base';
 
-import { changeCredential, resetCredentials, submitSignupForm } from './actions';
+import Profile, { Profile as ProfileApi } from '../../api/Profile';
 import Background from '../../components/common/Background';
 import Row from '../../components/common/Row';
 import Logo from '../../components/common/Logo';
 import CustomHeader from '../../components/common/CustomHeader';
+import Control from '../../components/FormControl';
 import styles from './styles';
-import navBarStyles from '../../components/common/CustomHeader/navBarStyles';
+import { changeField } from './actions';
 
 const cities = [
   'Тольятти',
@@ -20,68 +23,43 @@ const cities = [
 ];
 
 class SignupForm extends Component {
+  static propTypes = {
+    changeField: PropTypes.func.isRequired
+  }
+
   constructor(props) {
     super(props);
-
     this.handleSignup = this.handleSignup.bind(this);
+    this.handleChangeControl = this.handleChangeControl.bind(this);
   }
-  state = {
-    firstName: {
-      active: false,
-      valid: false
-    },
-    lastName: {
-      active: false,
-      valid: false
-    },
-    fatherName: {
-      active: false,
-      valid: false
-    },
-    phone: {
-      active: false,
-      valid: false
-    },
-    password: {
-      active: false,
-      valid: false
-    },
-    passwordRe: {
-      active: false,
-      valid: false
-    }
+
+  openUrlBySocialNetwork(socialNetwork) {
+    const url = Profile.getUrlForGettingSocialNetwork(socialNetwork);
+    Linking.openURL(url);
   }
 
   handleSignup() {
-    const {
-      lastName, firstName, fatherName, phone, password,
-      passwordRe, city
-    } = this.props;
-    console.log(phone);
-    const formData = {
-      firstName,
-      lastName,
-      fatherName,
-      phone,
-      password,
-      city
-    };
-    this.props.submitSignupForm(formData);
-    Actions.PhoneConfirmation({ phoneConfirmed: false });
   }
+
+  handleChangeControl(fieldName) {
+    return (fieldValue) => this.props.changeField(fieldName, fieldValue);
+  }
+
+
+  handlePressAuthButton() {
+    Actions.reset('Auth');
+  }
+
   renderCities(cityList) {
-    return cityList.map((city, index) => <Picker.Item key={city} label={city} value={index} />);
+    return cityList.map((city, index) => <Picker.Item style={{ backgroundColor: 'white' }} key={city} label={city} value={index} />);
   }
 
   render() {
+    console.log(this.props.state, 'azazaz');
     const {
-      mainContainerStyle, formLabelStyle, formInputStyle, agreeTextStyle, dividerStyle, boldText,
+      mainContainerStyle, formLabelStyle, agreeTextStyle, dividerStyle, boldText,
       outsideTextStyle
     } = styles;
-    const {
-      lastName, firstName, fatherName, phone, password,
-      passwordRe, city, changeCredential, resetCredentials
-    } = this.props;
     return (
       <Background type="one">
         <CustomHeader title="Я - новенький" />
@@ -98,6 +76,7 @@ class SignupForm extends Component {
                     color="#415fa8"
                     size={18}
                     containerStyle={{ margin: 0, marginRight: 10 }}
+                    onPress={() => this.openUrlBySocialNetwork(ProfileApi.socialNetworks.facebook)}
                   />
                   <Icon
                     name="vk"
@@ -112,73 +91,57 @@ class SignupForm extends Component {
               <Logo />
             </Row>
             <FormLabel labelStyle={[formLabelStyle, { marginTop: 10, marginBottom: 10 }]}>ИЛИ ЗАПОЛНИТЕ ФОРМУ</FormLabel>
-            <FormLabel labelStyle={formLabelStyle}>ФАМИЛИЯ*</FormLabel>
-            <FormInput
-              inputStyle={formInputStyle}
-              value={lastName}
-              onChangeText={(value) => changeCredential('lastName', value)}
-              underlineColorAndroid="transparent"
+            <Control
+              label="Фамилия"
+              value={get(this.props, 'state.user.secondName', '')}
+              onChangeText={this.handleChangeControl('secondName')}
             />
-            <Divider style={dividerStyle} />
-            <FormLabel labelStyle={formLabelStyle}>ИМЯ*</FormLabel>
-            <FormInput
-              inputStyle={formInputStyle}
-              value={firstName}
-              onChangeText={(value) => changeCredential('firstName', value)}
-              underlineColorAndroid="transparent"
+            <Control
+              label="Имя"
+              value={get(this.props, 'state.user.firstName', '')}
+              onChangeText={this.handleChangeControl('firstName')}
             />
-            <Divider style={dividerStyle} />
-            <FormLabel labelStyle={formLabelStyle}>ОТЧЕСТВО</FormLabel>
-            <FormInput
-              inputStyle={formInputStyle}
-              value={fatherName}
-              onChangeText={(value) => changeCredential('fatherName', value)}
-              underlineColorAndroid="transparent"
+            <Control
+              label="Отчество"
+              value={get(this.props, 'state.user.lastName', '')}
+              onChangeText={this.handleChangeControl('lastName')}
             />
-            <Divider style={dividerStyle} />
-            <Row extraStyles={{ justifyContent: 'space-between' }}>
-              <FormLabel labelStyle={formLabelStyle}>ТЕЛЕФОН*</FormLabel>
-              <FormLabel labelStyle={[formLabelStyle]}>+7 000 000 00 00</FormLabel>
-            </Row>
-            <FormInput
-              inputStyle={formInputStyle}
-              value={phone}
-              onChangeText={(value) => changeCredential('phone', value)}
-              underlineColorAndroid="transparent"
+            <Control
+              label="Телефон"
+              labelInfo="+7 000 000 00 00"
+              value={get(this.props, 'state.user.username', '')}
+              onChangeText={this.handleChangeControl('username')}
             />
-            <Divider style={dividerStyle} />
-            <Row extraStyles={{ marginTop: 7, marginBottom: 7 }}>
-              <FormLabel labelStyle={[formLabelStyle, { color: '#091b75', height: 20, textAlignVertical: 'bottom' }]}>ГОРОД ПРОЖИВАНИЯ*</FormLabel>
+            <View
+              style={{
+                flexDirection: 'row', padding: 10, paddingTop: 15
+              }}
+            >
+              <Label style={{ fontSize: 12, color: '#091b75', fontWeight: 'bold' }}>
+                ГОРОД ПРОЖИВАНИЯ
+              </Label>
               <Picker
                 style={{ flex: 1, height: 20 }}
-                selectedValue={city}
-                onValueChange={(value) => changeCredential('city', value)}
+                mode="dropdown"
+                selectedValue={get(this.props, 'state.user.city', '')}
+                onValueChange={this.handleChangeControl('city')}
               >
                 {this.renderCities(cities)}
               </Picker>
-            </Row>
+            </View>
             <Divider style={dividerStyle} />
-            <FormLabel labelStyle={formLabelStyle}>ПАРОЛЬ*</FormLabel>
-            <FormInput
+            <Control
+              label="Пароль"
               secureTextEntry
-              inputStyle={formInputStyle}
-              value={password}
-              onChangeText={(value) => changeCredential('password', value)}
-              underlineColorAndroid="transparent"
+              value={get(this.props, 'state.user.password', '')}
+              onChangeText={this.handleChangeControl('password')}
             />
-            <Divider style={dividerStyle} />
-            <Row extraStyles={{ justifyContent: 'space-between' }}>
-              <FormLabel labelStyle={[formLabelStyle]}>ПОВТОРИТЕ ПАРОЛЬ*</FormLabel>
-              <FormLabel labelStyle={[formLabelStyle]}>СОВПАДАЕТ</FormLabel>
-            </Row>
-            <FormInput
+            <Control
+              label="Повторите пароль"
               secureTextEntry
-              inputStyle={[formInputStyle]}
-              value={passwordRe}
-              onChangeText={(value) => changeCredential('passwordRe', value)}
-              underlineColorAndroid="transparent"
+              value={get(this.props, 'state.user.secondPassword', '')}
+              onChangeText={this.handleChangeControl('secondPassword')}
             />
-            <Divider style={dividerStyle} />
           </ScrollView>
         </View>
         <Text style={agreeTextStyle}>
@@ -191,7 +154,7 @@ class SignupForm extends Component {
           maxHeight: 40, width: '100%', justifyContent: 'space-around', alignItems: 'center'
         }}
         >
-          <Text style={outsideTextStyle} onPress={() => Actions.Auth()}>УЖЕ ЕСТЬ АККАУНТ</Text>
+          <Text style={outsideTextStyle} onPress={this.handlePressAuthButton}>УЖЕ ЕСТЬ АККАУНТ</Text>
           <Row extraStyles={{
             maxHeight: 40, justifyContent: 'center', alignItems: 'center'
           }}
@@ -214,13 +177,11 @@ class SignupForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  phone: state.signupForm.phone,
-  password: state.signupForm.password,
-  passwordRe: state.signupForm.passwordRe,
-  firstName: state.signupForm.firstName,
-  lastName: state.signupForm.lastName,
-  fatherName: state.signupForm.fatherName,
-  city: state.signupForm.city
+  state: state.signup
 });
 
-export default connect(mapStateToProps, { changeCredential, submitSignupForm })(SignupForm);
+const mapDispatchToProps = (dispatch) => ({
+  changeField: (fieldName, fieldValue) => dispatch(changeField(fieldName, fieldValue))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);

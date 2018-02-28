@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, TextInput } from 'react-native';
 import { Input, Item, Icon } from 'native-base';
 import { FormLabel } from 'react-native-elements';
-// import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 
 class Control extends Component {
@@ -22,6 +21,10 @@ class Control extends Component {
       return styles.formInputFocusedStyle;
     }
     return styles.formInputStyle;
+  }
+
+  focus() {
+    this.input._root.focus();
   }
 
   handleFocusControl() {
@@ -43,7 +46,7 @@ class Control extends Component {
     return (
       <TouchableOpacity
         onPress={
-          this.props.onPressLabelInfo ? this.props.onPressLabelInfo : () => this.input.focus()
+          this.props.onPressLabelInfo ? this.props.onPressLabelInfo : () => this.focus()
         }
       >
         <FormLabel labelStyle={styles.formLabelInfoStyle}>{this.props.labelInfo}</FormLabel>
@@ -55,7 +58,7 @@ class Control extends Component {
     return (
       <View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <TouchableOpacity onPress={() => this.input.focus()}>
+          <TouchableOpacity onPress={() => this.focus()}>
             <FormLabel labelStyle={styles.formLabelStyle}>
               {this.props.label.toUpperCase()}
             </FormLabel>

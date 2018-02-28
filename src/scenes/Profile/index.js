@@ -22,6 +22,7 @@ class Profile extends Component {
     const { user } = this.props;
     const { textBlockStyle } = styles.profileSceneStyle;
     const linesOfText = Math.floor(textBlockStyle.maxHeight / 20);
+    console.log(user);
     return (
       <Background>
         <CustomHeader

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import login from '../scenes/Login/reducer';
+import signup from '../scenes/Signup/reducer';
 import user from './user';
 import loadings from './loadings';
 import files from './files';
@@ -11,7 +12,6 @@ import profile from '../scenes/Profile/reducer';
 import game from '../scenes/Game/GameScreen/reducer';
 import gameForm from '../scenes/Game/GameForm/reducer';
 import gymForm from '../scenes/Gym/GymForm/reducer';
-import signupForm from '../scenes/Signup/reducer';
 import selections from '../scenes/Feed/reducer';
 import searchFilter from '../scenes/Search/reducer';
 
@@ -27,7 +27,7 @@ export default combineReducers({
   profile,
   game,
   gameForm,
-  signupForm,
+  signup,
   gymForm,
   selections,
   searchFilter

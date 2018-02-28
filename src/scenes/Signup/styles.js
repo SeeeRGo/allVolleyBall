@@ -3,13 +3,13 @@ export default {
     fontWeight: 'bold'
   },
   mainContainerStyle: {
-    maxWidth: '80%',
+    width: '80%',
     height: '70%',
+    paddingLeft: 5,
+    paddingRight: 5,
     bottom: 5,
     top: 5,
     backgroundColor: 'white',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
     alignSelf: 'center'
   },
   formInputStyle: {
@@ -22,9 +22,7 @@ export default {
   },
   formLabelStyle: {
     marginTop: 0,
-    fontSize: 12,
-    maxWidth: '100%',
-    alignSelf: 'flex-start'
+    fontSize: 12
   },
   agreeTextStyle: {
     width: '80%',
@@ -35,10 +33,9 @@ export default {
     marginBottom: 10
   },
   dividerStyle: {
-    marginBottom: 10,
     marginTop: 3,
-    backgroundColor: '#bfbfbf',
-    width: '90%',
+    backgroundColor: '#D9D5DC',
+    width: '100%',
     alignSelf: 'center'
   },
   outsideTextStyle: {

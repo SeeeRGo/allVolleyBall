@@ -4,6 +4,7 @@ import ProfileApi from '../api/Profile';
 import * as userActions from '../actions/user';
 import * as loadingsActions from '../actions/loadings';
 import { resetCredentials } from '../scenes/Login/actions';
+import { addSocialNetwork } from '../scenes/Signup/actions';
 
 export function* login(action) {
   try {
@@ -78,6 +79,25 @@ export function* loginBySocialNetwork(action) {
 
 export function* loginBySocialNetworkFlow() {
   yield takeEvery(userActions.LOGIN_BY_SOCIAL_NETWORK, loginBySocialNetwork);
+}
+
+export function* gettingProfileBySocialNetwork(action) {
+  try {
+    const { payload: token } = action;
+    yield put(loadingsActions.startLoading('gettingProfileBySocialNetwork'));
+
+    yield put(userActions.setUser(user));
+    yield put(userActions.loginBySocialNetworkSuccess());
+    Actions.replace('Dashboard');
+  } catch (error) {
+    yield put(userActions.loginBySocialNetworkError(error));
+  } finally {
+    yield put(loadingsActions.stopLoading('loginBySocialNetwork'));
+  }
+}
+
+export function* gettingProfileBySocialNetworkFlow() {
+  yield takeEvery(userActions.LOGIN_BY_SOCIAL_NETWORK, gettingProfileBySocialNetwork);
 }
 
 export default function* () {

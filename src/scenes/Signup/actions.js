@@ -1,20 +1,23 @@
-import axios from 'axios';
-import moment from 'moment';
+export const CHANGE_FIELD = 'scenes/Signup/CHANGE_FIELD';
+export const ADD_SOCIAL_NETWORK = 'scenes/Signup/ADD_SOCIAL_NETWORK';
+export const RESET = 'scenes/Signup/RESET';
 
-export const CHANGE_CREDENTIAL = 'scenes/Signup/CHANGE_CREDENTIAL';
-export const RESET_CREDENTIALS = 'scenes/Signup/RESET_CREDENTIALS';
-export const SUBMIT_SIGNUP_FORM = 'SUBMIT_SIGNUP_FORM';
+export const addSocialNetwork = (socialNetwork) => ({
+  type: ADD_SOCIAL_NETWORK,
+  payload: socialNetwork
+});
 
 /**
  * @function
- * @param {String} credentialName - название поля
- * @param {String} credentialValue - значение поля
+ * @param {String} fieldName - название поля
+ * @param {String} fieldValue - значение поля
  * @return {Action}
 */
-export const changeCredential = (credentialName, credentialValue) => ({
-  type: CHANGE_CREDENTIAL,
+export const changeField = (fieldName, fieldValue) => ({
+  type: CHANGE_FIELD,
   payload: {
-    [credentialName]: credentialValue
+    fieldName,
+    fieldValue
   }
 });
 
@@ -22,33 +25,7 @@ export const changeCredential = (credentialName, credentialValue) => ({
  * @function
  * @return {Action}
 */
-export const resetCredentials = () => ({
-  type: RESET_CREDENTIALS
+export const reset = () => ({
+  type: RESET
 });
 
-export const submitSignupForm = (formData) => async (dispatch) => {
-  try {
-    console.log(formData);
-    const data = {
-      ...formData,
-      email: '',
-      emailVerified: false,
-      username: formData.phone,
-      birthdate: moment(),
-      gender: null,
-      prefferedDistricts: [],
-      photo: {},
-      socialNetworkProfiles: [],
-      selfInfo: '',
-      timesCanceled: 0,
-      realm: ''
-    };
-    console.log(JSON.stringify(data));
-    let response = await axios.post('http://10.0.3.2:3010/api/Profiles', data);
-    console.log(response);
-    dispatch({ type: SUBMIT_SIGNUP_FORM, payload: data });
-  } catch (e) {
-    console.log(e.request);
-    console.log(e.response);
-  }
-}

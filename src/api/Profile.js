@@ -29,6 +29,14 @@ export class Profile extends Model {
   }
 
   /**
+   * @param {String} socialNetwork - одно из значений Profile.socialNetworks
+   * @returns {String} - url получения профиля
+   */
+  getUrlForGettingSocialNetwork(socialNetwork) {
+    return `${this.url}/get/${socialNetwork}?shema=mobile`;
+  }
+
+  /**
    * @method login - метод для авторизации пользователя
    * @param {Object} credentials
    * @param {String} credentials.username

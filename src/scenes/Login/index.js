@@ -5,14 +5,14 @@ import { View, Linking, Text, Keyboard, Dimensions, TouchableOpacity } from 'rea
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-import ProfileApi from '../../api/Profile';
+import { Profile as ProfileApi } from '../../api/Profile';
 import * as userActions from '../../actions/user';
 import * as actions from './actions';
 import Row from '../../components/common/Row';
 import Background from '../../components/common/Background';
 import Logo from '../../components/common/Logo';
 import styles from './styles';
-import Control from './control';
+import Control from '../../components/FormControl';
 
 export const SCREEN_WIDTH = Dimensions.get('window').width;
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -35,10 +35,8 @@ class LoginScene extends Component {
     super(props);
     this.handleUpdateCredential = this.handleUpdateCredential.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
-    this.handleOpenURL = this.handleOpenURL.bind(this);
     this.loginWithFacebook = this.loginWithFacebook.bind(this);
     this.loginWithVkontakte = this.loginWithVkontakte.bind(this);
-    this.getInitialURL = this.getInitialURL.bind(this);
     this.keyboardDidShow = this.keyboardDidShow.bind(this);
     this.keyboardDidHide = this.keyboardDidHide.bind(this);
   }
@@ -56,22 +54,15 @@ class LoginScene extends Component {
 
 
   componentDidMount() {
-    Linking.addEventListener('url', this.handleOpenURL);
-    Linking.getInitialURL().then(this.getInitialURL);
+    /**
+     * @todo чекнуть вызывается ли метод при смене экрана
+     */
     Keyboard.dismiss();
   }
 
   componentWillUnmount() {
-    Linking.removeEventListener('url', this.handleOpenURL);
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
-  }
-
-  getInitialURL(url) {
-    if (!url) {
-      return;
-    }
-    this.handleOpenURL({ url });
   }
 
   keyboardDidShow() {
@@ -80,12 +71,6 @@ class LoginScene extends Component {
 
   keyboardDidHide() {
     this.setState({ shouldShowLogo: true });
-  }
-
-  handleOpenURL({ url }) {
-    const [, userString] = url.match(/response=([^#]+)/);
-    const response = JSON.parse(decodeURI(userString));
-    this.props.loginBySocialNetwork(response);
   }
 
   openUrlBySocialNetwork(socialNetwork) {
@@ -110,6 +95,10 @@ class LoginScene extends Component {
   handleLogin() {
     const { state: { credentials } } = this.props;
     this.props.login(credentials);
+  }
+
+  handlePressRegisterButton() {
+    Actions.Signup();
   }
 
   render() {
@@ -164,7 +153,7 @@ class LoginScene extends Component {
           <Row extraStyles={{ maxHeight: 40, justifyContent: 'space-around', alignItems: 'center' }}>
             <Text
               style={styles.registerButton}
-              onPress={() => Actions.Signup()}
+              onPress={this.handlePressRegisterButton}
             >
               РЕГИСТРАЦИЯ
             </Text>

@@ -1,31 +1,32 @@
-import {
-  CHANGE_CREDENTIAL,
-  RESET_CREDENTIALS
-} from './actions';
+import { CHANGE_FIELD, RESET, ADD_SOCIAL_NETWORK } from './actions';
 
-const initalCredentials = {
-  username: '',
-  password: ''
-};
 
 const initalState = {
-  credentials: {
-    ...initalCredentials
-  }
+  user: {},
+  socialNetworks: []
 };
 
 export default (state = initalState, action) => {
   switch (action.type) {
-  case CHANGE_CREDENTIAL:
-    console.log(action.payload);
+  case CHANGE_FIELD:
     return {
       ...state,
-      ...action.payload
+      user: {
+        ...state.user,
+        [action.payload.fieldName]: action.payload.fieldValue
+      }
     };
-  case RESET_CREDENTIALS:
+  case ADD_SOCIAL_NETWORK:
     return {
       ...state,
-      ...initalCredentials
+      socialNetworks: [
+        ...state.socialNetworks,
+        action.payload
+      ]
+    };
+  case RESET:
+    return {
+      ...initalState
     };
   default:
     return state;
