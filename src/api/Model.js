@@ -82,36 +82,43 @@ export default class Model {
     return this.getRequest(`${this.plural}/count`, { where });
   }
 
-  async getRequest(url, filter) {
-    const token = await AsyncStorage.getItem('tokenId');
-    const config = {
-      params: filter,
-      headers: {
-        Authorization: token
-      }
-    };
-    return axios.get(`${this.apiUrl}/${url}`, config)
+  getRequest(url, filter) {
+    return AsyncStorage.getItem('tokenId')
+      .then((token) => {
+        const config = {
+          params: filter,
+          headers: {
+            Authorization: token
+          }
+        };
+        return axios.get(`${this.apiUrl}/${url}`, config);
+      })
       .then((response) => response.data);
   }
 
-  async postRequest(url, data) {
-    const token = await AsyncStorage.getItem('tokenId');
-    const config = {
-      headers: {
-        Authorization: token
-      }
-    };
-    console.log('async postRequest(url, data)', url, data);
-    return axios.post(`${this.apiUrl}/${url}`, data, config).then((response) => response.data);
+  postRequest(url, data) {
+    return AsyncStorage.getItem('tokenId')
+      .then((token) => {
+        const config = {
+          headers: {
+            Authorization: token
+          }
+        };
+        return axios.post(`${this.apiUrl}/${url}`, data, config);
+      })
+      .then((response) => response.data);
   }
 
-  async patchRequest(url, data) {
-    const token = await AsyncStorage.getItem('tokenId');
-    const config = {
-      headers: {
-        Authorization: token
-      }
-    };
-    return axios.patch(`${this.apiUrl}/${url}`, data, config).then((response) => response.data);
+  patchRequest(url, data) {
+    return AsyncStorage.getItem('tokenId')
+      .then((token) => {
+        const config = {
+          headers: {
+            Authorization: token
+          }
+        };
+        return axios.patch(`${this.apiUrl}/${url}`, data, config);
+      })
+      .then((response) => response.data);
   }
 }

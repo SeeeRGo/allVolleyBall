@@ -35,7 +35,7 @@ class PlayerForm extends Component {
         uploadFile(photo.uri, 'profile', userId, true);
       }
     }
-    Actions.replace('Profile');
+    Actions.push('Profile');
   }
   render() {
     console.log(this.props);
@@ -49,7 +49,7 @@ class PlayerForm extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.rightIconStyles}
-              onPress={() => Actions.replace('Signup')}
+              onPress={() => Actions.push('Signup')}
             />
           }
         />

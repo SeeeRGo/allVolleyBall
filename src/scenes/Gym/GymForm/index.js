@@ -29,7 +29,7 @@ class GymForm extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.rightIconStyles}
-              onPress={() => Actions.replace('Feed')}
+              onPress={() => Actions.push('Feed')}
             />
           }
         />

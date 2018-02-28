@@ -25,7 +25,7 @@ class EmptyFeed extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.leftIconStyles}
-              onPress={() => Actions.replace('Feed')}
+              onPress={() => Actions.push('Feed')}
             />
           }
           rightIcon={
@@ -34,7 +34,7 @@ class EmptyFeed extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.rightIconStyles}
-              onPress={() => Actions.replace('Search')}
+              onPress={() => Actions.push('Search')}
             />
           }
         />
@@ -65,7 +65,7 @@ class EmptyFeed extends Component {
           </Row>
           <Row extraStyles={{ justifyContent: 'center', flex: 1, alignItems: 'center' }}>
             <Text style={textStyle}>СОЗДАТЬ ИГРУ</Text>
-            <TouchableOpacity onPress={() => Actions.replace('GameForm', { actionType: 'create' })}>
+            <TouchableOpacity onPress={() => Actions.push('GameForm', { actionType: 'create' })}>
               <Image
                 style={{ width: 50, height: 50, margin: 10 }}
                 source={require('../../../assets/icons_new_game.png')}

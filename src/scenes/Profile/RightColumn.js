@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 import moment from 'moment';
@@ -11,31 +10,17 @@ import { SCREEN_HEIGHT } from '../Login/index';
 
 
 class RightColumn extends Component {
-  static defaultProps = {
-    lastName: 'МЕЛЬНИКОВ',
-    firstName: 'ВЯЧЕСЛАВ',
-    fatherName: 'ВЛАДИМИРОВИЧ',
-    birthDate: moment().format('D MMMM YYYY'),
-    phone: '+ 7 000 123 45 67',
-    city: 'Тольятти'
-  }
   static propTypes = {
-    lastName: PropTypes.string,
-    firstName: PropTypes.string,
-    fatherName: PropTypes.string,
-    birthDate: PropTypes.string,
-    phone: PropTypes.string,
-    city: PropTypes.string
+    user: PropTypes.object.isRequired
   }
   render() {
-    const {
-      firstName, lastName, fatherName, birthDate, phone, city
-    } = this.props;
+    const { user } = this.props;
+    console.log(user, 'user');
     const { textStyle, iconContainerStyle } = styles.rightColumnStyle;
     return (
       <View style={{ height: SCREEN_HEIGHT * 0.4, marginLeft: 15 }}>
-        <Text style={[textStyle, { fontSize: 18, fontWeight: 'bold' }]}>{lastName.toUpperCase()}</Text>
-        <Text style={[textStyle, { fontWeight: 'bold' }]}>{firstName.toUpperCase()} {fatherName.toUpperCase()}</Text>
+        <Text style={[textStyle, { fontSize: 18, fontWeight: 'bold' }]}>{user.lastName.toUpperCase()}</Text>
+        <Text style={[textStyle, { fontWeight: 'bold' }]}>{user.firstName.toUpperCase()} {user.fatherName.toUpperCase()}</Text>
         <Avatar
           small
           rounded
@@ -51,7 +36,7 @@ class RightColumn extends Component {
               size={14}
               containerStyle={iconContainerStyle}
             />
-            <Text style={textStyle}>{moment(birthDate).format('D MMMM YYYY')}</Text>
+            <Text style={textStyle}>{moment(user.birthday).format('D MMMM YYYY')}</Text>
           </Row>
           <Row>
             <Icon
@@ -61,7 +46,7 @@ class RightColumn extends Component {
               size={14}
               containerStyle={iconContainerStyle}
             />
-            <Text style={textStyle}>{city}</Text>
+            <Text style={textStyle}>{user.city}</Text>
           </Row>
           <Row>
             <Icon
@@ -71,7 +56,7 @@ class RightColumn extends Component {
               size={14}
               containerStyle={iconContainerStyle}
             />
-            <Text style={textStyle}>{phone}</Text>
+            <Text style={textStyle}>{user.username}</Text>
           </Row>
         </View>
       </View>
@@ -79,13 +64,4 @@ class RightColumn extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  lastName: state.profile.lastName,
-  firstName: state.profile.firstName,
-  fatherName: state.profile.fatherName,
-  birthDate: state.profile.birthDate,
-  phone: state.profile.phone,
-  city: state.profile.city
-});
-
-export default connect(mapStateToProps)(RightColumn);
+export default RightColumn;

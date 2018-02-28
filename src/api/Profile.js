@@ -9,7 +9,7 @@ import Model from './Model';
  * @prop {String} created
  */
 
-export default class Profile extends Model {
+export class Profile extends Model {
   /**
    * @prop {Object} socialNetworks
    */
@@ -61,7 +61,12 @@ export default class Profile extends Model {
    * @returns {Promise<Profile>}
    */
   getMyProfile() {
-    return this.getRequest(`${this.plural}/my-profile`);
+    return AsyncStorage.getItem('userId')
+      .then((userId) => this.getRequest(`${this.plural}/${userId}`, {
+        filter: {
+          include: 'socialNetworks'
+        }
+      }));
   }
 
   /**
@@ -76,3 +81,5 @@ export default class Profile extends Model {
       });
   }
 }
+
+export default new Profile();

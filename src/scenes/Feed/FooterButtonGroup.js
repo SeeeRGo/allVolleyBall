@@ -51,7 +51,7 @@ class FooterButtonGroup extends Component {
   }
   updateIndex(selectedIndex) {
     this.props.changeSelection('feedFooterButtons', selectedIndex);
-    Actions.replace(`${scenes[selectedIndex]}`);
+    Actions.push(`${scenes[selectedIndex]}`);
   }
   render() {
     const buttons = [{ element: component1 }, { element: component2 }, { element: component3 }];

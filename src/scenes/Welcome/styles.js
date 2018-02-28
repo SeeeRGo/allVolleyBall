@@ -9,9 +9,17 @@ export default {
     position: 'absolute',
     bottom: 60
   },
-  buttonImageStyle: {
+  buttonStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
     width: 50,
-    height: 50
+    height: 50,
+    backgroundColor: '#00bfb1',
+    borderRadius: 100
+  },
+  buttonIconStyle: {
+    color: 'white',
+    fontSize: 25
   },
   logoContainerStyle: {
     position: 'absolute',
