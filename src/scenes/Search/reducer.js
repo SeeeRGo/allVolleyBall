@@ -8,7 +8,8 @@ const INITIAL_STATE = {
   startTime: moment(),
   startDate: moment(),
   paidOrFree: 'free',
-  price: 0
+  price: 0,
+  city: 'Тольятти'
 };
 
 export default (state = INITIAL_STATE, action) => {

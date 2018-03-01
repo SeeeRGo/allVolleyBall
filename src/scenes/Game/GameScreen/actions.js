@@ -2,33 +2,35 @@ import axios from 'axios';
 import moment from 'moment';
 import { AsyncStorage } from 'react-native';
 import _ from 'lodash';
+import { getGameInfo } from '../../../actions/games';
 
 export const GAME_UPDATE = 'GAME_UPDATE';
 export const GAME_CREATE = 'GAME_CREATE';
 export const FETCH_GAMES = 'FETCH_GAMES';
 export const GET_GAME_CREATOR_SUCCESS = 'GET_GAME_CREATOR_SUCCESS';
 export const SET_GAME = 'SET_GAME';
+export const SET_GAME_INFO = 'SET_GAME_INFO';
 export const SET_GALLERY = 'SET_GALLERY';
 export const SUBMIT_REVIEW = 'SUBMIT_REVIEW';
 export const UPDATE_REVIEW = 'SUBMIT_UPDATE';
 export const SET_REQUESTS = 'SET_REQUESTS';
 export const SET_REQUEST_INFO = 'SET_REQUEST_INFO';
+export const APPROVE_REQUEST = 'APPROVE_REQUEST';
 
 const sportTypes = [
-  'ВОЛЕЙБОЛ КЛАССИЧЕСКИЙ',
-  'ВОЛЕЙБОЛ ПЛЯЖНЫЙ'
+  'Классический волейбол',
+  'Пляжный волейбол'
 ];
 
 const gameTypes = [
-  'СВОБОДНАЯ ИГРА',
-  'ТРЕНИРОВКА',
-  'ИГРА ЧЕМПИОНАТА'
-
+  'Свободная игра',
+  'Тренировка',
+  'Игра чемпионата'
 ];
 
 export const updateGame = (updates, gameId) => async (dispatch) => {
   try {
-    const response = await axios.patch(`http://10.0.3.2:3010/api/Games/${gameId}`, updates);
+    const response = await axios.patch(`http://134513.simplecloud.ru:3010/api/Games/${gameId}`, updates);
     console.log(response);
     dispatch({
       type: GAME_UPDATE,
@@ -53,9 +55,9 @@ export const updateGameImage = (gameId, source) => async (dispatch) => {
       gameId: 1
     };
     let response;
-    response = await axios.post('http://10.0.3.2:3010/api/CustomFiles/upload', data);
+    response = await axios.post('http://134513.simplecloud.ru:3010/api/CustomFiles/upload', data);
     // let response1;
-    // response1 = await axios.patch(`http://10.0.3.2:3010/api/Games/${gameId}`, { playerComments: [{ avatarLink: response.name }] });
+    // response1 = await axios.patch(`http://134513.simplecloud.ru:3010/api/Games/${gameId}`, { playerComments: [{ avatarLink: response.name }] });
   } catch (e) {
     console.log(e.request);
     console.log(e.response);
@@ -65,10 +67,9 @@ export const updateGameImage = (gameId, source) => async (dispatch) => {
 export const createGame = (formData) => async (dispatch) => {
   try {
     const {
-      gameDate, gameTime, minPlayers, maxPlayers, gameType,
+      gameDate, gameTime, minPlayers, maxPlayers, gameType, rating,
       gameEndTime, gameStartTime, price, sportType, creatorId
     } = formData;
-    console.log(formData);
     const game = {
       date: moment((`${gameDate} ${gameTime}`), 'DD MMM YYYY HH mm').toISOString(),
       playersCounts: {
@@ -78,9 +79,9 @@ export const createGame = (formData) => async (dispatch) => {
       arrivalTime: moment((`${gameDate} ${gameStartTime}`), 'DD MMM YYYY HH mm').toISOString(),
       startTime: moment((`${gameDate} ${gameTime}`), 'DD MMM YYYY HH mm').toISOString(),
       duration: {
-        hours: moment(gameEndTime, 'HH mm').diff(gameStartTime, 'HH mm'),
-        minutes: moment(gameEndTime, 'HH mm').diff(gameStartTime, 'HH mm'),
-        seconds: moment(gameEndTime, 'HH mm').diff(gameStartTime, 'HH mm')
+        hours: moment(gameEndTime, 'HH mm').diff(moment(gameTime, 'HH mm'), 'hours'),
+        minutes: (moment(gameEndTime, 'HH mm').diff(moment(gameTime, 'HH mm')) % 3600000) / 60000,
+        seconds: (moment(gameEndTime, 'HH mm').diff(moment(gameTime, 'HH mm')) % 60000) / 1000
       },
       cost: price,
       paymentTerms: {},
@@ -91,16 +92,38 @@ export const createGame = (formData) => async (dispatch) => {
       gameTypeId: _.indexOf(gameTypes, gameType) + 1,
       creatorId
     };
-    console.log(JSON.stringify(game));
     let response;
+    let levels;
     let ACCESS_TOKEN;
-    ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
-    response = await axios.post('http://10.0.3.2:3010/api/Games', game, {
+    ACCESS_TOKEN = await AsyncStorage.getItem('tokenId');
+    response = await axios.post('http://134513.simplecloud.ru:3010/api/Games', game, {
       headers: {
         Authorization: ACCESS_TOKEN
       }
     });
     console.log(response);
+    levels = await axios.put(`http://134513.simplecloud.ru:3010/api/Games/${response.data.id}/playerLevels/rel/${rating}`, null, {
+      headers: {
+        Authorization: ACCESS_TOKEN
+      }
+    });
+    if (formData.participate) {
+      let joinRequest;
+      joinRequest = await axios.post('http://134513.simplecloud.ru:3010/api/RequestToGames/', {
+        status: 'request',
+        gameId: response.data.id,
+        profileId: formData.creatorId
+      });
+      console.log(joinRequest);
+      let approveRequest;
+      approveRequest = await axios.patch(`http://134513.simplecloud.ru:3010/api/RequestToGames/${joinRequest.data.id}`, { status: 'approved' }, {
+        headers: {
+          Authorization: ACCESS_TOKEN
+        }
+      });
+      console.log(approveRequest);
+    }
+    console.log(levels);
     dispatch({ type: GAME_CREATE, payload: game });
   } catch (e) {
     console.log(e.request);
@@ -111,12 +134,12 @@ export const createGame = (formData) => async (dispatch) => {
 export const fetchGames = () => async (dispatch) => {
   try {
     let response;
-    response = await axios.get('http://10.0.3.2:3010/api/Games');
+    response = await axios.get('http://134513.simplecloud.ru:3010/api/Games');
     console.log(response);
     let games;
     games = await Promise.all(response.data.map(async (game) => {
       let creator;
-      creator = await axios.get(`http://10.0.3.2:3010/api/Games/${game.id}/creator`);
+      creator = await axios.get(`http://134513.simplecloud.ru:3010/api/Games/${game.id}/creator`);
       return {
         ...game,
         creator: {
@@ -134,27 +157,25 @@ export const fetchGames = () => async (dispatch) => {
 export const fetchGamesFiltered = (filter) => async (dispatch) => {
   try {
     console.log(encodeURIComponent(JSON.stringify(filter)));
-    const link = `http://10.0.3.2:3010/api/Games/find-by-filter?filter=${encodeURIComponent(JSON.stringify(filter))}`;
+    const link = `http://134513.simplecloud.ru:3010/api/Games/find-by-filter?filter=${encodeURIComponent(JSON.stringify(filter))}`;
     console.log(link);
     let ACCESS_TOKEN;
-    ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
+    ACCESS_TOKEN = await AsyncStorage.getItem('tokenId');
+    console.log(ACCESS_TOKEN);
     let response;
-    if (filter) {
+    // Пока поиск нормально не заработает
+    if (filter && false) {
       response = await axios.get(link);
     } else {
-      response = await axios.get('http://10.0.3.2:3010/api/Games');
+      response = await axios.get('http://134513.simplecloud.ru:3010/api/Games');
+      response = _.filter(response.data, filter);
     }
     console.log(response);
     let games;
-    games = await Promise.all(response.data.map(async (game) => {
-      let creator;
-      creator = await axios.get(`http://10.0.3.2:3010/api/Games/${game.id}/creator`);
-      return {
-        ...game,
-        creator: {
-          ...creator.data
-        }
-      };
+    games = await Promise.all(response.map(async (game) => {
+      let result;
+      result = await getGameInfo(game.id);
+      return result;
     }));
     console.log(games);
     dispatch({ type: FETCH_GAMES, payload: games });
@@ -167,26 +188,19 @@ export const fetchGamesFiltered = (filter) => async (dispatch) => {
 export const fetchGamesThroughRequests = (userId) => async (dispatch) => {
   try {
     const filter = { profileId: userId };
-    const link = `http://10.0.3.2:3010/api/RequestToGames?filter=${encodeURIComponent(JSON.stringify(filter))}`;
+    // const link = `http://134513.simplecloud.ru:3010/api/RequestToGames?filter=${encodeURIComponent(JSON.stringify(filter))}`;
     let ACCESS_TOKEN;
-    ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
+    ACCESS_TOKEN = await AsyncStorage.getItem('tokenId');
     let response;
-    response = await axios.get(link);
+    response = await axios.get('http://134513.simplecloud.ru:3010/api/RequestToGames');
     //  TODO исключить возможность дублей
+    response.data = _.filter(response.data, filter);
     console.log(response);
     let games;
     games = await Promise.all(response.data.map(async (request) => {
-      let creatorProfile;
-      let game;
-      game = await axios.get(`http://10.0.3.2:3010/api/Games/${request.gameId}`);
-      let creator;
-      creator = await axios.get(`http://10.0.3.2:3010/api/Games/${game.id}/creator`);
-      return {
-        ...game.data,
-        creator: {
-          ...creator.data
-        }
-      };
+      let result;
+      result = await getGameInfo(request.gameId);
+      return result;
     }));
     console.log(games);
     dispatch({ type: FETCH_GAMES, payload: games });
@@ -199,7 +213,7 @@ export const fetchGamesThroughRequests = (userId) => async (dispatch) => {
 export const sendJoinGameRequest = (userId, gameId) => async (dispatch) => {
   try {
     let response;
-    response = axios.post('http://10.0.3.2:3010/api/RequestToGames/', {
+    response = axios.post('http://134513.simplecloud.ru:3010/api/RequestToGames/', {
       status: 'request',
       gameId,
       profileId: userId
@@ -211,44 +225,10 @@ export const sendJoinGameRequest = (userId, gameId) => async (dispatch) => {
   }
 };
 
-export const getGameById = (gameId) => async (dispatch) => {
-  try {
-    const ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
-    let game;
-    game = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}`);
-    let creator;
-    creator = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}/creator`);
-    let gym;
-    gym = await axios.get(`http://10.0.3.2:3010/api/Gyms/${game.data.gymId}`);
-    let joinRequests;
-    joinRequests = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}/requestsToGame`);
-    // await axios.patch('http://10.0.3.2:3010/api/RequestToGames/2', {
-    //   status: 'approved'
-    // }, {
-    //   headers: {
-    //     Authorization: ACCESS_TOKEN
-    //   }
-    // });
-    console.log(game);
-    dispatch({
-      type: SET_GAME,
-      payload: {
-        ...game.data,
-        creator: creator.data,
-        gym: gym.data,
-        joinRequests: joinRequests.data
-      }
-    });
-  } catch (e) {
-    console.log(e.request);
-    console.log(e.response);
-  }
-};
-
 export const getGameFiles = (gameId) => async (dispatch) => {
   try {
     let files;
-    files = await axios.get(`http://10.0.3.2:3010/api/Games/${gameId}/customFiles`);
+    files = await axios.get(`http://134513.simplecloud.ru:3010/api/Games/${gameId}/customFiles`);
     dispatch({ type: 'SET_GALLERY', payload: files.data });
   } catch (e) {
     console.log(e.request);
@@ -259,7 +239,7 @@ export const getGameFiles = (gameId) => async (dispatch) => {
 export const updateReview = (value) => ({
   type: UPDATE_REVIEW,
   payload: value
-})
+});
 
 export const submitReview = (review, gameId, profileId) => async (dispatch) => {
   try {
@@ -268,11 +248,11 @@ export const submitReview = (review, gameId, profileId) => async (dispatch) => {
       creatorId: profileId,
       profileId,
       gameId
-    }
+    };
     let ACCESS_TOKEN;
-    ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
+    ACCESS_TOKEN = await AsyncStorage.getItem('tokenId');
     let response;
-    response = await axios.post(`http://10.0.3.2:3010/api/Games/${gameId}/reviews`, data, {
+    response = await axios.post(`http://134513.simplecloud.ru:3010/api/Games/${gameId}/reviews`, data, {
       headers: {
         Authorization: ACCESS_TOKEN
       }
@@ -283,48 +263,71 @@ export const submitReview = (review, gameId, profileId) => async (dispatch) => {
     console.log(e.request);
     console.log(e.response);
   }
-}
+};
 
 export const getInfoFromRequest = (requestId) => async (dispatch) => {
   try {
     let game;
-    game = await axios.get(`http://10.0.3.2:3010/api/RequestToGames/${requestId}/game`);
+    game = await axios.get(`http://134513.simplecloud.ru:3010/api/RequestToGames/${requestId}/game`);
     let profile;
-    profile = await axios.get(`http://10.0.3.2:3010/api/RequestToGames/${requestId}/profile`);
+    profile = await axios.get(`http://134513.simplecloud.ru:3010/api/RequestToGames/${requestId}/profile`);
     dispatch({ type: SET_REQUEST_INFO, payload: { game: game.data, profile: profile.data } });
+    // get avatar Photo too
   } catch (e) {
     console.log(e.request);
     console.log(e.response);
   }
-}
+};
 
 export const getRequestsToMyGames = (userId) => async (dispatch) => {
   try {
     let ACCESS_TOKEN;
-    ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
+    ACCESS_TOKEN = await AsyncStorage.getItem('tokenId');
+    let myRequests;
+    myRequests = await axios.get('http://134513.simplecloud.ru:3010/api/RequestToGames');
+    const filteredRequests = myRequests.data.filter((request) => request.profileId === userId);
     let response;
-    response = await axios.get('http://10.0.3.2:3010/api/Games');
+    response = await axios.get('http://134513.simplecloud.ru:3010/api/Games');
     const filteredGames = response.data.filter((game) => game.creatorId === userId);
     console.log(filteredGames);
-    // response = await axios.get(`http://10.0.3.2:3010/api/Profiles/${userId}/games`, {
+    // response = await axios.get(`http://134513.simplecloud.ru:3010/api/Profiles/${userId}/games`, {
     //   headers: {
     //     Authorization: ACCESS_TOKEN
     //   }
     // });
     console.log(response);
-    let requests = [];
+    let requests = [...filteredRequests];
     let games;
     games = await Promise.all(filteredGames.map(async (game) => {
       let request;
-      request = await axios.get(`http://10.0.3.2:3010/api/Games/${game.id}/requestsToGame`);
+      request = await axios.get(`http://134513.simplecloud.ru:3010/api/Games/${game.id}/requestsToGame`);
       console.log(request);
       requests = [...requests, ...request.data];
       return true;
     }));
     console.log(requests);
+    requests = _.uniqWith(requests, (arrVal, othVal) => arrVal.id === othVal.id);
     dispatch({ type: SET_REQUESTS, payload: requests });
   } catch (e) {
     console.log(e.request);
     console.log(e.response);
   }
-}
+};
+
+export const updateJoinGameRequest = (requestId, status) => async (dispatch) => {
+  try {
+    let ACCESS_TOKEN;
+    ACCESS_TOKEN = await AsyncStorage.getItem('tokenId');
+    let response;
+    response = await axios.patch(`http://134513.simplecloud.ru:3010/api/RequestToGames/${requestId}`, { status }, {
+      headers: {
+        Authorization: ACCESS_TOKEN
+      }
+    });
+    console.log(response);
+    dispatch({ type: APPROVE_REQUEST });
+  } catch (e) {
+    console.log(e.request);
+    console.log(e.response);
+  }
+};

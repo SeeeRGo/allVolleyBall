@@ -19,14 +19,13 @@ const styles = {
   },
   textStyle: {
     fontSize: 12,
-    lineHeight: 24,
+    textAlignVertical: 'center',
     textAlign: 'center'
   },
   boldTextStyle: {
     fontSize: 14,
-    lineHeight: 24,
     textAlign: 'center',
-    justifyContent: 'center',
+    textAlignVertical: 'center',
     fontWeight: 'bold',
     color: 'navy'
   },
@@ -40,13 +39,14 @@ const styles = {
   },
   imageContainerStyle: {
     width: SCREEN_WIDTH * 0.2 - 10,
-    height: 80
+    height: 75
   },
   ratingStyle: {
     maxWidth: SCREEN_WIDTH * 0.2 - 10,
     alignSelf: 'center',
     flex: 1
   },
+  ratingStarSize: Math.floor(SCREEN_WIDTH * 0.04 - 2),
   rightColumnStyle: {
     width: SCREEN_WIDTH * 0.8 - 10,
     height: 100,
@@ -54,27 +54,24 @@ const styles = {
   },
   blueBgTextStyle: {
     fontSize: 12,
-    lineHeight: 24,
     textAlign: 'center',
-    justifyContent: 'center',
+    textAlignVertical: 'center',
     width: SCREEN_WIDTH * 0.21,
     backgroundColor: 'navy',
     color: 'white'
   },
   redBgTextStyle: {
     fontSize: 12,
-    lineHeight: 24,
+    textAlignVertical: 'center',
     textAlign: 'center',
-    justifyContent: 'center',
     width: SCREEN_WIDTH * 0.1,
     backgroundColor: 'red',
     color: 'white'
   },
   borderedBlueTextStyle: {
     fontSize: 12,
-    lineHeight: 24,
+    textAlignVertical: 'center',
     textAlign: 'center',
-    justifyContent: 'center',
     width: SCREEN_WIDTH * 0.21,
     color: 'navy',
     borderBottomWidth: 1,
@@ -82,9 +79,8 @@ const styles = {
   },
   borderedRedTextStyle: {
     fontSize: 12,
-    lineHeight: 24,
+    textAlignVertical: 'center',
     textAlign: 'center',
-    justifyContent: 'center',
     width: SCREEN_WIDTH * 0.14,
     color: 'red',
     borderBottomWidth: 1,
@@ -92,11 +88,10 @@ const styles = {
   },
   borderedTealTextStyle: {
     fontSize: 12,
-    lineHeight: 24,
+    textAlignVertical: 'center',
     textAlign: 'center',
-    justifyContent: 'center',
-    width: SCREEN_WIDTH * 0.14,
-    color: 'teal',
+    width: SCREEN_WIDTH * 0.12,
+    color: '#00bfb1',
     borderBottomWidth: 1
   }
 };

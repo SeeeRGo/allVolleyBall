@@ -4,6 +4,8 @@ import signup from '../scenes/Signup/reducer';
 import user from './user';
 import loadings from './loadings';
 import files from './files';
+import fileInfo from './fileInfo';
+import gameInfo from './gameInfo';
 import review from './reviews';
 import requestList from './requests';
 import requestInfo from './requestInfo';
@@ -19,6 +21,7 @@ export default combineReducers({
   login,
   user,
   files,
+  fileInfo,
   review,
   requestList,
   requestInfo,
@@ -28,6 +31,7 @@ export default combineReducers({
   game,
   gameForm,
   signup,
+  gameInfo,
   gymForm,
   selections,
   searchFilter

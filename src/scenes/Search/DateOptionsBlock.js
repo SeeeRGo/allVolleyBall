@@ -19,7 +19,7 @@ class DateOptionsBlock extends Component {
     return (
       <View style={{ height: SCREEN_HEIGHT * 0.25, justifyContent: 'space-around' }}>
         <Text style={formLabelStyle}>КОГДА{' '}
-          <Text style={[formLabelStyle, { color: '#d4ff32' }]}>{'ОТ '}{startDate.format('DD/MM/YY')}</Text>
+          <Text style={[formLabelStyle, { color: '#d4ff32' }]}>{'ОТ '}{moment(startDate).format('DD/MM/YY')}</Text>
         </Text>
         <Row extraStyles={{ justifyContent: 'space-around' }}>
           <Icon

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { View, Text, Image } from 'react-native';
@@ -10,7 +11,6 @@ class LeftColumn extends Component {
   static propTypes = {
     user: PropTypes.object.isRequired
   }
-
   render() {
     const { user } = this.props;
     const { imageStyle, textStyle, linksContainerStyle } = styles.leftColumnStyle;
@@ -26,7 +26,7 @@ class LeftColumn extends Component {
           )
         }
         <View style={linksContainerStyle}>
-          {
+          { user.socialNetworks &&
             user.socialNetworks.map((sn) => {
               const provider = get(sn, 'data.provider');
               console.log(provider);
@@ -50,4 +50,8 @@ class LeftColumn extends Component {
   }
 }
 
-export default LeftColumn;
+/**
+ * @todo defalt image http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg
+ *
+ */
+

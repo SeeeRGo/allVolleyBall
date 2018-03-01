@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { View, Picker, ScrollView, Slider } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
-import { FormInput, FormLabel, Rating, Icon, Divider } from 'react-native-elements';
+import { FormInput, FormLabel, Rating, Icon, Divider, CheckBox } from 'react-native-elements';
 
 import Row from '../../../components/common/Row';
 import { gameFormUpdate } from './actions';
@@ -11,30 +11,18 @@ import styles from './styles';
 import { SCREEN_WIDTH } from '../../../styles';
 
 const sportTypes = [
-  'ВОЛЕЙБОЛ КЛАССИЧЕСКИЙ',
-  'ВОЛЕЙБОЛ ПЛЯЖНЫЙ'
+  'Классический волейбол',
+  'Пляжный волейбол'
 ];
 
 const gameTypes = [
-  'СВОБОДНАЯ ИГРА',
-  'ТРЕНИРОВКА',
-  'ИГРА ЧЕМПИОНАТА'
+  'Свободная игра',
+  'Тренировка',
+  'Игра чемпионата'
 
-];
-
-const minPlayersArray = [
-  ...Array(20).fill().map((e, i) => i.toString())
-];
-const maxPlayersArray = [
-  ...Array(20).fill().map((e, i) => i.toString())
 ];
 
 class PlayersAndTypeBlock extends Component {
-  static defaultProps = {
-    gameType: 'ВОЛЕЙБОЛ КЛАССИЧЕСКИЙ',
-    minPlayers: '0',
-    maxPlayers: '0'
-  }
   renderPicker(fieldName, itemList) {
     return (
       <Picker
@@ -56,7 +44,7 @@ class PlayersAndTypeBlock extends Component {
     } = styles;
     const {
       gameType, minPlayers, maxPlayers, price, gameFormUpdate, sportType,
-      gameTime, startTime, finishTime, gameAddress, gameInfo
+      gameTime, startTime, finishTime, gameAddress, gameInfo, participate
     } = this.props;
     return (
       <View style={containerStyle}>
@@ -116,6 +104,17 @@ class PlayersAndTypeBlock extends Component {
             />
           </View>
         </Row>
+        <CheckBox
+          title="ПРИНЯТЬ УЧАСТИЕ"
+          checked={participate}
+          checkedColor="white"
+          iconRight
+          textStyle={[formLabelStyle, { flex: 1, maxWidth: '100%' }]}
+          containerStyle={{
+            backgroundColor: 'transparent', margin: 0, padding: 0, borderWidth: 0, marginLeft: 0, marginRight: 0
+          }}
+          onPress={() => gameFormUpdate('participate', !participate)}
+        />
       </View>
     );
   }
@@ -125,7 +124,8 @@ const mapStateToProps = (state) => ({
   gameType: state.gameForm.gameType,
   minPlayers: state.gameForm.minPlayers,
   maxPlayers: state.gameForm.maxPlayers,
-  sportType: state.gameForm.sportType
+  sportType: state.gameForm.sportType,
+  participate: state.gameForm.participate
 });
 
 export default connect(mapStateToProps, { gameFormUpdate })(PlayersAndTypeBlock);

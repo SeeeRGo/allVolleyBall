@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, Image, Dimensions, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
 
+import { updateSearchFilter } from './actions';
 import styles from './styles';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -54,6 +56,7 @@ class GameTypeOptionsBlock extends Component {
   }
   updateIndex(selectedIndex) {
     this.setState({ selectedIndex });
+    this.props.updateSearchFilter('kindOfSportId', selectedIndex);
   }
   render() {
     const buttons = [{ element: component1 }, { element: component2 }];
@@ -83,4 +86,8 @@ class GameTypeOptionsBlock extends Component {
   }
 }
 
-export default GameTypeOptionsBlock;
+const mapStateToProps = (state) => ({
+  kindOfSportId: state.searchFilter.kindOfSportId
+});
+
+export default connect(mapStateToProps, { updateSearchFilter })(GameTypeOptionsBlock);

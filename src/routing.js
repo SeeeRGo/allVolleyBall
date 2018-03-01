@@ -16,6 +16,7 @@ import GymForm from './scenes/Gym/GymForm';
 import WelcomeScreen from './scenes/Welcome';
 import PhoneConfirmationScreen from './scenes/PhoneConfirmation';
 import Chat from './scenes/Chat';
+import Map from './scenes/Map';
 
 export default class App extends Component {
   onBackPress = () => {
@@ -116,6 +117,12 @@ export default class App extends Component {
               key="Chat"
               path="/game/:id/chat"
               component={Chat}
+            />
+            <Scene
+              hideNavBar
+              key="Map"
+              path="/map"
+              component={Map}
             />
           </Scene>
         </Lightbox>

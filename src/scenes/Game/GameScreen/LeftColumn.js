@@ -6,7 +6,7 @@ import { Icon } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import { Actions } from 'react-native-router-flux';
 
-import { updateGameImage } from './actions';
+import { uploadFile } from '../../../actions/files';
 import Row from '../../../components/common/Row';
 import styles from './styles';
 
@@ -22,12 +22,10 @@ const options = {
 
 class LeftColumn extends Component {
   static defaultProps = {
-    gameImage: {
-      uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjs7X0GOmJmaQhq0f6HQcuogHiRq-YuNOFKhy24GxmA30uUPGS'
-    }
+    gameImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjs7X0GOmJmaQhq0f6HQcuogHiRq-YuNOFKhy24GxmA30uUPGS'
   }
   handleImagePress = () => {
-    const { gameId, updateGameImage } = this.props;
+    const { gameId, uploadFile } = this.props;
     ImagePicker.showImagePicker(options, (response) => {
       console.log('Response = ', response);
 
@@ -43,22 +41,20 @@ class LeftColumn extends Component {
       } else {
         const source = `data:image/jpeg;base64,${response.data}`;
 
-        updateGameImage(gameId, source);
-
-        // updateGame(gameId, { gameImage: source });
+        uploadFile(source, 'game', gameId, true);
       }
     });
   };
   render() {
     const { gameImage, gameCreator, createdAt } = this.props;
     const { textStyle, iconContainerStyle, imageStyle } = styles.leftColumnStyle;
-    console.log(gameCreator);
+    console.log(gameImage);
     return (
       <View>
         <TouchableOpacity onPress={this.handleImagePress}>
           <Image
             style={imageStyle}
-            source={{ uri: gameImage.uri }}
+            source={{ uri: gameImage }}
           />
         </TouchableOpacity>
         <View style={{ backgroundColor: '#091b75', height: SCREEN_HEIGHT * 0.4, paddingLeft: 10 }}>
@@ -70,7 +66,8 @@ class LeftColumn extends Component {
           </Text>
           <Text style={textStyle}>Создано {createdAt.date} в {createdAt.time}</Text>
           {!!gameCreator.username && <Text style={textStyle}>Моб. {gameCreator.username}</Text>}
-          {!!gameCreator.fbLink && <Row>
+          {!!gameCreator.fbLink &&
+          <Row>
             <Icon
               name="facebook"
               type="font-awesome"
@@ -79,8 +76,9 @@ class LeftColumn extends Component {
               size={16}
             />
             <Text style={textStyle}>{gameCreator.fbLink}</Text>
-                                   </Row>}
-          {!!gameCreator.vkLink && <Row>
+          </Row>}
+          {!!gameCreator.vkLink &&
+          <Row>
             <Icon
               name="vk"
               type="font-awesome"
@@ -89,7 +87,7 @@ class LeftColumn extends Component {
               size={16}
             />
             <Text style={textStyle}>{gameCreator.vkLink}</Text>
-                                   </Row>}
+          </Row>}
         </View>
       </View>
     );
@@ -98,15 +96,16 @@ class LeftColumn extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const gameScreen = state.game.find((item) => item.id === ownProps.gameId);
+  const gameImage = state.files.find((item) => state.gameForm.avatarId === item.id);
   return {
-    gameImage: state.gameForm.gameImage,
-    gameCreator: state.gameForm.creator,
+    gameImage: gameImage ? `http://134513.simplecloud.ru:3010${gameImage.link}` : 'http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg',
+    gameCreator: state.gameInfo.creator,
     createdAt: {
-      date: moment(state.gameForm.date).format('DD/MM/YY'),
-      time: moment(state.gameForm.date).format('HH:mm')
+      date: moment(state.gameInfo.date).format('DD/MM/YY'),
+      time: moment(state.gameInfo.date).format('HH:mm')
     }
   };
 };
 
 
-export default connect(mapStateToProps, { updateGameImage })(LeftColumn);
+export default connect(mapStateToProps, { uploadFile })(LeftColumn);

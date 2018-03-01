@@ -10,11 +10,6 @@ import styles from './styles';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
-const sportTypes = [
-  'ВОЛЕЙБОЛ КЛАССИЧЕСКИЙ',
-  'ВОЛЕЙБОЛ ПЛЯЖНЫЙ'
-];
-
 class RightColumn extends Component {
   // static defaultProps = {
   //   totalPlayers: '0',
@@ -29,22 +24,23 @@ class RightColumn extends Component {
   // }
   render() {
     const {
-      gameType, minPlayers, maxPlayers, price, totalPlayers, sportType, approvedRequests,
-      gameTime, startTime, finishTime, gameAddress, gameInfo, duration, pendingRequests
+      gameType, minPlayers, maxPlayers, price, kindOfSport, approvedRequests,
+      gameTime, startTime, gameAddress, duration, pendingRequests, playerLevel
     } = this.props;
     const { textStyle, iconContainerStyle, ratingStyle } = styles.rightColumnStyle;
+    const rating = playerLevel && playerLevel.length > 0 ? playerLevel[0].id : 1;
     return (
       <View style={{ height: SCREEN_HEIGHT * 0.6, marginLeft: 15 }}>
-        <Text style={textStyle}>{sportTypes[sportType].split(' ')[0]}</Text>
-        <Text style={textStyle}>Тип: {sportTypes[sportType].split(' ')[1].toLowerCase()}</Text>
+        {kindOfSport && <Text style={textStyle}>{kindOfSport.split(' ')[1].toUpperCase()}</Text>}
+        {kindOfSport && <Text style={textStyle}>Тип: {kindOfSport.split(' ')[0]}</Text>}
         <Text style={textStyle}>Состав: {minPlayers}-{maxPlayers} игроков</Text>
         <Row extraStyles={{ alignItems: 'center' }}>
           <Text style={textStyle}>Уровень{' '}</Text>
           <MyRating
             readonly
             showRating={false}
-            count={3}
-            defaultRating={3}
+            count={rating}
+            defaultRating={rating}
             size={20}
             style={ratingStyle}
           />
@@ -73,7 +69,7 @@ class RightColumn extends Component {
               size={12}
               containerStyle={iconContainerStyle}
             />
-            <Text style={textStyle}>{moment(startTime).format('HH:mm')} - {moment(startTime).add(duration.hours).format('HH:mm')}</Text>
+            <Text style={textStyle}>{moment(startTime).format('HH:mm')} - {moment(gameTime).add(duration).format('HH:mm')}</Text>
           </Row>
           <Row>
             <Icon
@@ -93,7 +89,7 @@ class RightColumn extends Component {
               size={12}
               containerStyle={iconContainerStyle}
             />
-            <Text style={[textStyle, { maxWidth: '90%' }]}>Заявки{'\n'}На рассмотрении - {pendingRequests}{'\n'}Одобрено - {approvedRequests}</Text>
+            <Text style={[textStyle, { maxWidth: '90%' }]}>Заявки - {approvedRequests}</Text>
           </Row>
           <Row>
             <Icon
@@ -111,23 +107,23 @@ class RightColumn extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  gameType: state.gameForm.gameType,
-  minPlayers: state.gameForm.playersCounts.min,
-  maxPlayers: state.gameForm.playersCounts.max,
-  price: state.gameForm.cost,
-  gameTime: state.gameForm.date,
-  startTime: state.gameForm.arrivalTime,
-  finishTime: state.gameForm.arrivalTime,
+  gameType: state.gameInfo.gameType ? state.gameInfo.gameType.name : undefined,
+  minPlayers: state.gameInfo.playersCounts.min,
+  maxPlayers: state.gameInfo.playersCounts.max,
+  price: state.gameInfo.cost,
+  gameTime: state.gameInfo.date,
+  startTime: state.gameInfo.arrivalTime,
+  finishTime: state.gameInfo.arrivalTime,
   gameAddress: {
-    city: state.gameForm.gym.city,
-    street: state.gameForm.gym.street,
-    houseNumber: state.gameForm.gym.houseNumber
+    city: state.gameInfo.gym.city,
+    street: state.gameInfo.gym.street,
+    houseNumber: state.gameInfo.gym.houseNumber
   },
-  sportType: state.gameForm.kindOfSportsId,
-  totalPlayers: state.gameForm.totalPlayers,
-  duration: state.gameForm.duration,
-  pendingRequests: state.gameForm.joinRequests.filter((req) => req.status === 'request').length,
-  approvedRequests: state.gameForm.joinRequests.filter((req) => req.status === 'approved').length
+  playerLevel: state.gameInfo.playerLevel,
+  kindOfSport: state.gameInfo.kindOfSport ? state.gameInfo.kindOfSport.name : undefined,
+  duration: state.gameInfo.duration,
+  pendingRequests: state.gameInfo.joinRequests.filter((req) => req.status === 'request').length,
+  approvedRequests: state.gameInfo.joinRequests.filter((req) => req.status === 'approved').length
 });
 
 

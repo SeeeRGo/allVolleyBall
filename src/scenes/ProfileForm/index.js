@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Form } from 'react-native-validator-form';
 import { ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'react-native-elements';
@@ -9,14 +10,27 @@ import CustomHeader from '../../components/common/CustomHeader';
 import navBarStyles, { SCREEN_HEIGHT } from '../../components/common/CustomHeader/navBarStyles';
 import FormFields from './FormFields';
 import { updateProfile } from '../Profile/actions';
+import { uploadFile } from '../../actions/files';
 import Avatars from './Avatars';
 import styles from './styles';
 
 class PlayerForm extends Component {
+  componentWillMount() {
+    Form.addValidationRule('isValidPhone', (value) => {
+      const validPhone = new RegExp(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im);
+      if (validPhone.test(value)) {
+        return true;
+      }
+      return false;
+    });
+  }
   handleProfileUpdate = () => {
+    this.refs.form.submit();
+  }
+  submit = () => {
     const {
       lastName, firstName, fatherName, birthdate, fbLink, city, photo,
-      vkLink, phone, password, passwordRe, userId, updateProfile
+      vkLink, phone, password, passwordRe, userId, updateProfile, uploadFile
     } = this.props;
     const updates = {
       lastName,
@@ -26,16 +40,18 @@ class PlayerForm extends Component {
       fbLink,
       vkLink,
       phone,
-      city,
-      photo
+      city
     };
     if (password === passwordRe) {
       updateProfile(updates, userId);
+      if (photo.uri) {
+        uploadFile(photo.uri, 'profile', userId, true);
+      }
     }
     Actions.push('Profile');
   }
   render() {
-    console.log(this.props);
+    console.log(this.props.userId);
     return (
       <Background>
         <CustomHeader
@@ -46,13 +62,18 @@ class PlayerForm extends Component {
               type="font-awesome"
               color="white"
               containerStyle={navBarStyles.rightIconStyles}
-              onPress={() => Actions.push('Signup')}
+              onPress={() => Actions.pop()}
             />
           }
         />
         <ScrollView style={{ bottom: 5, top: 5, maxHeight: '75%' }}>
           <Avatars />
-          <FormFields />
+          <Form
+            ref="form"
+            onSubmit={this.handleProfileUpdate}
+          >
+            <FormFields />
+          </Form>
         </ScrollView>
         <Button
           title="СОХРАНИТЬ И ЗАКРЫТЬ"
@@ -78,7 +99,7 @@ const mapStateToProps = (state) => ({
   city: state.profileForm.city,
   password: state.profileForm.password,
   passwordRe: state.profileForm.passwordRe,
-  userId: state.user.userId
+  userId: state.user.userProfile.id
 });
 
-export default connect(mapStateToProps, { updateProfile })(PlayerForm);
+export default connect(mapStateToProps, { updateProfile, uploadFile })(PlayerForm);

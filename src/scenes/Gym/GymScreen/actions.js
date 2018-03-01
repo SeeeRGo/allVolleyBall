@@ -13,13 +13,13 @@ export const createGym = (formData) => async (dispatch) => {
       mero: formData.subwayStation,
       street: formData.street,
       houseNumber: formData.house,
-      details: formData.tarifGrid,
+      details: formData.details,
       adminDataConfirmation: formData.adminDataConfirmation
     };
 
     let response;
-    const ACCESS_TOKEN = await AsyncStorage.getItem('allVolleyballToken');
-    response = await axios.post('http://10.0.3.2:3010/api/Gyms/', gymData, {
+    const ACCESS_TOKEN = await AsyncStorage.getItem('tokenId');
+    response = await axios.post('http://134513.simplecloud.ru:3010/api/Gyms/', gymData, {
       headers: {
         Authorization: ACCESS_TOKEN
       }
@@ -29,5 +29,20 @@ export const createGym = (formData) => async (dispatch) => {
   } catch (e) {
     console.log(e.request);
     console.log(e.response);
+  }
+};
+
+export const findGym = (filter) => async () => {
+  try {
+    const query = encodeURIComponent(JSON.stringify(filter));
+    let response;
+    response = await axios.get('http://134513.simplecloud.ru:3010/api/Gyms/');
+    console.log(response);
+    response.data = _.filter(response.data, filter);
+    return response.data;
+  } catch (e) {
+    console.log(e.request);
+    console.log(e.response);
+    return null;
   }
 };

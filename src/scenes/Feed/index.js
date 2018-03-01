@@ -21,8 +21,8 @@ const mapStateToProps = (state) => {
   console.log(state);
   return {
     requestList: state.requestList,
-    userId: state.user.userId
-  }
-}
+    userId: state.user.userProfile.id
+  };
+};
 
 export default connect(mapStateToProps, { getRequestsToMyGames })(Feed);

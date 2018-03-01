@@ -18,11 +18,6 @@ const options = {
 };
 
 class Avatars extends Component {
-  static defaultProps = {
-    photo: {
-      uri: 'http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg'
-    }
-  }
   handleImagePress = () => {
     const { gameId, playerFormUpdate } = this.props;
     ImagePicker.showImagePicker(options, (response) => {
@@ -40,7 +35,7 @@ class Avatars extends Component {
       } else {
         const source = `data:image/jpeg;base64,${response.data}`;
 
-        playerFormUpdate('photo', source);
+        playerFormUpdate('photo', { uri: source });
 
         // updateGame(gameId, { gameImage: source });
       }
@@ -50,48 +45,55 @@ class Avatars extends Component {
     const {
       labelStyle, sizeLarge, sizeMedium, sizeSmall
     } = styles.avatarStyles;
-    console.log(this.props.photo)
     return (
       <Row extraStyles={{ alignItems: 'flex-end' }}>
         <Avatar
           width={sizeLarge.width}
           height={sizeLarge.height}
-          source={{uri: this.props.photo}}
+          source={this.props.photo.uri ? this.props.photo : this.props.avatar}
           onPress={this.handleImagePress}
           activeOpacity={0.7}
           containerStyle={{ marginRight: 15 }}
         />
         <View>
           <Row>
-            <Icon name="close" type="font-awesome" />
-            <FormLabel labelStyle={labelStyle}>УДАЛИТЬ ФОТО</FormLabel>
+            <Icon name="close" type="font-awesome" size={15} color="white" />
+            <FormLabel labelStyle={[labelStyle, { maxWidth: '100%', color: 'white', marginLeft: 5 }]}>{this.props.photo.uri || this.props.avatar.uri ? 'УДАЛИТЬ ФОТО' : 'ЗАГРУЗИТЬ ФОТО'}</FormLabel>
           </Row>
-          <FormLabel labelStyle={labelStyle}>АВАТАРЫ ДЛЯ ЧАТА И СПИСКОВ</FormLabel>
-          <Avatar
-            width={sizeMedium.width}
-            height={sizeMedium.height}
-            source={this.props.photo}
-            onPress={() => console.log('Works!')}
-            activeOpacity={0.7}
-            containerStyle={{ marginRight: 15 }}
-          />
+          <FormLabel labelStyle={[labelStyle, { maxWidth: '95%', color: 'white' }]}>АВАТАРЫ ДЛЯ ЧАТА И СПИСКОВ</FormLabel>
+          <Row extraStyles={{ alignItems: 'flex-end' }}>
+            <Avatar
+              width={sizeMedium.width}
+              height={sizeMedium.height}
+              source={this.props.photo.uri ? this.props.photo : this.props.avatar}
+              onPress={() => console.log('Works!')}
+              activeOpacity={0.7}
+              containerStyle={{ marginRight: 15 }}
+            />
+            <Avatar
+              width={sizeSmall.width}
+              height={sizeSmall.height}
+              rounded
+              source={this.props.photo.uri ? this.props.photo : this.props.avatar}
+              onPress={() => console.log('Works!')}
+              activeOpacity={0.7}
+              containerStyle={{ marginRight: 15 }}
+            />
+          </Row>
         </View>
-        <Avatar
-          width={sizeSmall.width}
-          height={sizeSmall.height}
-          rounded
-          source={this.props.photo}
-          onPress={() => console.log('Works!')}
-          activeOpacity={0.7}
-          containerStyle={{ marginRight: 15 }}
-        />
       </Row>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  photo: state.profileForm.photo
-})
+const mapStateToProps = (state) => {
+  const avatar = state.files.find((file) => file.profileId === state.user.userProfile.id);
+  return {
+    avatar: {
+      uri: avatar ? `http://134513.simplecloud.ru:3010${avatar.link}` : 'http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg'
+    },
+    photo: state.profileForm.photo
+  };
+};
 
 export default connect(mapStateToProps, { playerFormUpdate })(Avatars);

@@ -44,13 +44,18 @@ class PriceOptionsBlock extends Component {
             thumbStyle={{
               width: 15, height: 15, marginBottom: 0, marginTop: 0
             }}
-            onValueChange={(value) => updateSearchFilter('paidOrFree', paidOrFree[value])}
+            onValueChange={(value) => {
+              updateSearchFilter('paidOrFree', paidOrFree[value]);
+              if (use === 'searchFilter' && value === 1) return updateSearchFilter('price', 0);
+              else if (value === 1) return gameFormUpdate('price', 0);
+            }}
           />
           <Text style={formLabelStyle}>БЕСПЛАТНО</Text>
         </Row>
         <Slider
           minimumValue={0}
           maximumValue={2000}
+          disabled={this.props.paidOrFree === 'free'}
           value={0}
           step={100}
           trackStyle={{ backgroundColor: 'white' }}

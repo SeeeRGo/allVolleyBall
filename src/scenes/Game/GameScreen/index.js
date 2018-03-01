@@ -66,7 +66,7 @@ class GameScreen extends Component {
               {gameInfo}
             </Text>
           </View>
-          {!isFutureGame && <GalleryAndCommentsBlock files={files} gameId={gameId} />}
+          {isFutureGame && <GalleryAndCommentsBlock files={files} gameId={gameId} />}
         </ScrollView>
         {isFutureGame && userId !== gameCreator.id &&
           (<Button
@@ -82,10 +82,10 @@ class GameScreen extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  gameInfo: state.gameForm.gameInfo,
-  gameCreator: state.gameForm.creator,
-  files: state.files,
-  userId: state.user.userId
+  gameInfo: state.gameInfo.gameInfo,
+  gameCreator: state.gameInfo.creator,
+  files: state.files.filter((file) => file.id !== state.gameForm.avatarId),
+  userId: state.user.userProfile.id
 });
 
 export default connect(mapStateToProps, { sendJoinGameRequest, getGameById, getGameFiles })(GameScreen);
