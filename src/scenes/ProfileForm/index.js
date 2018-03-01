@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Form } from 'react-native-validator-form';
 import { ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'react-native-elements';
@@ -14,7 +15,19 @@ import Avatars from './Avatars';
 import styles from './styles';
 
 class PlayerForm extends Component {
+  componentWillMount() {
+    Form.addValidationRule('isValidPhone', (value) => {
+      const validPhone = new RegExp(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im);
+      if (validPhone.test(value)) {
+        return true;
+      }
+      return false;
+    });
+  }
   handleProfileUpdate = () => {
+    this.refs.form.submit();
+  }
+  submit = () => {
     const {
       lastName, firstName, fatherName, birthdate, fbLink, city, photo,
       vkLink, phone, password, passwordRe, userId, updateProfile, uploadFile
@@ -55,7 +68,12 @@ class PlayerForm extends Component {
         />
         <ScrollView style={{ bottom: 5, top: 5, maxHeight: '75%' }}>
           <Avatars />
-          <FormFields />
+          <Form
+            ref="form"
+            onSubmit={this.handleProfileUpdate}
+          >
+            <FormFields />
+          </Form>
         </ScrollView>
         <Button
           title="СОХРАНИТЬ И ЗАКРЫТЬ"

@@ -4,6 +4,7 @@ import { View, Picker, ScrollView, TouchableHighlight } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import { FormInput, FormLabel, Icon } from 'react-native-elements';
+import { TextValidator } from 'react-native-validator-form';
 
 import Row from '../../components/common/Row';
 import GenderIcon from '../../components/common/Svg/GenderIcon';
@@ -82,10 +83,21 @@ class FormFields extends Component {
                 onDateChange={(value) => playerFormUpdate('birthDate', value)}
               />
               <FormLabel labelStyle={[formLabelStyle, { maxWidth: SCREEN_WIDTH * 0.35 }]}>ТЕЛЕФОН*</FormLabel>
-              <FormInput
-                inputStyle={[formInputStyle, { maxWidth: SCREEN_WIDTH * 0.35 }]}
+              <TextValidator
+                name="phone"
+                style={[formInputStyle, { width: SCREEN_WIDTH * 0.35 }]}
                 value={phone}
+                validators={['required', 'isValidPhone']}
+                errorMessages={['Укажите телефон', 'Неправильный телефон']}
                 onChangeText={(value) => playerFormUpdate('phone', value)}
+                errorStyle={{
+                  container: {
+                    top: -8, left: 0, position: 'absolute', alignSelf: 'flex-start'
+                  },
+                  text: { color: 'red', fontSize: 10 },
+                  underlineValidColor: 'gray',
+                  underlineInvalidColor: 'red'
+                }}
               />
             </View>
             <View style={{ justifyContent: 'space-around', alignItems: 'center', width: SCREEN_WIDTH * 0.35 }}>

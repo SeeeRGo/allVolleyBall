@@ -19,7 +19,8 @@ const styles = {
     minHeight: 20,
     paddingTop: 0,
     paddingBottom: 5,
-    marginTop: 0
+    marginTop: 0,
+    alignSelf: 'flex-start'
   },
   datePickerStyle: {
     width: 140,

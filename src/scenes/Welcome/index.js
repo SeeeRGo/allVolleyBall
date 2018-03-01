@@ -5,8 +5,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Background from '../../components/common/Background';
 import Logo from '../../components/common/Logo';
 import styles from './styles';
+import ProfileApi from '../../api/Profile';
 
 class Welcome extends Component {
+  static onEnter = () => {
+    ProfileApi.logout();
+  }
   render() {
     return (
       <Background type="one">
