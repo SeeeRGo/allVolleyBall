@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { View, Text, Image } from 'react-native';
@@ -20,7 +21,7 @@ class LeftColumn extends Component {
           (
             <Image
               style={imageStyle}
-              source={{ uri: user.photo.link }}
+              source={{ uri: this.props.link }}
             />
           )
         }
@@ -49,4 +50,8 @@ class LeftColumn extends Component {
   }
 }
 
-export default LeftColumn;
+const mapStateToProps = (state) => ({
+  link: state.fileInfo ? `http://134513.simplecloud.ru:3010${fileInfo.link}` : 'http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg'
+});
+
+export default connect(mapStateToProps)(LeftColumn);

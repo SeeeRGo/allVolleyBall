@@ -33,7 +33,9 @@ const houses = [
 
 class AddressAndInfoBlock extends Component {
   state = {
-    gymNotFound: null
+    gymNotFound: null,
+    gymList: [],
+    gymName: ''
   }
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(this.props.gameAddress, nextProps.gameAddress)) {
@@ -50,6 +52,12 @@ class AddressAndInfoBlock extends Component {
           } else {
             this.setState({ gymNotFound: true });
           }
+          this.props.findGym({
+            city, region: district
+          })
+            .then((result) => {
+              this.setState({ gymList: result });
+            });
         });
     }
   }
@@ -109,13 +117,33 @@ class AddressAndInfoBlock extends Component {
           </Text>
         </Row>
         <Text style={[formLabelStyle, { alignSelf: 'center', maxWidth: '90%' }]}>{addressText}</Text>
+        {/* {gymListHere} */}
+        {
+          this.state.gymList && this.state.gymList.length > 0 &&
+          this.state.gymList.map((gym) => (
+            <View>
+              <Text style={[formLabelStyle, { maxWidth: '90%' }]}>{`Возможно вам подойдет зал "${gym.details}" по адресу ${gym.street}, ${gym.houseNumber}`}</Text>
+            </View>
+          ))
+        }
         {
           this.state.gymNotFound &&
           <View style={{ justifyContent: 'center', flex: 1, alignItems: 'center' }}>
             <Text style={[formLabelStyle, { maxWidth: '90%' }]}>Зал по данному адресу в системе не найден</Text>
+            <FormInput
+              inputStyle={[formInputStyle, {
+ fontSize: 20, color: 'white', borderWidth: 1, borderColor: 'white' 
+}]}
+              containerStyle={{ marginLeft: 0, marginRight: 0 }}
+              value={this.state.gymName}
+              placeholder="Имя зала"
+              placeholderTextColor="white"
+              underlineColorAndroid="transparent"
+              onChangeText={(value) => this.setState({ gymName: value })}
+            />
             <Row extraStyles={{ justifyContent: 'center', flex: 1, alignItems: 'center' }}>
               <Text style={formLabelStyle}>СОЗДАТЬ ЗАЛ</Text>
-              <TouchableOpacity onPress={() => this.autoCreateGym('', gameAddress.address_components)}>
+              <TouchableOpacity onPress={() => this.autoCreateGym(this.state.gymName, gameAddress.address_components)}>
                 <Image
                   style={{ width: 50, height: 50, margin: 10 }}
                   source={require('../../../assets/icons_new_gym.png')}
