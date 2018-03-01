@@ -9,6 +9,7 @@ export function* startApp() {
   try {
     yield put(loadingsActions.startLoading('initApp'));
     const tokenId = yield AsyncStorage.getItem('tokenId');
+    console.log('tokenId', tokenId);
     if (!tokenId) {
       return;
     }

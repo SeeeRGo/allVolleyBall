@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Picker, ScrollView, Slider, Text } from 'react-native';
+import { View, Picker, ScrollView, Slider, Text, TouchableOpacity, Image } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
-import { FormInput, FormLabel, Rating, Divider, Icon } from 'react-native-elements';
+import _ from 'lodash';
+import { FormInput, FormLabel, Rating, Divider, Icon, Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
 import Row from '../../../components/common/Row';
 import { gameFormUpdate } from './actions';
+import { createGym, findGym } from '../../Gym/GymScreen/actions';
 import styles from './styles';
 import { SCREEN_WIDTH } from '../../../styles';
 
@@ -30,6 +32,40 @@ const houses = [
 ];
 
 class AddressAndInfoBlock extends Component {
+  state = {
+    gymNotFound: null
+  }
+  componentWillReceiveProps(nextProps) {
+    if (!_.isEqual(this.props.gameAddress, nextProps.gameAddress)) {
+      const city = _.find(nextProps.gameAddress.address_components, ['types', ['locality']]).long_name;
+      const district = _.find(nextProps.gameAddress.address_components, ['types', ['sublocality']]).long_name;
+      const street = _.find(nextProps.gameAddress.address_components, ['types', ['route']]).long_name;
+      const house = _.find(nextProps.gameAddress.address_components, ['types', ['street_number']]).long_name;
+      this.props.findGym({
+        city, region: district, street, houseNumber: house
+      })
+        .then((result) => {
+          if (result && result.length > 0) {
+            this.setState({ gymNotFound: false });
+          } else {
+            this.setState({ gymNotFound: true });
+          }
+        });
+    }
+  }
+  autoCreateGym = (name, reverseGeocodedAddress) => {
+    const city = _.find(reverseGeocodedAddress, ['types', ['locality']]).long_name;
+    const district = _.find(reverseGeocodedAddress, ['types', ['sublocality']]).long_name;
+    const street = _.find(reverseGeocodedAddress, ['types', ['route']]).long_name;
+    const house = _.find(reverseGeocodedAddress, ['types', ['street_number']]).long_name;
+    this.props.createGym({
+      city,
+      district,
+      street,
+      house,
+      details: name
+    });
+  }
   renderPicker(fieldName, itemList) {
     return (
       <Picker
@@ -53,7 +89,7 @@ class AddressAndInfoBlock extends Component {
       gameTime, startTime, finishTime, gameAddress, gameInfo, street, house, city
     } = this.props;
     const addressText = gameAddress ?
-      `Игра пройдет по адресу ${gameAddress} \n а здесь должен быть список близлежащих залов` :
+      `Игра пройдет по адресу ${gameAddress.formatted_address} \n ` :
       'Выберите адрес игры на карте';
     return (
       <View style={containerStyle}>
@@ -67,51 +103,27 @@ class AddressAndInfoBlock extends Component {
               onAddressSubmit: gameFormUpdate,
               addressUseType: 'gameAddress',
               resultType: 'street_address',
-              resultPath: 'data.results[0].formatted_address'
+              resultPath: 'data.results[0]'
             })}
           >ВЫБРАТЬ НА КАРТЕ
           </Text>
         </Row>
-        <Text style={formLabelStyle}>{addressText}</Text>
-        {/* <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center' }}>
-          <FormLabel labelStyle={formLabelStyle}>ГОРОД</FormLabel>
-          <Row extraStyles={{ flex: 1 }}>
-            {this.renderPicker('city', cities)}
-            <Icon
-              name="angle-down"
-              type="font-awesome"
-              color="white"
-              containerStyle={{ paddingLeft: 5, paddingRight: 5 }}
-            />
-          </Row>
-        </Row>
-        <Divider />
-        <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center' }}>
-          <FormLabel labelStyle={formLabelStyle}>УЛИЦА</FormLabel>
-          <Row extraStyles={{ flex: 1 }}>
-            {this.renderPicker('street', streets)}
-            <Icon
-              name="angle-down"
-              type="font-awesome"
-              color="white"
-              containerStyle={{ paddingLeft: 5, paddingRight: 5 }}
-            />
-          </Row>
-        </Row>
-        <Divider />
-        <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center' }}>
-          <FormLabel labelStyle={formLabelStyle}>ДОМ, ЗДАНИНЕ</FormLabel>
-          <Row extraStyles={{ flex: 1 }}>
-            {this.renderPicker('house', houses)}
-            <Icon
-              name="angle-down"
-              type="font-awesome"
-              color="white"
-              containerStyle={{ paddingLeft: 5, paddingRight: 5 }}
-            />
-          </Row>
-        </Row>
-        <Divider /> */}
+        <Text style={[formLabelStyle, { alignSelf: 'center', maxWidth: '90%' }]}>{addressText}</Text>
+        {
+          this.state.gymNotFound &&
+          <View style={{ justifyContent: 'center', flex: 1, alignItems: 'center' }}>
+            <Text style={[formLabelStyle, { maxWidth: '90%' }]}>Зал по данному адресу в системе не найден</Text>
+            <Row extraStyles={{ justifyContent: 'center', flex: 1, alignItems: 'center' }}>
+              <Text style={formLabelStyle}>СОЗДАТЬ ЗАЛ</Text>
+              <TouchableOpacity onPress={() => this.autoCreateGym('', gameAddress.address_components)}>
+                <Image
+                  style={{ width: 50, height: 50, margin: 10 }}
+                  source={require('../../../assets/icons_new_gym.png')}
+                />
+              </TouchableOpacity>
+            </Row>
+          </View>
+        }
         <FormLabel labelStyle={[formLabelStyle, { alignSelf: 'center', marginTop: 25, marginBottom: 15 }]}>ОПИСАНИЕ ИГРЫ</FormLabel>
         <View style={{ backgroundColor: 'white' }}>
           <FormInput
@@ -142,5 +154,5 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, { gameFormUpdate })(AddressAndInfoBlock);
+export default connect(mapStateToProps, { gameFormUpdate, createGym, findGym })(AddressAndInfoBlock);
 

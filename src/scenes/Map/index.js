@@ -37,6 +37,12 @@ class Map extends Component {
       <View style={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT }}>
         <MapView
           style={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT }}
+          initialRegion={{
+            latitude: 55.753752,
+            longitude: 37.622517,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421
+          }}
           onRegionChange={() => {}}
           onPress={(e) => this.setState({ x: e.nativeEvent.coordinate })}
         >

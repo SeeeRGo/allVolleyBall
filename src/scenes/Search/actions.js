@@ -8,10 +8,11 @@ export const UPDATE_SEARCH_FILTER = 'UPDATE_SEARCH_FILTER';
 
 const myFilter = (game, filter) => {
   if (!filter) return true;
+  const sameCity = filter.city ? game.gym.city === filter.city : true;
   const costIsLower = filter.cost ? game.cost <= filter.cost : true;
   const kindOfSportIsSame = filter.kindOfSportsId ? game.kindOfSportsId === filter.kindOfSportsId : true;
   const startTimeIsAfter = filter.startTime ? moment(game.startTime).isAfter(filter.startTime) : true;
-  return costIsLower && kindOfSportIsSame && startTimeIsAfter;
+  return costIsLower && kindOfSportIsSame && startTimeIsAfter && sameCity;
 };
 
 export const updateSearchFilter = (updateFieldName, updateValue) => ({

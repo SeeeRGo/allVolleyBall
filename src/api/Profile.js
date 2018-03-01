@@ -66,7 +66,8 @@ export class Profile extends Model {
         filter: {
           include: 'socialNetworks'
         }
-      }));
+      }))
+      .catch((e) => console.log(e));
   }
 
   /**
