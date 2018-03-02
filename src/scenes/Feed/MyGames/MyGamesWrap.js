@@ -59,8 +59,8 @@ class MyGamesWrap extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  lastName: state.profile.lastName,
-  firstName: state.profile.firstName,
+  lastName: state.user.userProfile.lastName,
+  firstName: state.user.userProfile.firstName,
   selectedButton: state.selections.myGamesSubHeaderButtons
 });
 

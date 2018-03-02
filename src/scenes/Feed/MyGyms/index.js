@@ -9,7 +9,7 @@ class MyGyms extends Component {
     return (
       this.props.myGyms && this.props.myGyms.length > 0 ?
         <MyGymsContent myGames={this.props.myGyms} /> :
-        <GameList />
+        <MyGymsEmpty />
     );
   }
 }

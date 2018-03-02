@@ -57,11 +57,11 @@ class Profile extends Component {
             {user.selfInfo || 'Информация о себе не заполнена'}
           </Text>
         </View>
-        <Button
+        {/* <Button
           containerViewStyle={styles.offerGameButtonView}
           title="ПРЕДЛОЖИТЬ ИГРУ"
           buttonStyle={styles.offerGameButton}
-        />
+        /> */}
       </Background>
     );
   }

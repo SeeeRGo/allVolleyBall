@@ -17,6 +17,7 @@ import { SCREEN_HEIGHT } from '../../../styles';
 class GymForm extends Component {
   handleCreateGym = () => {
     this.props.createGym(this.props.formData);
+    Actions.push('Feed');
   }
   render() {
     return (

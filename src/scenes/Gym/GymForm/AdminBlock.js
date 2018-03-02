@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
-import { FormInput, FormLabel, Divider } from 'react-native-elements';
+import { FormInput, FormLabel, Divider, Slider } from 'react-native-elements';
 
 import { gymFormUpdate } from './actions';
+import Row from '../../../components/common/Row';
 import styles from './styles';
 import QualificationSlider from './QualificationSlider';
 import { SCREEN_WIDTH } from '../../../styles';
@@ -29,7 +30,34 @@ class AdminBlock extends Component {
           />
           <Text style={{ fontSize: 10, padding: 5 }}>ОЧИСТИТЬ</Text>
         </View>
-        <QualificationSlider title="РАЗРЕШИТЬ ПОДТВЕРЖДЕНИЕ" fieldName="adminDataConfirmation" />
+        <View>
+          <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center' }}>
+            <Text style={[formLabelStyle, { fontSize: 16 }]}>ПОДТВЕРЖДЕНИЕ ОТ АДМИНИСТРАТОРА</Text>
+            <Row extraStyles={{ justifyContent: 'center', alignItems: 'center' }}>
+              <Slider
+                value={0}
+                minimumValue={0}
+                maximumValue={1}
+                disabled
+                step={1}
+                style={{
+                  minWidth: 35, maxHeight: 50, marginLeft: 20, marginRight: 20
+                }}
+                thumbTouchSize={{ width: 20, height: 20 }}
+                minimumTrackTintColor="rgba(255, 255, 255, 0.5)"
+                maximumTrackTintColor="rgba(255, 255, 255, 0.5)"
+                thumbTintColor="white"
+                trackStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', height: 7 }}
+                thumbStyle={{
+                  width: 15, height: 15, marginBottom: 0, marginTop: 0
+                }}
+                onSlidingComplete={(sliderValue) => gymFormUpdate(fieldName, sliderValue)}
+              />
+              <Text style={formLabelStyle}>НЕТ</Text>
+            </Row>
+          </Row>
+          <Divider />
+        </View>
         <View>
           <FormLabel labelStyle={[formLabelStyle]}>КОНТАКТНЫЙ ТЕЛЕФОН</FormLabel>
           <FormInput
