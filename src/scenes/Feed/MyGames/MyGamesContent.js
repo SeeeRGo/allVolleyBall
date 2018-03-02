@@ -11,17 +11,19 @@ class MyGamesContent extends Component {
   }
   getRequestStatus = (requests) => {
     const result = _.find(requests, { profileId: this.props.userId });
-    switch (result.status) {
-    case 'request':
-      return 'ОЖИДАЕТ ОДОБРЕНИЯ';
-    case 'approved':
-      return 'ЗАЯВКА ОДОБРЕНА';
-    case 'rejected':
-      return 'ЗАЯВКА ОТКЛОНЕНА';
-    case 'canceled':
-      return 'БРОНЬ ОТМЕНЕНА';
-    default:
-      return '';
+    if (result) {
+      switch (result.status) {
+      case 'request':
+        return 'ОЖИДАЕТ ОДОБРЕНИЯ';
+      case 'approved':
+        return 'ЗАЯВКА ОДОБРЕНА';
+      case 'rejected':
+        return 'ЗАЯВКА ОТКЛОНЕНА';
+      case 'canceled':
+        return 'БРОНЬ ОТМЕНЕНА';
+      default:
+        return '';
+      }
     }
   }
   render() {

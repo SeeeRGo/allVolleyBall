@@ -47,12 +47,12 @@ class AddressForm extends Component {
     return (
       <View style={containerStyle}>
         <Row extraStyles={{ marginBottom: 20 }}>
-          <Text style={[formLabelStyle, { left: SCREEN_WIDTH * 0.25, width: SCREEN_WIDTH * 0.5, textAlign: 'center' }]}>АДРЕС ИГРЫ</Text>
-          <Text style={[formLabelStyle, {
+          <Text style={[formLabelStyle, { left: SCREEN_WIDTH * 0.25, width: SCREEN_WIDTH * 0.5, textAlign: 'center' }]}>АДРЕС ЗАЛА</Text>
+          {/* <Text style={[formLabelStyle, {
             left: SCREEN_WIDTH * 0.15, width: SCREEN_WIDTH * 0.35, textAlign: 'right', color: 'yellow', alignSelf: 'flex-end'
           }]}
           >ВЫБРАТЬ НА КАРТЕ
-          </Text>
+          </Text> */}
         </Row>
         <Row extraStyles={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <FormLabel labelStyle={formLabelStyle}>ГОРОД</FormLabel>

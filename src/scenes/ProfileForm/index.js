@@ -24,10 +24,10 @@ class PlayerForm extends Component {
       return false;
     });
   }
+  // handleProfileUpdate = () => {
+  //   this.refs.form.submit();
+  // }
   handleProfileUpdate = () => {
-    this.refs.form.submit();
-  }
-  submit = () => {
     const {
       lastName, firstName, fatherName, birthdate, fbLink, city, photo,
       vkLink, phone, password, passwordRe, userId, updateProfile, uploadFile

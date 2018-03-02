@@ -82,8 +82,8 @@ class EmptyFeed extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  lastName: state.profile.lastName,
-  firstName: state.profile.firstName
+  lastName: state.user.userProfile.lastName,
+  firstName: state.user.userProfile.firstName
 });
 
 export default connect(mapStateToProps)(EmptyFeed);

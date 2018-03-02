@@ -50,6 +50,7 @@ class LeftColumn extends Component {
   }
 }
 
+export default LeftColumn;
 /**
  * @todo defalt image http://archive.2030palette.org/addons/shared_addons/themes/palette_2030/img/swatch_editor/image_placeholder.jpg
  *

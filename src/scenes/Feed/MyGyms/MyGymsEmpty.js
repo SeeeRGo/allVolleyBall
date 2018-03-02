@@ -39,8 +39,8 @@ class EmptyFeed extends Component {
           }
         />
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={[messageTextStyle, { marginBottom: 20 }]}>EMPTY GYMS</Text>
-          <Row>
+          <Text style={[messageTextStyle, { marginBottom: 20 }]}>ЭКРАН В РАЗРАБОТКЕ</Text>
+          {/* <Row>
             <Text style={messageTextStyle}>Для начала воспользуйтесь поиском{' '}</Text>
             <Icon
               name="search"
@@ -50,7 +50,7 @@ class EmptyFeed extends Component {
             />
             <Text style={messageTextStyle}>,</Text>
           </Row>
-          <Text style={messageTextStyle}>чтобы найти подходящую игру, зал{'\n'}или создайте свои</Text>
+          <Text style={messageTextStyle}>чтобы найти подходящую игру, зал{'\n'}или создайте свои</Text> */}
         </View>
         <Row extraStyles={{
           justifyContent: 'space-around', flex: 1, position: 'absolute', bottom: 50
@@ -80,8 +80,8 @@ class EmptyFeed extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  lastName: state.profile.lastName,
-  firstName: state.profile.firstName
+  lastName: state.user.userProfile.lastName,
+  firstName: state.user.userProfile.firstName
 });
 
 export default connect(mapStateToProps)(EmptyFeed);
